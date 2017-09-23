@@ -18,6 +18,13 @@ public class DeckGun : MonoBehaviour {
     public GameObject myCamera;
     public float focusPointX;
     public bool activated;
+    public int leftLimit;
+    public int upLimit;
+    public int rightLimit;
+    public int downLimit;
+    public float hortTarget;
+    public float vertTarget;
+    public Vector3 rotateTo;
     //private Rigidbody rb;
     // Use this for initialization
     void Start () {
@@ -30,8 +37,10 @@ public class DeckGun : MonoBehaviour {
         if (activated == true)
         {
             turretHead.transform.position = Vector3.MoveTowards(turretHead.transform.position, mannedPosition.transform.position, 5.0f * Time.deltaTime);
-            targetRotation = Quaternion.LookRotation(readyPosition.transform.position - turretHead.transform.position);
-            turretHead.transform.rotation = Quaternion.Lerp(turretHead.transform.rotation, targetRotation, 1.0f * Time.deltaTime);
+           // targetRotation = Quaternion.LookRotation(readyPosition.transform.localPosition - turretHead.transform.localPosition);
+            // turretHead.transform.localRotation = Quaternion.Lerp(turretHead.transform.localRotation, targetRotation, 1.0f * Time.deltaTime);
+           // turretHead.transform.localEulerAngles = Vector3.Lerp(turretHead.transform.localEulerAngles, new Vector3(hortTarget,vertTarget,0), 1.0f * Time.deltaTime);
+            turretHead.transform.localEulerAngles = new Vector3(hortTarget, vertTarget, 0);
         }
         else {
             turretHead.transform.position = Vector3.MoveTowards(turretHead.transform.position, unmannedPosition.transform.position, 1.0f * Time.deltaTime);
@@ -68,10 +77,11 @@ public class DeckGun : MonoBehaviour {
 
     }
     public void AimGun() {
-        if (Input.GetKey(KeyCode.W) && readyPosition.transform.localPosition.y < 30.0f) { readyPosition.transform.Translate(readyPosition.transform.up * 1); }
-        if (Input.GetKey(KeyCode.S) && readyPosition.transform.localPosition.y > 0.0f) { readyPosition.transform.Translate(readyPosition.transform.up * -1); }
-        if (Input.GetKey(KeyCode.D) && readyPosition.transform.localPosition.z < 25.0f) { readyPosition.transform.Translate(readyPosition.transform.forward * 1); }
-        if (Input.GetKey(KeyCode.A) && readyPosition.transform.localPosition.z > -25.0f) { readyPosition.transform.Translate(readyPosition.transform.forward * -1); }
+        if (Input.GetKey(KeyCode.W) && hortTarget > upLimit) { hortTarget -= 1; }
+        if (Input.GetKey(KeyCode.S) && hortTarget < downLimit) { hortTarget += 1; }
+        if (Input.GetKey(KeyCode.D) && vertTarget < rightLimit) { vertTarget += 1; }
+        if (Input.GetKey(KeyCode.A) && vertTarget > leftLimit) { vertTarget -= 1; }
+
     }
     public void Manned() {
         myCamera.active = true;

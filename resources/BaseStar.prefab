@@ -60108,6 +60108,7 @@ MonoBehaviour:
   spawnClock: 1
   ftlCoords: 0
   ftlClock: -1
+  numberOfRaiderWings: 5
   raiderParentObjectPrefab: {fileID: 1294273077043854, guid: b3b853b0097809d48848e9e1afa61c67,
     type: 2}
   raiderParentObject: {fileID: 0}

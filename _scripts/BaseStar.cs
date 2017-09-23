@@ -11,6 +11,7 @@ public class BaseStar : Photon.PunBehaviour
     public float spawnClock;
     public int ftlCoords;
     public float ftlClock;
+    public int numberOfRaiderWings;
     public GameObject raiderParentObjectPrefab;
     public GameObject raiderParentObject;
 	// Use this for initialization
@@ -21,21 +22,27 @@ public class BaseStar : Photon.PunBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-        if (spawnClock <= 0)
+        if (photonView.isMine == true)
         {
-            GetComponent<PhotonView>().RPC("LaunchRaiders", PhotonTargets.MasterClient);
-            spawnClock = 3;
+            if (spawnClock <= 0 && numberOfRaiderWings > 0)
+            {
+                GetComponent<PhotonView>().RPC("LaunchRaiders", PhotonTargets.MasterClient);
+                numberOfRaiderWings--;
+                spawnClock = 3;
+            }
+            else { spawnClock -= Time.deltaTime; }
+            if (ftlClock >= 0)
+            {
+                ftlClock -= Time.deltaTime;
+                if (ftlClock <= 0) { Jump(); }
+            }
         }
-        else { spawnClock -= Time.deltaTime; }
-        if (ftlClock >= 0) { ftlClock -= Time.deltaTime;
-            if (ftlClock <= 0) { Jump(); }
-        }
-
     }
 
     [PunRPC]
     void LaunchRaiders()
     {
+        
         GameObject clone = PhotonNetwork.InstantiateSceneObject(objectToSpawn, launchBay.transform.position, launchBay.transform.rotation, 0, null);
         clone.transform.parent = raiderParentObject.transform;
     }
@@ -53,7 +60,7 @@ public class BaseStar : Photon.PunBehaviour
         foreach (Transform child in raiderParentObject.transform)
              {
             PhotonNetwork.Destroy(child.gameObject);
-
+            numberOfRaiderWings++;
         }
         transform.position = GameObject.Find(ftlCoords.ToString()).transform.position;
 
