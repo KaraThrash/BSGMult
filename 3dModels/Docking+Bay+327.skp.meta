@@ -1,0 +1,329 @@
+fileFormatVersion: 2
+guid: 67b768bec4688db47af26b13af06aee6
+timeCreated: 1505223622
+licenseType: Free
+SketchUpImporter:
+  generateBackFace: 0
+  mergeCoplanarFaces: 0
+  selectedNodes: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f000000200000002100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f000000300000003100000032000000330000003400000035000000360000003700000038000000390000003a0000003b0000003c0000003d0000003e0000003f000000400000004100000042000000430000004400000045000000460000004700000048000000490000004a0000004b0000004c0000004d0000004e0000004f000000500000005100000052000000530000005400000055000000560000005700000058000000590000005a0000005b0000005c0000005d0000005e0000005f0000006000000061000000
+  assetHash:
+    serializedVersion: 2
+    Hash: fb20c2e7560835c09097967adf97144e
+  longitude: 13.417
+  latitude: 52.533
+  northCorrection: -0
+  fileUnit: 0
+  sketchUpImportData:
+    defaultCamera:
+      position: {x: 121.88749, y: 47.394436, z: -49.963238}
+      lookAt: {x: -25.874409, y: 1.1844367, z: -19.703043}
+      up: {x: -0.28697845, y: 0.95613253, z: 0.058770385}
+      fov: 35
+      aspectRatio: 0
+      orthoSize: 1
+      isPerspective: 1
+    scenes: []
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: Cockpit-Temp
+    100002: Deflector
+    100004: Deflector 1
+    100006: DishBase
+    100008: DishMount
+    100010: //RootNode
+    100012: door
+    100014: door 1
+    100016: door 2
+    100018: door 3
+    100020: DriveLower
+    100022: DriveUpper
+    100024: Engine
+    100026: EngineGlow
+    100028: EngineVent
+    100030: EngineVent 1
+    100032: EngineVent 2
+    100034: EngineVent 3
+    100036: EngineVent 4
+    100038: EngineVent 5
+    100040: EscHatch
+    100042: EscHatch 1
+    100044: FrontLandingPod
+    100046: FrontLowerBays
+    100048: FrontPodLower
+    100050: Group 2
+    100052: Group 66
+    100054: Guns
+    100056: Guns 1
+    100058: HullLower
+    100060: HullUpper
+    100062: Komponente#3
+    100064: Komponente#3 1
+    100066: Komponente#3 2
+    100068: Komponente#5
+    100070: lift
+    100072: LowerTurret
+    100074: MandiblesLower
+    100076: MandiblesUpper
+    100078: post
+    100080: post 1
+    100082: post 2
+    100084: post 3
+    100086: post 4
+    100088: post 5
+    100090: RearUnderBay
+    100092: SensorDish
+    100094: UpperFrontPod
+    100096: UpperTurret
+    400000: Cockpit-Temp
+    400002: Deflector
+    400004: Deflector 1
+    400006: DishBase
+    400008: DishMount
+    400010: //RootNode
+    400012: door
+    400014: door 1
+    400016: door 2
+    400018: door 3
+    400020: DriveLower
+    400022: DriveUpper
+    400024: Engine
+    400026: EngineGlow
+    400028: EngineVent
+    400030: EngineVent 1
+    400032: EngineVent 2
+    400034: EngineVent 3
+    400036: EngineVent 4
+    400038: EngineVent 5
+    400040: EscHatch
+    400042: EscHatch 1
+    400044: FrontLandingPod
+    400046: FrontLowerBays
+    400048: FrontPodLower
+    400050: Group 2
+    400052: Group 66
+    400054: Guns
+    400056: Guns 1
+    400058: HullLower
+    400060: HullUpper
+    400062: Komponente#3
+    400064: Komponente#3 1
+    400066: Komponente#3 2
+    400068: Komponente#5
+    400070: lift
+    400072: LowerTurret
+    400074: MandiblesLower
+    400076: MandiblesUpper
+    400078: post
+    400080: post 1
+    400082: post 2
+    400084: post 3
+    400086: post 4
+    400088: post 5
+    400090: RearUnderBay
+    400092: SensorDish
+    400094: UpperFrontPod
+    400096: UpperTurret
+    2300000: Cockpit-Temp
+    2300002: Deflector
+    2300004: Deflector 1
+    2300006: DishBase
+    2300008: DishMount
+    2300010: //RootNode
+    2300012: door
+    2300014: door 1
+    2300016: door 2
+    2300018: door 3
+    2300020: DriveLower
+    2300022: DriveUpper
+    2300024: Engine
+    2300026: EngineGlow
+    2300028: EngineVent
+    2300030: EngineVent 1
+    2300032: EngineVent 2
+    2300034: EngineVent 3
+    2300036: EngineVent 4
+    2300038: EngineVent 5
+    2300040: EscHatch
+    2300042: EscHatch 1
+    2300044: FrontLandingPod
+    2300046: FrontLowerBays
+    2300048: FrontPodLower
+    2300050: Group 2
+    2300052: Group 66
+    2300054: Guns
+    2300056: Guns 1
+    2300058: HullLower
+    2300060: HullUpper
+    2300062: Komponente#3
+    2300064: Komponente#3 1
+    2300066: Komponente#3 2
+    2300068: Komponente#5
+    2300070: lift
+    2300072: LowerTurret
+    2300074: MandiblesLower
+    2300076: MandiblesUpper
+    2300078: post
+    2300080: post 1
+    2300082: post 2
+    2300084: post 3
+    2300086: post 4
+    2300088: post 5
+    2300090: RearUnderBay
+    2300092: SensorDish
+    2300094: UpperFrontPod
+    2300096: UpperTurret
+    3300000: Cockpit-Temp
+    3300002: Deflector
+    3300004: Deflector 1
+    3300006: DishBase
+    3300008: DishMount
+    3300010: //RootNode
+    3300012: door
+    3300014: door 1
+    3300016: door 2
+    3300018: door 3
+    3300020: DriveLower
+    3300022: DriveUpper
+    3300024: Engine
+    3300026: EngineGlow
+    3300028: EngineVent
+    3300030: EngineVent 1
+    3300032: EngineVent 2
+    3300034: EngineVent 3
+    3300036: EngineVent 4
+    3300038: EngineVent 5
+    3300040: EscHatch
+    3300042: EscHatch 1
+    3300044: FrontLandingPod
+    3300046: FrontLowerBays
+    3300048: FrontPodLower
+    3300050: Group 2
+    3300052: Group 66
+    3300054: Guns
+    3300056: Guns 1
+    3300058: HullLower
+    3300060: HullUpper
+    3300062: Komponente#3
+    3300064: Komponente#3 1
+    3300066: Komponente#3 2
+    3300068: Komponente#5
+    3300070: lift
+    3300072: LowerTurret
+    3300074: MandiblesLower
+    3300076: MandiblesUpper
+    3300078: post
+    3300080: post 1
+    3300082: post 2
+    3300084: post 3
+    3300086: post 4
+    3300088: post 5
+    3300090: RearUnderBay
+    3300092: SensorDish
+    3300094: UpperFrontPod
+    3300096: UpperTurret
+    4300000: Mesh Docking+Bay+327
+    4300002: Mesh Group 2
+    4300004: Mesh UpperFrontPod
+    4300006: Mesh HullUpper
+    4300008: Mesh Deflector
+    4300010: Mesh DriveUpper
+    4300012: Mesh FrontPodLower
+    4300014: Mesh HullLower
+    4300016: Mesh RearUnderBay
+    4300018: Mesh DriveLower
+    4300020: Mesh FrontLowerBays
+    4300022: Mesh EscHatch
+    4300024: Mesh MandiblesLower
+    4300026: Mesh Engine
+    4300028: Mesh EngineGlow
+    4300030: Mesh EngineVent
+    4300032: Mesh DishBase
+    4300034: Mesh Cockpit-Temp
+    4300036: Mesh DishMount
+    4300038: Mesh SensorDish
+    4300040: Mesh FrontLandingPod
+    4300042: Mesh UpperTurret
+    4300044: Mesh LowerTurret
+    4300046: Mesh MandiblesUpper
+    4300048: Mesh Guns
+    4300050: Mesh Group 66
+    4300052: Mesh door
+    4300054: Mesh Komponente#3
+    4300056: Mesh post
+    4300058: Mesh Komponente#5
+    4300060: Mesh lift
+  materials:
+    importMaterials: 1
+    materialName: 2
+    materialSearch: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.0254
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

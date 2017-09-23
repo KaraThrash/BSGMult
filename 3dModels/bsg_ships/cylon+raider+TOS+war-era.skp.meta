@@ -1,0 +1,187 @@
+fileFormatVersion: 2
+guid: 1ce2e8805236bf14bbda483f5d63f574
+timeCreated: 1506111984
+licenseType: Free
+SketchUpImporter:
+  generateBackFace: 0
+  mergeCoplanarFaces: 0
+  selectedNodes: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f00000010000000110000001200000013000000
+  assetHash:
+    serializedVersion: 2
+    Hash: 3a884f5e972dfb9010a0f117d7dd3de7
+  longitude: -105.283
+  latitude: 40.017
+  northCorrection: -0
+  fileUnit: 0
+  sketchUpImportData:
+    defaultCamera:
+      position: {x: -5.050991, y: 10.058049, z: -6.619527}
+      lookAt: {x: 46.10423, y: -118.57188, z: 76.53457}
+      up: {x: 0.41737118, y: 0.6045747, z: 0.6784473}
+      fov: 37.92878
+      aspectRatio: 0
+      orthoSize: 1
+      isPerspective: 1
+    scenes:
+    - camera:
+        position: {x: -5.050991, y: 10.058049, z: -6.619527}
+        lookAt: {x: 46.10423, y: -118.57188, z: 76.53457}
+        up: {x: 0.41737118, y: 0.6045747, z: 0.6784473}
+        fov: 37.92878
+        aspectRatio: 0
+        orthoSize: 1
+        isPerspective: 1
+      name: primary view
+    - camera:
+        position: {x: 0.66473323, y: -4.2000837, z: 13.288749}
+        lookAt: {x: -0.047135882, y: 0.5218294, z: -0.2714297}
+        up: {x: -0.46782127, y: 0.82675165, z: 0.31244996}
+        fov: 37.92878
+        aspectRatio: 0
+        orthoSize: 1
+        isPerspective: 1
+      name: rear view
+    - camera:
+        position: {x: -4.78557, y: 4.85379, z: -4.4084034}
+        lookAt: {x: -0.15953733, y: 0.46238655, z: -0.8847767}
+        up: {x: 0.3916298, y: 0.79045373, z: 0.47096616}
+        fov: 37.92878
+        aspectRatio: 0
+        orthoSize: 1
+        isPerspective: 1
+      name: section view
+    - camera:
+        position: {x: -4.78557, y: 4.85379, z: -4.4084034}
+        lookAt: {x: -0.15953733, y: 0.46238655, z: -0.8847767}
+        up: {x: 0.3916298, y: 0.79045373, z: 0.47096616}
+        fov: 37.92878
+        aspectRatio: 0
+        orthoSize: 1
+        isPerspective: 1
+      name: working view
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: hatch
+    100004: Karl Knight / Ti
+    100006: objBody
+    100008: objCockpit
+    100010: objLG1Left
+    100012: objLG1Righ
+    100014: objLGDoorL
+    100016: objLGDoorR
+    100018: objTailSup
+    100020: raiderhatch-01
+    400000: //RootNode
+    400002: hatch
+    400004: Karl Knight / Ti
+    400006: objBody
+    400008: objCockpit
+    400010: objLG1Left
+    400012: objLG1Righ
+    400014: objLGDoorL
+    400016: objLGDoorR
+    400018: objTailSup
+    400020: raiderhatch-01
+    2300000: hatch
+    2300002: Karl Knight / Ti
+    2300004: objBody
+    2300006: objCockpit
+    2300008: objLG1Left
+    2300010: objLG1Righ
+    2300012: objLGDoorL
+    2300014: objLGDoorR
+    2300016: objTailSup
+    3300000: hatch
+    3300002: Karl Knight / Ti
+    3300004: objBody
+    3300006: objCockpit
+    3300008: objLG1Left
+    3300010: objLG1Righ
+    3300012: objLGDoorL
+    3300014: objLGDoorR
+    3300016: objTailSup
+    4300000: Mesh objCockpit
+    4300002: Mesh objLG1Left
+    4300004: Mesh objLG1Righ
+    4300006: Mesh objLGDoorL
+    4300008: Mesh objLGDoorR
+    4300010: Mesh objTailSup
+    4300012: Mesh objBody
+    4300014: Mesh Karl Knight / Ti
+    4300016: Mesh hatch
+  materials:
+    importMaterials: 1
+    materialName: 2
+    materialSearch: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.0254
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
