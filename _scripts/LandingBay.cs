@@ -102,7 +102,16 @@ public class LandingBay : Photon.PunBehaviour
         }
     }
 
+    //for ships that exit from the interior hangar
+    public void ShipLeavesHangar(GameObject leavingShip)
+    {
+        if (dockedShips.Contains(leavingShip) )
+        {
 
+            dockedShips.Remove(leavingShip);
+
+        }
+    }
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.isWriting)

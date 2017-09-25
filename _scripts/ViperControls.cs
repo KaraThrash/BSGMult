@@ -36,6 +36,7 @@ public class ViperControls : Photon.PunBehaviour
     public GameObject currentHangar;
     // Use this for initialization
     void Start () {
+       
         medbay = GameObject.Find("medbay");
         rb = GetComponent<Rigidbody>();
         m_PhotonView = GetComponent<PhotonView>();
@@ -58,8 +59,8 @@ public class ViperControls : Photon.PunBehaviour
         //{
         // Debug.Log(Input.mousePosition.x);
         // Debug.Log(Input.mousePosition.y);
-        if (Input.GetKeyDown(KeyCode.L)) { transform.parent = pacManObject.transform; }
-        if (Input.GetKeyDown(KeyCode.O)) { transform.parent = null; }
+        if (Input.GetKeyDown(KeyCode.L)) {  }
+        if (Input.GetKeyDown(KeyCode.O)) {  }
         if (m_PhotonView.isMine == true && flying == true)
         {
             
@@ -200,6 +201,7 @@ public class ViperControls : Photon.PunBehaviour
                 {
                     transform.position = col3.gameObject.GetComponent<LocationChange>().exit.transform.position;
                     transform.rotation = col3.gameObject.GetComponent<LocationChange>().exit.transform.rotation;
+                    if (col3.GetComponent<LocationChange>().enter == false) { col3.gameObject.GetComponent<LocationChange>().myHangar.GetComponent<LandingBay>().ShipLeavesHangar(this.gameObject); }
                 }
                 
             }
@@ -211,6 +213,7 @@ public class ViperControls : Photon.PunBehaviour
         if (col.gameObject.tag == "HangarSpot") { col.transform.name = "open"; }
         if (col.gameObject.tag == "Border" &&  m_PhotonView.isMine == true)
         {
+            //TODO: give the border an object that looks at the ship and then moves it. That way you can't fly backward out of the border and end up going out the opposite one.
             Debug.Log("border");
             //transform.position = pacManObject.transform.position;
         }

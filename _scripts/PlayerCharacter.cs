@@ -33,7 +33,7 @@ public class PlayerCharacter : Photon.PunBehaviour
                 if (station != null)
                 {
                     myCamera.active = true;
-                    GetComponent<PhotonView>().RPC("MakeAvailable", PhotonTargets.AllViaServer);
+                    station.GetComponent<PhotonView>().RPC("MakeAvailable", PhotonTargets.AllViaServer);
                 }
 
             }

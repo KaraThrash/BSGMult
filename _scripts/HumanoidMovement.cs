@@ -19,6 +19,7 @@ public class HumanoidMovement : Photon.PunBehaviour
 	
 	// Update is called once per frame
 	void Update () {
+        Move();
         if (m_PhotonView.isMine == true)
         {
             if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0) { Move(); }

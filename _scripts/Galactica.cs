@@ -57,8 +57,8 @@ public class Galactica : Photon.PunBehaviour
     [PunRPC]
     public void SetForwardObject() { fwdObject.transform.localPosition = new Vector3( 0, 0, -1000.0f); }
 
-    public void Manned() { rotationObject.transform.rotation = transform.rotation;  manned = true; myCamera.active = true; }
-    public void NotManned() { manned = false; myCamera.active = false; }
+    public void Manned() { rotationObject.transform.rotation = theGalactica.transform.rotation;  manned = true; myCamera.active = true; }
+    public void NotManned() { manned = false; myCamera.active = false; rotationObject.transform.rotation = theGalactica.transform.rotation; }
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.isWriting)

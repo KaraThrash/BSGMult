@@ -7,6 +7,8 @@ public class LocationChange : MonoBehaviour {
     public GameObject myParent;
     public bool parentObjectThatUsesMe;
     public bool forFighters;
+    public bool enter;
+    public GameObject myHangar;
 	// Use this for initialization
 	void Start () {
 		
