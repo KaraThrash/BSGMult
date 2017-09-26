@@ -239,6 +239,8 @@ public class ViperControls : Photon.PunBehaviour
         if (leave == true) { GetComponent<PhotonView>().RPC("Land", PhotonTargets.All); }
 
     }
+
+    //TODO: way back into the ship without jumping? someone needs to retract the pods?
     [PunRPC]
     public void LandOnDockingBay() {
         rb.velocity = Vector3.zero;

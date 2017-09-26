@@ -39,7 +39,7 @@ public class RPGMovement : MonoBehaviour
             
             ResetSpeedValues();
 
-            UpdateRotateMovement();
+           // UpdateRotateMovement();
 
             UpdateForwardMovement();
             UpdateBackwardMovement();
@@ -81,11 +81,11 @@ public class RPGMovement : MonoBehaviour
             }
         }
 
-        m_AnimatorSpeed = Mathf.MoveTowards( m_AnimatorSpeed, speed, Time.deltaTime * 5f );
+        m_AnimatorSpeed = Mathf.MoveTowards( m_AnimatorSpeed, speed, Time.deltaTime * 15f );
 
         m_Animator.SetFloat( "Speed", m_AnimatorSpeed );
         m_Animator.SetFloat( "Direction", direction );
-
+        
         m_LastPosition = transform.localPosition;
     }
 
@@ -129,12 +129,12 @@ public class RPGMovement : MonoBehaviour
 
     void UpdateStrafeMovement()
     {
-        if( Input.GetKey( KeyCode.Q ) == true )
+        if( Input.GetKey( KeyCode.A) == true )
         {
             m_CurrentMovement = -transform.right * StrafeSpeed;
         }
 
-        if( Input.GetKey( KeyCode.E ) == true )
+        if( Input.GetKey( KeyCode.D ) == true )
         {
             m_CurrentMovement = transform.right * StrafeSpeed;
         }
@@ -142,13 +142,13 @@ public class RPGMovement : MonoBehaviour
 
     void UpdateRotateMovement()
     {
-        if( Input.GetKey( KeyCode.A ) || Input.GetAxisRaw("Horizontal") < -0.1f )
+        if( Input.GetKey( KeyCode.Q ) || Input.GetAxisRaw("Horizontal") < -0.1f )
         {
             m_CurrentTurnSpeed = -RotateSpeed;
             transform.Rotate(0, -RotateSpeed * Time.deltaTime, 0);
         }
 
-        if( Input.GetKey( KeyCode.D ) || Input.GetAxisRaw("Horizontal") > 0.1f )
+        if( Input.GetKey( KeyCode.E ) || Input.GetAxisRaw("Horizontal") > 0.1f )
         {
             m_CurrentTurnSpeed = RotateSpeed;
             transform.Rotate(0, RotateSpeed * Time.deltaTime, 0);

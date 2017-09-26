@@ -20,8 +20,9 @@ public class DemoRPGMovement : MonoBehaviour
        // GameObject newPlayerObject = PhotonNetwork.Instantiate( "OldKyle", position, Quaternion.identity, 0 );
         //newPlayerObject.GetComponent<HumanControls>().SetAsMyPlayer();
          
-        GameObject newPlayerObject = PhotonNetwork.Instantiate("OldKyle", Vector3.zero, Quaternion.identity, 0);
-        Camera.Target = newPlayerObject.transform;
+        GameObject newPlayerObject = PhotonNetwork.Instantiate("FPSKyle", Vector3.zero, Quaternion.identity, 0);
+        newPlayerObject.GetComponent<HumanControls>().SetAsMyPlayer();
+       // Camera.Target = newPlayerObject.transform;
         //spawnLocation = GameObject.Find("GalacticaInterior");
         // position = spawnLocation.GetComponent<Galactica>().shipInterior.transform.position;
         // newPlayerObject.transform.position = spawnLocation.transform.position;

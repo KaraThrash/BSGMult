@@ -6,6 +6,7 @@ public class HumanControls : Photon.PunBehaviour
 {
 
     public GameObject gun;
+    public int speed;
     public float coolDown;
     private Vector3 dir;
     private Rigidbody rb;
@@ -18,15 +19,17 @@ public class HumanControls : Photon.PunBehaviour
     public GameObject downObject;
     public bool controlled;
     public GameObject raycastObject;
+    PhotonTransformView m_TransformView;
+
     // Use this for initialization
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-       
+        m_TransformView = GetComponent<PhotonTransformView>();
         //cam = GameObject.Find("RPG Camera");
     }
     public void SetAsMyPlayer() {
-        cam = GameObject.Find("RPG Camera");
+        cam.active = true;
         controlled = true; }
     // Update is called once per frame
     void Update()
@@ -56,39 +59,35 @@ public class HumanControls : Photon.PunBehaviour
             {
                 CheckForIneractableObject();
             }
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                canMove = true;
-            }
-            // if (grounded == false) { transform.position = Vector3.MoveTowards(transform.position, downObject.transform.position, 5 * Time.deltaTime); }
+            CheckGround();
+            if (grounded == false) { transform.position = Vector3.MoveTowards(transform.position, downObject.transform.position, 2 * Time.deltaTime); }
+            
         }
+        ApplySynchronizedValues();
     }
-
+    void ApplySynchronizedValues()
+    {
+        m_TransformView.SetSynchronizedValues(transform.position, 1);
+    }
 
     public void Move()
     {
 
         if (canMove == true)
         {
-            float h = Input.GetAxis("Horizontal");
-            float v = Input.GetAxis("Vertical");
+            if (Input.GetAxis("Horizontal") != 0) {
+                float h = Input.GetAxis("Horizontal");
+                transform.position += transform.right * Time.deltaTime * speed * h;
+            }
+            if (Input.GetAxis("Vertical") != 0)
+            {
+                float v = Input.GetAxis("Vertical");
+                transform.position += transform.forward * Time.deltaTime * speed * v;
+            }
+  
+            
+            
 
-            Vector3 forward = cam.transform.TransformDirection(Vector3.forward);
-            forward.y = 0.0f;
-            forward = forward.normalized;
-
-
-            Vector3 right = new Vector3(forward.z, 0, -forward.x);
-            Vector3 targetDirection;
-
-            targetDirection = forward * v + right * h;
-            transform.rotation = Quaternion.Slerp(
-                   transform.rotation,
-                   Quaternion.LookRotation(targetDirection),
-                   Time.deltaTime * 50
-               );
-            transform.position = Vector3.MoveTowards(transform.position, fwdObject.transform.position, 5 * Time.deltaTime);
-            //rb.AddForce(transform.forward * 20 * Time.deltaTime, ForceMode.Impulse);
         }
     }
     public void CheckGround()
@@ -97,6 +96,7 @@ public class HumanControls : Photon.PunBehaviour
         //Physics.Raycast(transform.position, fwd, groundCheckRange) ||
         if (Physics.Raycast(transform.position, fwd, groundCheckDistance))
         {
+            
             grounded = true;
             airTime = 0;
             
@@ -137,7 +137,7 @@ public class HumanControls : Photon.PunBehaviour
     void Jump()
     {
         if (grounded == true)
-        { rb.AddForce(Vector3.up * 400 * Time.deltaTime, ForceMode.Impulse); }
+        { rb.AddForce(transform.up * 100 * Time.deltaTime, ForceMode.Impulse); }
     }
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {

@@ -19,6 +19,7 @@ public class PlayerCharacter : Photon.PunBehaviour
         transform.position = GameObject.Find("Galactica(Clone)").GetComponent<Galactica>().shipInterior.transform.position;
         myCamera = GameObject.Find("RPG Camera");
         m_PhotonView = GetComponent<PhotonView>();
+      
     }
     // Use this for initialization
 
@@ -45,7 +46,7 @@ public class PlayerCharacter : Photon.PunBehaviour
             }
 
         }
-        if (Input.GetKey(KeyCode.V))
+        if (Input.GetKey(KeyCode.E))
         {
             
             CheckForIneractableObject();
