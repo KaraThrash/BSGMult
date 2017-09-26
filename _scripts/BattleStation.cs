@@ -70,7 +70,7 @@ public class BattleStation : Photon.PunBehaviour
             user = whoUsedMe;
             whoUsedMe.GetComponent<PlayerCharacter>().myCamera.active = false;
             myStation.SendMessage("Manned");
-            whoUsedMe.GetComponent<RPGMovement>().canMove = false;
+            whoUsedMe.GetComponent<HumanControls>().canMove = false;
             whoUsedMe.GetComponent<PlayerCharacter>().station = this.gameObject;
         }
         

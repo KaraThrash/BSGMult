@@ -17,7 +17,7 @@ public class PlayerCharacter : Photon.PunBehaviour
     {
         transform.parent = GameObject.Find("Galactica(Clone)").transform;
         transform.position = GameObject.Find("Galactica(Clone)").GetComponent<Galactica>().shipInterior.transform.position;
-        myCamera = GameObject.Find("RPG Camera");
+        //myCamera = GameObject.Find("RPG Camera");
         m_PhotonView = GetComponent<PhotonView>();
       
     }

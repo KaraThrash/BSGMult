@@ -12,12 +12,12 @@ public class LandingBay : Photon.PunBehaviour
     public int shipsDocked;
     // Use this for initialization
     void Start () {
-		
-	}
+       // GetComponent<PhotonView>().RPC("Jumped", PhotonTargets.AllViaServer);
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.P)) { GetComponent<PhotonView>().RPC("Jumped", PhotonTargets.AllViaServer); }
+       // if (Input.GetKeyDown(KeyCode.P)) { GetComponent<PhotonView>().RPC("Jumped", PhotonTargets.AllViaServer); }
 	}
     public void OnCollisionEnter(Collision col2)
     {
@@ -29,6 +29,8 @@ public class LandingBay : Photon.PunBehaviour
              
 
         }
+
+
     }
     public void OnCollisionExit(Collision col)
     {
@@ -56,7 +58,7 @@ public class LandingBay : Photon.PunBehaviour
                     child.GetComponent<Rigidbody>().isKinematic = true;
                     child.transform.position = shipSpots[shipsDocked].transform.position;
                     child.transform.rotation = shipSpots[shipsDocked].transform.rotation;
-                    child.GetComponent<PhotonView>().RPC("LandOnDockingBay", PhotonTargets.AllViaServer);
+                    child.GetComponent<PhotonView>().RPC("LandOnDockingBay", PhotonTargets.AllBufferedViaServer);
                     shipsDocked++;
                 }
                 else { break; }
@@ -69,38 +71,7 @@ public class LandingBay : Photon.PunBehaviour
         }
         
     }
-    //server jump doesnt seem to be working 9/21
-    public void JumpNotFromServer()
-    {
-        foreach (GameObject child in dockedShips)
-        {
 
-            foreach (GameObject child2 in shipSpots)
-            {
-
-                if (child2.transform.name == "open")
-                {
-
-                   // child2.transform.name = "taken";
-                   // //child.transform.parent = child2.transform;
-                   // child.GetComponent<PhotonView>().ownerId = 0;
-                   // child.GetComponent<Rigidbody>().isKinematic = true;
-                   // child.transform.position = child2.transform.position;
-                   // child.transform.rotation = child2.transform.rotation;
-
-                   //// child.transform.parent = child2.transform;
-                   //// child.transform.localPosition = Vector3.zero;
-                   //// child.transform.rotation = child2.transform.rotation;
-                   // child.GetComponent<PhotonView>().RPC("LandOnDockingBay", PhotonTargets.AllViaServer);
-                   // break;
-                }
-
-            }
-
-
-
-        }
-    }
 
     //for ships that exit from the interior hangar
     public void ShipLeavesHangar(GameObject leavingShip)

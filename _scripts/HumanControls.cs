@@ -29,8 +29,12 @@ public class HumanControls : Photon.PunBehaviour
         //cam = GameObject.Find("RPG Camera");
     }
     public void SetAsMyPlayer() {
-        cam.active = true;
-        controlled = true; }
+       // cam.active = true;
+        cam.GetComponent<Camera>().enabled = true;
+        cam.GetComponent<FPScamera>().enabled = true;
+        controlled = true;
+
+    }
     // Update is called once per frame
     void Update()
     {
@@ -55,10 +59,10 @@ public class HumanControls : Photon.PunBehaviour
             {
                 canMove = true;
             }
-            if (Input.GetKey(KeyCode.V) )
-            {
-                CheckForIneractableObject();
-            }
+           // if (Input.GetKey(KeyCode.V) )
+           // {
+               // CheckForIneractableObject();
+            //}
             CheckGround();
             if (grounded == false) { transform.position = Vector3.MoveTowards(transform.position, downObject.transform.position, 2 * Time.deltaTime); }
             
