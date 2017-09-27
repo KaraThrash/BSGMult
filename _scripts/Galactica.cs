@@ -21,7 +21,7 @@ public class Galactica : Photon.PunBehaviour
     // Use this for initialization
     void Start () {
        // myCamera.transform.parent = null;
-       // rotationObject.transform.parent = null;
+        rotationObject.transform.parent = null;
         theFleet.transform.parent = null;
         //GameObject spawnLocation = GameObject.Find("PlayerSpawn");
         //spawnLocation.transform.parent = shipInterior.transform;
@@ -31,8 +31,10 @@ public class Galactica : Photon.PunBehaviour
     void Update()
     {
 
-        theGalactica.transform.rotation = Quaternion.Lerp(transform.rotation, rotationObject.transform.rotation, 5.0f);
-        theGalactica.transform.position = Vector3.MoveTowards(theGalactica.transform.position,fwdObject.transform.position, 1.0f);
+       // theGalactica.transform.rotation = Quaternion.Lerp(transform.rotation, rotationObject.transform.rotation, 5.0f);
+       // theGalactica.transform.position = Vector3.MoveTowards(theGalactica.transform.position,fwdObject.transform.position, 1.0f);
+        transform.rotation = Quaternion.Lerp(transform.rotation, rotationObject.transform.rotation, 5.0f);
+        transform.position = Vector3.MoveTowards(theGalactica.transform.position, fwdObject.transform.position, 1.0f);
         fwdObject.transform.position = Vector3.MoveTowards(fwdObject.transform.position, theGalactica.transform.position, 2.0f);
         if (manned == true)
         {
@@ -58,7 +60,7 @@ public class Galactica : Photon.PunBehaviour
     public void SetForwardObject() { fwdObject.transform.localPosition = new Vector3( 0, 0, -1000.0f); }
 
     public void Manned() { rotationObject.transform.rotation = theGalactica.transform.rotation;  manned = true; myCamera.active = true; }
-    public void NotManned() { manned = false; myCamera.active = false; rotationObject.transform.rotation = theGalactica.transform.rotation; }
+    public void NotManned() { manned = false; myCamera.active = false; rotationObject.transform.rotation = transform.rotation; }
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.isWriting)

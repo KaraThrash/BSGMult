@@ -134,10 +134,7 @@ public class HumanControls : Photon.PunBehaviour
         }
 
     }
-    [PunRPC]
-    public void ParentToShip(string newShipParent) { transform.parent = GameObject.Find(newShipParent).transform; }
-    [PunRPC]
-    public void NoParent() { transform.parent = null; }
+ 
     void Jump()
     {
         if (grounded == true)

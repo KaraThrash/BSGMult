@@ -76,4 +76,5 @@ MonoBehaviour:
   - LaunchRaiders
   - StartFTL
   - Die
+  - SetHangar
   DisableAutoOpenWizard: 1

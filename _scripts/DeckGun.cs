@@ -66,7 +66,7 @@ public class DeckGun : MonoBehaviour {
           //  readyPosition.transform.localPosition = Vector3.MoveTowards(readyPosition.transform.localPosition, new Vector3(focusPointX,mouseY, mouseX), 10.0f);
            // transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(mouseY, mouseX, 0), 0.1f  * Time.deltaTime);
             AimGun();
-            if (Input.GetKey(KeyCode.Backspace)) { manned = false; myCamera.active = false; }
+            if (Input.GetKey(KeyCode.Backspace)) { manned = false; myCamera.active = false;  }
         }
 	}
     [PunRPC]

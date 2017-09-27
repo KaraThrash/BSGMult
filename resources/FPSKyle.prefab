@@ -432,6 +432,7 @@ GameObject:
   - component: {fileID: 114958847031108402}
   - component: {fileID: 114903340373814400}
   - component: {fileID: 114698185458226826}
+  - component: {fileID: 114635702142621316}
   m_Layer: 11
   m_Name: Camera (1)
   m_TagString: Untagged
@@ -1859,6 +1860,24 @@ MonoBehaviour:
   station: {fileID: 0}
   flying: 0
   atComputer: 0
+--- !u!114 &114635702142621316
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1433788379680756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8596a038114eb04caee3b96ec621cf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultDepthOfField: 60
+  ftlDepthOfField: 100
+  defaultPosition: {x: 0, y: 1.651, z: 0}
+  ftlPosition: {x: 0, y: 0, z: 3}
+  ftlEffect: 0
+  cam: {fileID: 1433788379680756}
+  ftlDuration: 0
 --- !u!114 &114698185458226826
 MonoBehaviour:
   m_ObjectHideFlags: 1

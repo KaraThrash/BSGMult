@@ -20,14 +20,14 @@ public class CameraEffects : MonoBehaviour {
         if (ftlDuration > 0) {
             ftlDuration -= Time.deltaTime;
             
-            cam.GetComponent<Camera>().fieldOfView += 0.5f;
-            cam.transform.localPosition = Vector3.MoveTowards( cam.transform.localPosition, ftlPosition, 0.01f);
+            cam.GetComponent<Camera>().fieldOfView += 0.7f;
+           // cam.transform.localPosition = Vector3.MoveTowards( cam.transform.localPosition, ftlPosition, 0.01f);
         } else { cam.GetComponent<Camera>().fieldOfView = defaultDepthOfField;
-            cam.transform.localPosition = defaultPosition;
+          //  cam.transform.localPosition = defaultPosition;
         }
 	}
     public void StartFTLEffect() {
         ftlDuration = 2;
-        GetComponent<RPGCamera>().ftlCameraEffect = 2;
+       // GetComponent<RPGCamera>().ftlCameraEffect = 2;
     }
 }

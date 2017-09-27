@@ -61,7 +61,7 @@ public class PlayerCharacter : Photon.PunBehaviour
 
         //}
 
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 5.0f) && hit.transform.tag == "Interactable")
+        if (Physics.Raycast(myCamera.transform.position, myCamera.transform.forward, out hit, 5.0f) && hit.transform.tag == "Interactable")
         {
             hit.transform.gameObject.SendMessage("Interact", this.gameObject);
 
@@ -106,7 +106,7 @@ public class PlayerCharacter : Photon.PunBehaviour
                 }
                 transform.position = col.gameObject.GetComponent<LocationChange>().exit.transform.position;
                 transform.rotation = col.gameObject.GetComponent<LocationChange>().exit.transform.rotation;
-                myCamera.GetComponent<RPGCamera>().transform.rotation = col.gameObject.GetComponent<LocationChange>().exit.transform.rotation;
+                
             }
         }
 
