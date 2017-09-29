@@ -20,7 +20,7 @@ public class HumanControls : Photon.PunBehaviour
     public bool controlled;
     public GameObject raycastObject;
     PhotonTransformView m_TransformView;
-
+    public float jumpClock;
     // Use this for initialization
     void Start()
     {
@@ -64,8 +64,8 @@ public class HumanControls : Photon.PunBehaviour
                // CheckForIneractableObject();
             //}
             CheckGround();
-            if (grounded == false) { transform.position = Vector3.MoveTowards(transform.position, downObject.transform.position, 2 * Time.deltaTime); }
-            
+            if (grounded == false && jumpClock <= 0) { transform.position = Vector3.MoveTowards(transform.position, downObject.transform.position, 3 * Time.deltaTime); }
+            if (jumpClock > 0) { jumpClock -= Time.deltaTime; }
         }
         ApplySynchronizedValues();
     }
@@ -113,7 +113,10 @@ public class HumanControls : Photon.PunBehaviour
 
         }
     }
-
+    public void OnCollisionEnter(Collision collision)
+    {
+       // grounded = true;
+    }
     public void OnTriggerEnter(Collider col)
     {
         if (photonView.isMine == true)
@@ -138,7 +141,7 @@ public class HumanControls : Photon.PunBehaviour
     void Jump()
     {
         if (grounded == true)
-        { rb.AddForce(transform.up * 100 * Time.deltaTime, ForceMode.Impulse); }
+        { jumpClock = 1; rb.AddForce(transform.up * 100 * Time.deltaTime, ForceMode.Impulse); }
     }
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {

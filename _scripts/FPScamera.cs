@@ -24,7 +24,19 @@ public class FPScamera : MonoBehaviour {
         m_CameraTargetRot = transform.localRotation;
     }
 
-    public void Update() { LookRotation(player.transform, this.transform); }
+    public void Update() {
+        if (Input.GetKey(KeyCode.Tab) || lockCursor == false) {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            
+        }
+        else {
+            Cursor.lockState = CursorLockMode.Locked;
+            LookRotation(player.transform, this.transform);
+        }
+        
+
+    }
     public void LookRotation(Transform character, Transform camera)
     {
         float yRot = Input.GetAxis("Mouse X") * XSensitivity;

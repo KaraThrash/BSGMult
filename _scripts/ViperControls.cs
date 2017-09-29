@@ -73,11 +73,11 @@ public class ViperControls : Photon.PunBehaviour
             }
             gunCoolDown -= Time.deltaTime;
         }
-       // if (Input.GetKeyDown(KeyCode.T) && currentHangar != null) { GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllBufferedViaServer, currentHangar.transform.name); }
-        if (Input.GetKey(KeyCode.Space)) { lift = 2; } else if (Input.GetKey(KeyCode.LeftShift)) { lift = -2; } else { lift = 0; }
+        if (Input.GetKeyUp(KeyCode.T) && currentHangar != null) { GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllBufferedViaServer, currentHangar.transform.name); }
+        if (Input.GetKey(KeyCode.Space)) { lift = 3; } else if (Input.GetKey(KeyCode.LeftShift)) { lift = -3; } else { lift = 0; }
         hort = Input.GetAxis("Horizontal");
         vert = Input.GetAxis("Vertical");
-        if (Input.GetKey(KeyCode.Q)) { roll = -40; } else if (Input.GetKey(KeyCode.E)) { roll = 40; } else { roll = 0; }
+        if (Input.GetKey(KeyCode.Q)) { roll = -60; } else if (Input.GetKey(KeyCode.E)) { roll = 60; } else { roll = 0; }
         if (Input.mousePosition.x < 600) { mouseX = Input.mousePosition.x - 600; } else if (Input.mousePosition.x > 700) { mouseX = Input.mousePosition.x - 700; } else { mouseX = 0; }
         if (Input.mousePosition.y < 325) { mouseY = Input.mousePosition.y - 325; } else if (Input.mousePosition.y > 475) { mouseY = Input.mousePosition.y - 475; } else { mouseY = 0; }
         //GetComponent<PhotonView>().RPC("flightControls", PhotonTargets.AllViaServer, vert, hort, roll, (mouseX * 0.5f), (-mouseY * 0.5f), exit, lift);
@@ -235,28 +235,33 @@ public class ViperControls : Photon.PunBehaviour
     //TODO: way back into the ship without jumping? someone needs to retract the pods?
     [PunRPC]
     public void LandOnDockingBay() {
-        GetComponent<Rigidbody>().velocity = Vector3.zero;
-        GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-        playerControlled = false;
-        GetComponent<Rigidbody>().isKinematic = true;
-        myCam.active = false;
-        myModel.GetComponent<MeshRenderer>().enabled = true;
-        //GetComponent<Rigidbody>().useGravity = true;
-        this.photonView.ownerId = 0;
-        flying = false;
-        if (pilot != null)
+        if (flying == false)
         {
-            pilot.transform.position = cockpitEntrance.transform.position;
-            
-            //pilot.active = true;
-            pilot.GetComponent<PlayerCharacter>().myCamera.active = true;
-            pilot.GetComponent<PhotonView>().RPC("GetOutShip", PhotonTargets.AllBufferedViaServer);
-        }
-        pilot = null;
-        if (currentHangar != null)
-        {
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
+            GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            playerControlled = false;
             GetComponent<Rigidbody>().isKinematic = true;
-            transform.parent = currentHangar.transform;
+            myCam.active = false;
+            myModel.GetComponent<MeshRenderer>().enabled = true;
+            //GetComponent<Rigidbody>().useGravity = true;
+            this.photonView.ownerId = 0;
+            flying = false;
+            if (pilot != null)
+            {
+                pilot.transform.position = cockpitEntrance.transform.position;
+
+                //pilot.active = true;
+                pilot.GetComponent<PlayerCharacter>().myCamera.active = true;
+                pilot.GetComponent<PhotonView>().RPC("GetOutShip", PhotonTargets.AllBufferedViaServer);
+            }
+            pilot = null;
+            if (currentHangar != null)
+            {
+                GetComponent<Rigidbody>().isKinematic = true;
+                transform.parent = currentHangar.transform;
+                GetComponent<PhotonView>().RPC("SetHangar", PhotonTargets.AllBufferedViaServer, currentHangar.transform.name);
+                GetComponent<PhotonView>().RPC("ParentToShip", PhotonTargets.AllBufferedViaServer);
+            }
         }
     }
     public void OnCollisionExit(Collision col3)
@@ -333,6 +338,13 @@ public class ViperControls : Photon.PunBehaviour
         //when interacted with it takes off
         if (flying == false)
         {
+            if (xwing == true) {
+                //whoUsedMe.GetComponent<HumanControls>().cam.GetComponent<FPScamera>().lockCursor = false;
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.lockState = CursorLockMode.Confined;
+            }
+
             playerControlled = true;
             pilot = whoUsedMe;
             

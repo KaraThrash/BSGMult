@@ -15,11 +15,13 @@ public class PlayerCharacter : Photon.PunBehaviour
     // Use this for initialization
     void Start()
     {
-        transform.parent = GameObject.Find("Galactica(Clone)").transform;
+        //transform.parent = GameObject.Find("Galactica(Clone)").transform;
+        GetComponent<PhotonView>().RPC("ParentToShip", PhotonTargets.AllViaServer, "PeopleOnBoardGalactica");
         transform.position = GameObject.Find("Galactica(Clone)").GetComponent<Galactica>().shipInterior.transform.position;
         //myCamera = GameObject.Find("RPG Camera");
         m_PhotonView = GetComponent<PhotonView>();
-      
+        
+
     }
     // Use this for initialization
 

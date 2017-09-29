@@ -54,7 +54,7 @@ public class DeckGun : MonoBehaviour {
                 if (gunCoolDown <= 0)
                 {
                     GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer);
-                    gunCoolDown = 0.2f;
+                    gunCoolDown = 0.6f;
                 }
                 
             }

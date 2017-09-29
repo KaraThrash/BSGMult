@@ -31,8 +31,6 @@ public class Galactica : Photon.PunBehaviour
     void Update()
     {
 
-       // theGalactica.transform.rotation = Quaternion.Lerp(transform.rotation, rotationObject.transform.rotation, 5.0f);
-       // theGalactica.transform.position = Vector3.MoveTowards(theGalactica.transform.position,fwdObject.transform.position, 1.0f);
         transform.rotation = Quaternion.Lerp(transform.rotation, rotationObject.transform.rotation, 5.0f);
         transform.position = Vector3.MoveTowards(theGalactica.transform.position, fwdObject.transform.position, 1.0f);
         fwdObject.transform.position = Vector3.MoveTowards(fwdObject.transform.position, theGalactica.transform.position, 2.0f);
@@ -86,10 +84,8 @@ public class Galactica : Photon.PunBehaviour
             //GameObject.Find("BaseStar(Clone)").GetComponent<BaseStar>().StartFTL();
             ForPassengersDuringJump();
             myHangar.GetComponent<LandingBay>().jumping = true;
-            // theGalactica.transform.position = Vector3.zero;
-            transform.position = GameObject.Find(coordsToJump.ToString()).transform.position;
-           // myHangar.GetComponent<LandingBay>().jumping = false;
-            // myHangar.GetComponent<LandingBay>().JumpNotFromServer();
+            transform.position = GameObject.Find(coordsToJump.ToString()).transform.Find("HumanSpaceSpot").transform.position;
+
         }
 
     }

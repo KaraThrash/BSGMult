@@ -5,6 +5,9 @@ using UnityEngine;
 public class FleetShip : Photon.PunBehaviour
 {
     public int hp;
+    public int popHeld;
+    public int foodHeld;
+    public int fuelHeld;
     public GameObject placeHolderInFleet;
     public float ftlTimer;
     public float ftlCost;
@@ -50,5 +53,22 @@ public class FleetShip : Photon.PunBehaviour
         fleetParent.GetComponent<Fleet>().shipsJumped++;
         ftlTimer = 0;
         jumpOrdered = false;
+    }
+    public void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.tag == "Bullet" && hp > 0)
+        {
+            hp--;
+            if (hp <= 0) { GetComponent<PhotonView>().RPC("Die", PhotonTargets.AllBufferedViaServer); }
+            //Destroy(this.gameObject);
+            Debug.Log("hit");
+        }
+    }
+    [PunRPC]
+    public void Die()
+    {
+        fleetParent.GetComponent<Fleet>().UpdateResources(-fuelHeld,-foodHeld,-1,-popHeld,-1); ;
+
+        Destroy(this.gameObject);
     }
 }

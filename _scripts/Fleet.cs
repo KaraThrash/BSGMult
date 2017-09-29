@@ -28,7 +28,10 @@ public class Fleet : Photon.PunBehaviour
         if (jumping == true)
         {
             shipsJumpedText.text = shipsJumped.ToString() + "/" + shipsInFleetCount.ToString() + " Currently jumped away.";
-            if (shipsJumped >= shipsInFleetCount) { jumping = false; shipsJumped = 0; shipsJumpedText.text = "Fleet Away"; }
+            if (shipsJumped >= shipsInFleetCount) {
+                jumping = false; shipsJumped = 0; shipsJumpedText.text = "Fleet Away";
+
+            }
         }
 
     }
@@ -53,6 +56,9 @@ public class Fleet : Photon.PunBehaviour
             }
         }
     }
+    public void UpdateResources(int foodChange, int fuelChange, int moraleChange, int popChange, int shipsChange )
+    { food += foodChange; fuel += fuelChange; pop += popChange; morale += moraleChange;shipsInFleetCount += shipsChange;}
+
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.isWriting)

@@ -54,6 +54,7 @@ public class Raider : Photon.PunBehaviour
        // Debug.Log(other.transform.name);
        //TODO: fix border to just be an actual border instead of full sphere
         if (other.tag == "Viper") { if (shipTarget == null) {shipTarget = other.transform.parent.gameObject; } }
+        if (other.tag == "Fleetship") { if (shipTarget == null) { shipTarget = other.transform.parent.gameObject; } }
     }
     public void FireGuns()
     {

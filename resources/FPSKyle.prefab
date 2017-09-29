@@ -1714,7 +1714,7 @@ Rigidbody:
   m_GameObject: {fileID: 1887739462464700}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 1
+  m_Drag: 4
   m_AngularDrag: 1
   m_UseGravity: 0
   m_IsKinematic: 0
@@ -1966,6 +1966,7 @@ MonoBehaviour:
   downObject: {fileID: 1645629985756334}
   controlled: 0
   raycastObject: {fileID: 0}
+  jumpClock: 0
 --- !u!114 &114903340373814400
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2031,7 +2032,7 @@ CapsuleCollider:
   m_Radius: 0.5
   m_Height: 1.8
   m_Direction: 1
-  m_Center: {x: 0, y: 0.89, z: 0}
+  m_Center: {x: 0, y: 0.85, z: 0}
 --- !u!137 &137873438881853202
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

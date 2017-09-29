@@ -84,7 +84,7 @@ public class LandingBay : Photon.PunBehaviour
                 child.transform.parent = myShip.transform;
                 child.transform.position = shipSpots[shipsDocked].transform.position;
                 child.transform.rotation = shipSpots[shipsDocked].transform.rotation;
-                child.GetComponent<PhotonView>().RPC("LandOnDockingBay", PhotonTargets.AllBufferedViaServer);
+                child.GetComponent<PhotonView>().RPC("LandOnDockingBay", PhotonTargets.AllViaServer);
                     shipsDocked++;
                 }
                     

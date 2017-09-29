@@ -59,9 +59,11 @@ public class BaseStar : Photon.PunBehaviour
         //Using the parent object was only deleteing on the server
         foreach (Transform child in raiderParentObject.transform)
              {
+            if (child.childCount > 0) { numberOfRaiderWings++; } 
             PhotonNetwork.Destroy(child.gameObject);
-            numberOfRaiderWings++;
+            
         }
+        numberOfRaiderWings += 2;
         transform.position = GameObject.Find(ftlCoords.ToString()).transform.position;
 
     }
