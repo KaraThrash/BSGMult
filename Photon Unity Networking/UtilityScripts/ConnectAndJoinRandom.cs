@@ -60,6 +60,7 @@ public class ConnectAndJoinRandom : Photon.MonoBehaviour
         PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = 8 }, null);
         
         firstIn = true;
+        
     }
 
     // the following methods are implemented to give you some context. re-implement them as needed.
@@ -71,10 +72,12 @@ public class ConnectAndJoinRandom : Photon.MonoBehaviour
 
     public void OnJoinedRoom()
     {
-        if (firstIn == true) {
+        if (firstIn == true)
+        {
             spawnServerSTuff.GetComponent<SpawnServerObjects>().SpawnEverythingOnServer();
             //GameObject Clone = PhotonNetwork.Instantiate("scorekeeper", Vector3.zero, new Quaternion(0,0,0,0), 0) as GameObject;
         }
+        //else { Application.LoadLevel("Lobby"); }
         
         //Debug.Log("OnJoinedRoom() called by PUN. Now this client is in a room. From here on, your game would be running. For reference, all callbacks are listed in enum: PhotonNetworkingMessage");
     }

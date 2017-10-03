@@ -38,7 +38,7 @@ public class ViperControls : Photon.PunBehaviour
     // Use this for initialization
     void Start () {
        
-        medbay = GameObject.Find("medbay");
+        medbay = GameObject.Find("GalacticaMedbay");
         rb = GetComponent<Rigidbody>();
         m_PhotonView = GetComponent<PhotonView>();
         scoreKeeper = GameObject.Find("scorekeeper(Clone)");
@@ -48,6 +48,7 @@ public class ViperControls : Photon.PunBehaviour
     // Update is called once per frame
     void Update()
     {
+       
         if (flying == true)
         {
 
@@ -66,7 +67,7 @@ public class ViperControls : Photon.PunBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            if (gunCoolDown <= 0)
+            if (gunCoolDown <= 0 && rb.velocity.magnitude < 150)
             {
                 GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer);
                 gunCoolDown = 0.2f;
@@ -87,7 +88,7 @@ public class ViperControls : Photon.PunBehaviour
     public void KeyboardFlightControls()
     {
         if (Input.GetKey(KeyCode.Space)) {
-            if (gunCoolDown <= 0)
+            if (gunCoolDown <= 0 && rb.velocity.magnitude < 150)
             {
                 GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer);
                 gunCoolDown = 0.2f;
@@ -115,6 +116,7 @@ public class ViperControls : Photon.PunBehaviour
     {
             Instantiate(bullet, gun2.transform.position, gun2.transform.rotation);
             Instantiate(bullet, gun1.transform.position, gun1.transform.rotation);
+      
             
     }
 
@@ -311,16 +313,35 @@ public class ViperControls : Photon.PunBehaviour
     [PunRPC]
     public void TakeDamage() {
         hp--;
-        if (hp <= 0) { if (pilot != null) {
+        if (hp == 0) { if (pilot != null) {
                 pilot.transform.position = medbay.transform.position;
                 
                 pilot.active = true;
                 pilot.GetComponent<PlayerCharacter>().myCamera.active = true;
                 
             }
-            Destroy(this.gameObject);
+            GetComponent<PhotonView>().RPC("Die", PhotonTargets.AllViaServer);
+           
         } 
     }
+    [PunRPC]
+    public void Die()
+    {
+      
+            if (pilot != null)
+            {
+            pilot.transform.parent = medbay.transform;
+               pilot.transform.position = medbay.transform.position;
+            pilot.transform.rotation = medbay.transform.rotation;
+           
+            pilot.active = true;
+                pilot.GetComponent<PlayerCharacter>().myCamera.active = true;
+
+            }
+            Destroy(this.gameObject);
+        
+    }
+
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.isWriting)

@@ -25,6 +25,8 @@ public class DeckGun : MonoBehaviour {
     public float hortTarget;
     public float vertTarget;
     public Vector3 rotateTo;
+    public int rotateDirection;
+    public bool leftSide;
     //private Rigidbody rb;
     // Use this for initialization
     void Start () {
@@ -77,10 +79,20 @@ public class DeckGun : MonoBehaviour {
 
     }
     public void AimGun() {
-        if (Input.GetKey(KeyCode.W) && hortTarget > upLimit) { hortTarget -= 1; }
-        if (Input.GetKey(KeyCode.S) && hortTarget < downLimit) { hortTarget += 1; }
-        if (Input.GetKey(KeyCode.D) && vertTarget < rightLimit) { vertTarget += 1; }
-        if (Input.GetKey(KeyCode.A) && vertTarget > leftLimit) { vertTarget -= 1; }
+        if (leftSide == true)
+        {
+            if (Input.GetKey(KeyCode.W) && hortTarget < upLimit) { hortTarget += 1; }
+            if (Input.GetKey(KeyCode.S) && hortTarget > downLimit) { hortTarget -= 1; }
+            if (Input.GetKey(KeyCode.D) && vertTarget < rightLimit) { vertTarget += 1; }
+            if (Input.GetKey(KeyCode.A) && vertTarget > leftLimit) { vertTarget -= 1; }
+        }
+        else
+        {
+            if (Input.GetKey(KeyCode.W) && hortTarget > upLimit) { hortTarget -= 1; }
+            if (Input.GetKey(KeyCode.S) && hortTarget < downLimit) { hortTarget += 1; }
+            if (Input.GetKey(KeyCode.D) && vertTarget < rightLimit) { vertTarget += 1; }
+            if (Input.GetKey(KeyCode.A) && vertTarget > leftLimit) { vertTarget -= 1; }
+        }
 
     }
     public void Manned() {

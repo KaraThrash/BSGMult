@@ -25861,7 +25861,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1677466088093386}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.26, y: 0, z: 5.94}
+  m_LocalPosition: {x: 2.44, y: 0, z: 5.94}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4106419454940576}
@@ -28392,7 +28392,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1896136144094342}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.26, y: 0, z: 5.94}
+  m_LocalPosition: {x: 2.44, y: 0, z: 5.94}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4958872574617828}
@@ -28997,7 +28997,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1489927882861202}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.26, y: 0, z: 5.94}
+  m_LocalPosition: {x: 2.44, y: 0, z: 5.94}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4049194020272878}
@@ -31023,7 +31023,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1649409219783176}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.26, y: 0, z: 5.94}
+  m_LocalPosition: {x: 2.44, y: 0, z: 5.94}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4100281202083844}
@@ -33711,7 +33711,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1484559690390862}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.26, y: 0, z: 5.94}
+  m_LocalPosition: {x: 2.44, y: 0, z: 5.94}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4307592926258130}
@@ -34165,7 +34165,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1889385129407116}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.67, y: -0.0000038146973, z: 5.939987}
+  m_LocalPosition: {x: -1.914, y: -0.0000038146973, z: 5.939987}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4958872574617828}
@@ -34364,7 +34364,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1368379834522368}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.67, y: -0.0000038146973, z: 5.939987}
+  m_LocalPosition: {x: -1.914, y: -0.0000038146973, z: 5.939987}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4049194020272878}
@@ -38799,7 +38799,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1225066721310492}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.67, y: -0.0000038146973, z: 5.939987}
+  m_LocalPosition: {x: -1.914, y: -0.0000038146973, z: 5.939987}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4307592926258130}
@@ -43679,7 +43679,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1825228042694384}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.67, y: -0.0000038146973, z: 5.939987}
+  m_LocalPosition: {x: -1.914, y: -0.0000038146973, z: 5.939987}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4106419454940576}
@@ -45558,7 +45558,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1675790020177560}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.67, y: -0.0000038146973, z: 5.939987}
+  m_LocalPosition: {x: -1.914, y: -0.0000038146973, z: 5.939987}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4100281202083844}
@@ -101687,6 +101687,7 @@ MonoBehaviour:
   gun2: {fileID: 1356296021445340}
   bullet: {fileID: 1061179596772382, guid: 38d75359f0349184fb99f6011bdf4c59, type: 2}
   gunCooldown: 0
+  patrolPointType: AttackPatrolPoints
 --- !u!114 &114329574133249726
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -101829,6 +101830,7 @@ MonoBehaviour:
   gun2: {fileID: 1225066721310492}
   bullet: {fileID: 1061179596772382, guid: 38d75359f0349184fb99f6011bdf4c59, type: 2}
   gunCooldown: 0
+  patrolPointType: PatrolPoints
 --- !u!114 &114609219945805658
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -102036,6 +102038,7 @@ MonoBehaviour:
   gun2: {fileID: 1889385129407116}
   bullet: {fileID: 1061179596772382, guid: 38d75359f0349184fb99f6011bdf4c59, type: 2}
   gunCooldown: 0
+  patrolPointType: PatrolPoints
 --- !u!114 &114683842493529594
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -102061,6 +102064,7 @@ MonoBehaviour:
   gun2: {fileID: 1825228042694384}
   bullet: {fileID: 1061179596772382, guid: 38d75359f0349184fb99f6011bdf4c59, type: 2}
   gunCooldown: 0
+  patrolPointType: PatrolPoints
 --- !u!114 &114685658901765418
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -102086,6 +102090,7 @@ MonoBehaviour:
   gun2: {fileID: 1590461135899884}
   bullet: {fileID: 1061179596772382, guid: 38d75359f0349184fb99f6011bdf4c59, type: 2}
   gunCooldown: 0
+  patrolPointType: AttackPatrolPoints
 --- !u!114 &114722519075264008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -102111,6 +102116,7 @@ MonoBehaviour:
   gun2: {fileID: 1675790020177560}
   bullet: {fileID: 1061179596772382, guid: 38d75359f0349184fb99f6011bdf4c59, type: 2}
   gunCooldown: 0
+  patrolPointType: PatrolPoints
 --- !u!114 &114864802393012560
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -102162,6 +102168,7 @@ MonoBehaviour:
   gun2: {fileID: 1368379834522368}
   bullet: {fileID: 1061179596772382, guid: 38d75359f0349184fb99f6011bdf4c59, type: 2}
   gunCooldown: 0
+  patrolPointType: PatrolPoints
 --- !u!114 &114974182377047550
 MonoBehaviour:
   m_ObjectHideFlags: 1

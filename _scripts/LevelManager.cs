@@ -11,8 +11,10 @@ public class LevelManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Application.LoadLevel("Game");
-        if (Input.GetKeyDown(KeyCode.E)) { Application.LoadLevel("Game"); }
+       // Application.LoadLevel("Game");
+       // if (Input.GetKeyDown(KeyCode.E)) { Application.LoadLevel("Game"); }
 
     }
+
+    public void JoinGame() { Application.LoadLevel("Game"); }
 }

@@ -5944,8 +5944,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 245f22b39124f6143975899b8e137d74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  xCord: 1
+  yCord: 0
+  zCord: 0
+  spaceCoordinates: {fileID: 0}
   theFleet: {fileID: 0}
   jumpTarget: {fileID: 0}
+  jumpTargetCoordinates: 0
+  currentCoordinates: 0
+  previousJumpCoordinates: 0
   jumpTargetLocation: {fileID: 0}
   previousLocation: {x: 0, y: 0, z: 0}
   jumpCalculations: {fileID: 0}
@@ -5955,9 +5962,17 @@ MonoBehaviour:
   interactTimer: 0
   timeCost: 1
   jumpTargetOne: {fileID: 1057678079}
+  oneStats: {fileID: 0}
   jumpTargetTwo: {fileID: 1626338223}
+  twoStats: {fileID: 0}
   jumpTargetThree: {fileID: 1437926971}
+  threeStats: {fileID: 0}
   jumpTargetFour: {fileID: 1417770858}
+  fourStats: {fileID: 0}
+  jumpTargetFive: {fileID: 0}
+  fiveStats: {fileID: 0}
+  jumpTargetSix: {fileID: 0}
+  sixStats: {fileID: 0}
   jumpTargetTextObject: {fileID: 0}
   fuelCost: 0
   distance: 0
@@ -15857,6 +15872,9 @@ MonoBehaviour:
   exit: {fileID: 0}
   myParent: {fileID: 0}
   parentObjectThatUsesMe: 0
+  forFighters: 0
+  enter: 0
+  myHangar: {fileID: 0}
 --- !u!114 &298286506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16042,6 +16060,9 @@ MonoBehaviour:
   exit: {fileID: 0}
   myParent: {fileID: 0}
   parentObjectThatUsesMe: 0
+  forFighters: 0
+  enter: 0
+  myHangar: {fileID: 0}
 --- !u!114 &300712199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29699,6 +29720,9 @@ MonoBehaviour:
   exit: {fileID: 0}
   myParent: {fileID: 0}
   parentObjectThatUsesMe: 0
+  forFighters: 0
+  enter: 0
+  myHangar: {fileID: 0}
 --- !u!114 &569736920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30807,7 +30831,7 @@ Transform:
   m_LocalPosition: {x: 104.5, y: 161, z: 63.691628}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1046594050}
+  - {fileID: 1735417546}
   - {fileID: 1064719135}
   - {fileID: 387921153}
   - {fileID: 1697541530}
@@ -32767,6 +32791,9 @@ MonoBehaviour:
   exit: {fileID: 0}
   myParent: {fileID: 0}
   parentObjectThatUsesMe: 0
+  forFighters: 0
+  enter: 0
+  myHangar: {fileID: 0}
 --- !u!114 &625667330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37085,6 +37112,9 @@ MonoBehaviour:
   exit: {fileID: 798109068}
   myParent: {fileID: 0}
   parentObjectThatUsesMe: 0
+  forFighters: 0
+  enter: 0
+  myHangar: {fileID: 0}
 --- !u!114 &725810682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39051,6 +39081,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 0}
+  ftlCameraEffect: 0
   MaximumDistance: 7
   MinimumDistance: 1
   ScrollModifier: 2
@@ -52950,11 +52981,6 @@ Transform:
   m_Father: {fileID: 334710605}
   m_RootOrder: 48
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1046594050 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4369509370840786, guid: f85739d513a174a45b20f7aaa2de88ef,
-    type: 2}
-  m_PrefabInternal: {fileID: 1735417545}
 --- !u!1 &1046745240
 GameObject:
   m_ObjectHideFlags: 0
@@ -53880,6 +53906,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30102ddfa4e9bb348b1824757690a118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  locationType: 
+  xCord: 0
+  yCord: 0
+  zCord: 0
+  mapped: 0
   fuelCost: 0
   distance: 0
   risk: 0
@@ -72635,6 +72666,7 @@ MonoBehaviour:
   spot3: {fileID: 578894759}
   spot4: {fileID: 788314092}
   galacticaSpot: {fileID: 1745248812}
+  basestarSpot: {fileID: 0}
   humanShipInterior: {fileID: 266657869}
 --- !u!23 &1415390479
 MeshRenderer:
@@ -72851,6 +72883,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30102ddfa4e9bb348b1824757690a118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  locationType: 
+  xCord: 0
+  yCord: 0
+  zCord: 0
+  mapped: 0
   fuelCost: 0
   distance: 0
   risk: 0
@@ -73926,6 +73963,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30102ddfa4e9bb348b1824757690a118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  locationType: 
+  xCord: 0
+  yCord: 0
+  zCord: 0
+  mapped: 0
   fuelCost: 0
   distance: 0
   risk: 0
@@ -86659,6 +86701,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30102ddfa4e9bb348b1824757690a118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  locationType: 
+  xCord: 0
+  yCord: 0
+  zCord: 0
+  mapped: 0
   fuelCost: 0
   distance: 0
   risk: 0
@@ -89218,6 +89265,9 @@ MonoBehaviour:
   exit: {fileID: 0}
   myParent: {fileID: 0}
   parentObjectThatUsesMe: 0
+  forFighters: 0
+  enter: 0
+  myHangar: {fileID: 0}
 --- !u!114 &1682220323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92007,9 +92057,24 @@ Prefab:
       propertyPath: synchronization
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114098389572164180, guid: f85739d513a174a45b20f7aaa2de88ef,
+        type: 2}
+      propertyPath: viewIdField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114098389572164180, guid: f85739d513a174a45b20f7aaa2de88ef,
+        type: 2}
+      propertyPath: instantiationId
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f85739d513a174a45b20f7aaa2de88ef, type: 2}
   m_IsPrefabParent: 0
+--- !u!4 &1735417546 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4698414699782098, guid: f85739d513a174a45b20f7aaa2de88ef,
+    type: 2}
+  m_PrefabInternal: {fileID: 1735417545}
 --- !u!1 &1737525134
 GameObject:
   m_ObjectHideFlags: 0
@@ -96908,6 +96973,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Camera: {fileID: 771022290}
+  position: {x: 0, y: 0, z: 0}
+  spawnLocation: {fileID: 0}
 --- !u!114 &1824828492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101065,6 +101132,9 @@ MonoBehaviour:
   exit: {fileID: 0}
   myParent: {fileID: 0}
   parentObjectThatUsesMe: 0
+  forFighters: 0
+  enter: 0
+  myHangar: {fileID: 0}
 --- !u!114 &1896196708
 MonoBehaviour:
   m_ObjectHideFlags: 0

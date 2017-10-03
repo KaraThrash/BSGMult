@@ -14,20 +14,24 @@ public class BaseStar : Photon.PunBehaviour
     public int numberOfRaiderWings;
     public GameObject raiderParentObjectPrefab;
     public GameObject raiderParentObject;
+    public GameObject attackpatrolPoints;
 	// Use this for initialization
 	void Start () {
         GameObject clone = Instantiate(raiderParentObjectPrefab, transform.position, transform.rotation) as GameObject;
         raiderParentObject = clone;
+        galactica = GameObject.Find("Galactica(Clone)");
+        if (Vector3.Distance(galactica.transform.position, transform.position) < 3000)
+        { attackpatrolPoints.transform.position = galactica.transform.position;  }
     }
 	
 	// Update is called once per frame
 	void Update () {
         if (photonView.isMine == true)
         {
-            if (spawnClock <= 0 && numberOfRaiderWings > 0)
+            if (spawnClock <= 0 && numberOfRaiderWings >= 5)
             {
                 GetComponent<PhotonView>().RPC("LaunchRaiders", PhotonTargets.MasterClient);
-                numberOfRaiderWings--;
+                numberOfRaiderWings -= 5;
                 spawnClock = 3;
             }
             else { spawnClock -= Time.deltaTime; }
@@ -59,12 +63,14 @@ public class BaseStar : Photon.PunBehaviour
         //Using the parent object was only deleteing on the server
         foreach (Transform child in raiderParentObject.transform)
              {
-            if (child.childCount > 0) { numberOfRaiderWings++; } 
+            if (child.childCount > 0) { numberOfRaiderWings += child.childCount; } 
             PhotonNetwork.Destroy(child.gameObject);
             
         }
         numberOfRaiderWings += 2;
         transform.position = GameObject.Find(ftlCoords.ToString()).transform.position;
+        if (Vector3.Distance(galactica.transform.position, transform.position) < 3000)
+        { attackpatrolPoints.transform.position = galactica.transform.position; }
 
     }
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

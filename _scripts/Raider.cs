@@ -17,11 +17,12 @@ public class Raider : Photon.PunBehaviour
     public float gunCooldown;
     private Rigidbody rb;
     private int strafeDirection;
+    public string patrolPointType;
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody>();
         if (Random.Range(0, 2) == 1) { strafeDirection = 1; } else { strafeDirection = -1; }
-        patrolPointsParent = GameObject.Find("PatrolPoints");
+        patrolPointsParent = GameObject.Find(patrolPointType);
         foreach (Transform child in patrolPointsParent.transform)
         {
             if (currentPoint < points.Length)
@@ -53,7 +54,7 @@ public class Raider : Photon.PunBehaviour
     {
        // Debug.Log(other.transform.name);
        //TODO: fix border to just be an actual border instead of full sphere
-        if (other.tag == "Viper") { if (shipTarget == null) {shipTarget = other.transform.parent.gameObject; } }
+        if (other.tag == "Viper") { if (shipTarget == null && other.transform.parent.gameObject.GetComponent<ViperControls>().flying == true) {shipTarget = other.transform.parent.gameObject; } }
         if (other.tag == "Fleetship") { if (shipTarget == null) { shipTarget = other.transform.parent.gameObject; } }
     }
     public void FireGuns()
@@ -71,7 +72,7 @@ public class Raider : Photon.PunBehaviour
 
         if (Vector3.Distance(shipTarget.transform.position, transform.position) > 70)
         {
-            rb.AddForce(transform.forward * speed * 20 * Time.deltaTime);
+            rb.AddForce(transform.forward * speed * 250 * Time.deltaTime);
             // transform.position = Vector3.MoveTowards(transform.position, shipTarget.transform.position, speed * Time.deltaTime);
 
         }
