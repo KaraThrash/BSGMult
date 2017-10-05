@@ -1,0 +1,326 @@
+fileFormatVersion: 2
+guid: e6a155b745877004c9751c71e434ce74
+timeCreated: 1507059962
+licenseType: Free
+SketchUpImporter:
+  generateBackFace: 0
+  mergeCoplanarFaces: 0
+  selectedNodes: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f000000200000002100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f000000300000003100000032000000330000003400000035000000360000003700000038000000390000003a0000003b0000003c0000003d0000003e0000003f000000400000004100000042000000430000004400000045000000460000004700000048000000490000004a0000004b0000004c0000004d0000004e0000004f000000500000005100000052000000530000005400000055000000560000005700000058000000590000005a0000005b0000005c0000005d0000005e0000005f000000600000006100000062000000630000006400000065000000660000006700000068000000690000006a0000006b0000006c0000006d000000
+  assetHash:
+    serializedVersion: 2
+    Hash: 1e866580353392e36b6bcbb9a083cfb5
+  longitude: -105.283
+  latitude: 40.017
+  northCorrection: -0
+  fileUnit: 0
+  sketchUpImportData:
+    defaultCamera:
+      position: {x: 212.66452, y: 162.47804, z: 141.62698}
+      lookAt: {x: 6.4993205, y: 27.35657, z: 0.92668986}
+      up: {x: -0.39322197, y: 0.87940866, z: -0.26835978}
+      fov: 35
+      aspectRatio: 0
+      orthoSize: 1
+      isPerspective: 1
+    scenes: []
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: Arm Assembly
+    100002: Arm Assembly 1
+    100004: Arm Assembly 10
+    100006: Arm Assembly 11
+    100008: Arm Assembly 12
+    100010: Arm Assembly 13
+    100012: Arm Assembly 14
+    100014: Arm Assembly 15
+    100016: Arm Assembly 2
+    100018: Arm Assembly 3
+    100020: Arm Assembly 4
+    100022: Arm Assembly 5
+    100024: Arm Assembly 6
+    100026: Arm Assembly 7
+    100028: Arm Assembly 8
+    100030: Arm Assembly 9
+    100032: Arm Section
+    100034: Arm Section 1
+    100036: Arm Section 10
+    100038: Arm Section 11
+    100040: Arm Section 12
+    100042: Arm Section 13
+    100044: Arm Section 14
+    100046: Arm Section 15
+    100048: Arm Section 2
+    100050: Arm Section 3
+    100052: Arm Section 4
+    100054: Arm Section 5
+    100056: Arm Section 6
+    100058: Arm Section 7
+    100060: Arm Section 8
+    100062: Arm Section 9
+    100064: Arm Wheel
+    100066: Arm Wheel 1
+    100068: Arm Wheel 2
+    100070: Arm Wheel 3
+    100072: Armpiece
+    100074: Armpiece 1
+    100076: Armpiece 10
+    100078: Armpiece 11
+    100080: Armpiece 12
+    100082: Armpiece 13
+    100084: Armpiece 14
+    100086: Armpiece 15
+    100088: Armpiece 2
+    100090: Armpiece 3
+    100092: Armpiece 4
+    100094: Armpiece 5
+    100096: Armpiece 6
+    100098: Armpiece 7
+    100100: Armpiece 8
+    100102: Armpiece 9
+    100104: Central Shaft
+    100106: Central Shaft 1
+    100108: Central Shaft 2
+    100110: Central Shaft 3
+    100112: Complete Arm Assembly
+    100114: Complete Arm Assembly 1
+    100116: Complete Arm Assembly 10
+    100118: Complete Arm Assembly 11
+    100120: Complete Arm Assembly 12
+    100122: Complete Arm Assembly 13
+    100124: Complete Arm Assembly 14
+    100126: Complete Arm Assembly 15
+    100128: Complete Arm Assembly 2
+    100130: Complete Arm Assembly 3
+    100132: Complete Arm Assembly 4
+    100134: Complete Arm Assembly 5
+    100136: Complete Arm Assembly 6
+    100138: Complete Arm Assembly 7
+    100140: Complete Arm Assembly 8
+    100142: Complete Arm Assembly 9
+    100144: //RootNode
+    400000: Arm Assembly
+    400002: Arm Assembly 1
+    400004: Arm Assembly 10
+    400006: Arm Assembly 11
+    400008: Arm Assembly 12
+    400010: Arm Assembly 13
+    400012: Arm Assembly 14
+    400014: Arm Assembly 15
+    400016: Arm Assembly 2
+    400018: Arm Assembly 3
+    400020: Arm Assembly 4
+    400022: Arm Assembly 5
+    400024: Arm Assembly 6
+    400026: Arm Assembly 7
+    400028: Arm Assembly 8
+    400030: Arm Assembly 9
+    400032: Arm Section
+    400034: Arm Section 1
+    400036: Arm Section 10
+    400038: Arm Section 11
+    400040: Arm Section 12
+    400042: Arm Section 13
+    400044: Arm Section 14
+    400046: Arm Section 15
+    400048: Arm Section 2
+    400050: Arm Section 3
+    400052: Arm Section 4
+    400054: Arm Section 5
+    400056: Arm Section 6
+    400058: Arm Section 7
+    400060: Arm Section 8
+    400062: Arm Section 9
+    400064: Arm Wheel
+    400066: Arm Wheel 1
+    400068: Arm Wheel 2
+    400070: Arm Wheel 3
+    400072: Armpiece
+    400074: Armpiece 1
+    400076: Armpiece 10
+    400078: Armpiece 11
+    400080: Armpiece 12
+    400082: Armpiece 13
+    400084: Armpiece 14
+    400086: Armpiece 15
+    400088: Armpiece 2
+    400090: Armpiece 3
+    400092: Armpiece 4
+    400094: Armpiece 5
+    400096: Armpiece 6
+    400098: Armpiece 7
+    400100: Armpiece 8
+    400102: Armpiece 9
+    400104: Central Shaft
+    400106: Central Shaft 1
+    400108: Central Shaft 2
+    400110: Central Shaft 3
+    400112: Complete Arm Assembly
+    400114: Complete Arm Assembly 1
+    400116: Complete Arm Assembly 10
+    400118: Complete Arm Assembly 11
+    400120: Complete Arm Assembly 12
+    400122: Complete Arm Assembly 13
+    400124: Complete Arm Assembly 14
+    400126: Complete Arm Assembly 15
+    400128: Complete Arm Assembly 2
+    400130: Complete Arm Assembly 3
+    400132: Complete Arm Assembly 4
+    400134: Complete Arm Assembly 5
+    400136: Complete Arm Assembly 6
+    400138: Complete Arm Assembly 7
+    400140: Complete Arm Assembly 8
+    400142: Complete Arm Assembly 9
+    400144: //RootNode
+    2300000: Arm Section
+    2300002: Arm Section 1
+    2300004: Arm Section 10
+    2300006: Arm Section 11
+    2300008: Arm Section 12
+    2300010: Arm Section 13
+    2300012: Arm Section 14
+    2300014: Arm Section 15
+    2300016: Arm Section 2
+    2300018: Arm Section 3
+    2300020: Arm Section 4
+    2300022: Arm Section 5
+    2300024: Arm Section 6
+    2300026: Arm Section 7
+    2300028: Arm Section 8
+    2300030: Arm Section 9
+    2300032: Armpiece
+    2300034: Armpiece 1
+    2300036: Armpiece 10
+    2300038: Armpiece 11
+    2300040: Armpiece 12
+    2300042: Armpiece 13
+    2300044: Armpiece 14
+    2300046: Armpiece 15
+    2300048: Armpiece 2
+    2300050: Armpiece 3
+    2300052: Armpiece 4
+    2300054: Armpiece 5
+    2300056: Armpiece 6
+    2300058: Armpiece 7
+    2300060: Armpiece 8
+    2300062: Armpiece 9
+    2300064: Central Shaft
+    2300066: Central Shaft 1
+    2300068: Central Shaft 2
+    2300070: Central Shaft 3
+    2300072: //RootNode
+    3300000: Arm Section
+    3300002: Arm Section 1
+    3300004: Arm Section 10
+    3300006: Arm Section 11
+    3300008: Arm Section 12
+    3300010: Arm Section 13
+    3300012: Arm Section 14
+    3300014: Arm Section 15
+    3300016: Arm Section 2
+    3300018: Arm Section 3
+    3300020: Arm Section 4
+    3300022: Arm Section 5
+    3300024: Arm Section 6
+    3300026: Arm Section 7
+    3300028: Arm Section 8
+    3300030: Arm Section 9
+    3300032: Armpiece
+    3300034: Armpiece 1
+    3300036: Armpiece 10
+    3300038: Armpiece 11
+    3300040: Armpiece 12
+    3300042: Armpiece 13
+    3300044: Armpiece 14
+    3300046: Armpiece 15
+    3300048: Armpiece 2
+    3300050: Armpiece 3
+    3300052: Armpiece 4
+    3300054: Armpiece 5
+    3300056: Armpiece 6
+    3300058: Armpiece 7
+    3300060: Armpiece 8
+    3300062: Armpiece 9
+    3300064: Central Shaft
+    3300066: Central Shaft 1
+    3300068: Central Shaft 2
+    3300070: Central Shaft 3
+    3300072: //RootNode
+    4300000: Mesh Station
+    4300002: Mesh Arm Section
+    4300004: Mesh Armpiece
+    4300006: Mesh Central Shaft
+  materials:
+    importMaterials: 1
+    materialName: 2
+    materialSearch: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.0254
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

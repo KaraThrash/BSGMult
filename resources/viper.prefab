@@ -517,6 +517,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1084083635325630
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4982117535773082}
+  - component: {fileID: 33933846734041618}
+  - component: {fileID: 64138433948394606}
+  m_Layer: 0
+  m_Name: ModelCollider
+  m_TagString: Viper
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1084801209409408
 GameObject:
   m_ObjectHideFlags: 1
@@ -684,6 +701,7 @@ GameObject:
   - component: {fileID: 54309128023549556}
   - component: {fileID: 114281328633665576}
   - component: {fileID: 114640301224768474}
+  - component: {fileID: 114283659479783830}
   m_Layer: 0
   m_Name: Viper
   m_TagString: Interactable
@@ -5254,9 +5272,8 @@ GameObject:
   - component: {fileID: 4188058666834048}
   - component: {fileID: 33539616887579484}
   - component: {fileID: 23470168507988242}
-  - component: {fileID: 64138433948394606}
   m_Layer: 0
-  m_Name: VModel
+  m_Name: ModelMesh
   m_TagString: Viper
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6877,11 +6894,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1881275692260344}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.012, y: 2.374, z: 0.623}
+  m_LocalPosition: {x: 0.01199913, y: 2.3739996, z: 0.6230011}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4989348226739306}
-  m_RootOrder: 1
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4194948799418492
 Transform:
@@ -10545,6 +10562,19 @@ Transform:
   m_Father: {fileID: 4989348226739306}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 180, y: 180, z: 180}
+--- !u!4 &4982117535773082
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1084083635325630}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.012, y: 2.374, z: 0.623}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4989348226739306}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4984627695834112
 Transform:
   m_ObjectHideFlags: 1
@@ -10610,11 +10640,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4773490591297258}
-  - {fileID: 4188058666834048}
+  - {fileID: 4982117535773082}
   - {fileID: 4106311282430636}
   - {fileID: 4981495203992830}
   - {fileID: 4803967342849904}
   - {fileID: 4579977859034052}
+  - {fileID: 4188058666834048}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -23686,6 +23717,13 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1090792665171310}
   m_Mesh: {fileID: 4300278, guid: 1ccf536049726884eb92a6c4b2dde682, type: 3}
+--- !u!33 &33933846734041618
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1084083635325630}
+  m_Mesh: {fileID: 4300000, guid: a9aa56e563218f3428fd1d5596d628f1, type: 3}
 --- !u!33 &33937106099941034
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -23874,7 +23912,7 @@ MeshCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1881275692260344}
+  m_GameObject: {fileID: 1084083635325630}
   m_Material: {fileID: 13400000, guid: a0c7329dabeb71a40bfdb46f8b223c95, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
@@ -23978,6 +24016,28 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &114283659479783830
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1121189962559474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e42853c518d2f4d4b80bd2cce160da52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 5
+  pilot: {fileID: 0}
+  flying: 0
+  cockpitEntrance: {fileID: 1282110064903652}
+  exit: 0
+  myCam: {fileID: 1621788203734894}
+  playerControlled: 0
+  currentHangar: {fileID: 0}
+  myModel: {fileID: 1881275692260344}
+  medbayName: GalacticaMedbay
+  xwing: 0
 --- !u!114 &114640301224768474
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -23989,12 +24049,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7f0db9308b35984696f64b468efe7ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 1
-  scoreKeeper: {fileID: 0}
-  pacManObject: {fileID: 1135047626652150}
   pilot: {fileID: 0}
   flying: 0
-  cockpitEntrance: {fileID: 1282110064903652}
   lift: 0
   exit: 0
   hort: 0
@@ -24004,18 +24060,11 @@ MonoBehaviour:
   mouseY: 0
   gun1: {fileID: 1281315181524798}
   gun2: {fileID: 1367749349333362}
-  bullet1: {fileID: 1061179596772382, guid: a97bec4c664446849867dd23edd1cff8, type: 2}
-  bullet2: {fileID: 1061179596772382, guid: a3e3f6df3b4cd9f45a4b13dce0ee1dc1, type: 2}
-  bullet3: {fileID: 1061179596772382, guid: 1972f8ca0fee2964eaa0975f1c07f7b8, type: 2}
-  bullet4: {fileID: 1061179596772382, guid: 77cadfa3cb036254aa522c7f93962160, type: 2}
   bullet: {fileID: 1061179596772382, guid: a97bec4c664446849867dd23edd1cff8, type: 2}
-  myCam: {fileID: 1621788203734894}
   gunCoolDown: 0
   xwing: 0
   playerControlled: 0
   afterBurner: 0
-  currentHangar: {fileID: 0}
-  myModel: {fileID: 1881275692260344}
 --- !u!124 &124980625678454062
 Behaviour:
   m_ObjectHideFlags: 1

@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class ViperControls : Photon.PunBehaviour
 {
-    public int hp;
-    public GameObject scoreKeeper;
-    public GameObject pacManObject;
     public GameObject pilot;
     public bool flying;
     PhotonView m_PhotonView;
     private Rigidbody rb;
-    public GameObject cockpitEntrance;
     public float lift;
     public bool exit;
     public float hort;
@@ -21,34 +17,26 @@ public class ViperControls : Photon.PunBehaviour
     public float mouseY;
     public GameObject gun1;
     public GameObject gun2;
-    public GameObject bullet1;
-    public GameObject bullet2;
-    public GameObject bullet3;
-    public GameObject bullet4;
     public GameObject bullet;
-    public GameObject myCam;
     public float gunCoolDown;
     public bool xwing;
     public bool playerControlled;
     public float afterBurner;
-    private GameObject medbay;
     private Vector3 holdPosValue;
-    public GameObject currentHangar;
-    public GameObject myModel;
+
     // Use this for initialization
     void Start () {
        
-        medbay = GameObject.Find("GalacticaMedbay");
         rb = GetComponent<Rigidbody>();
         m_PhotonView = GetComponent<PhotonView>();
-        scoreKeeper = GameObject.Find("scorekeeper(Clone)");
+   
         
     }
 
     // Update is called once per frame
     void Update()
     {
-       
+        flying = GetComponent<Fighter>().flying;
         if (flying == true)
         {
 
@@ -74,7 +62,7 @@ public class ViperControls : Photon.PunBehaviour
             }
             gunCoolDown -= Time.deltaTime;
         }
-        if (Input.GetKeyUp(KeyCode.T) && currentHangar != null) { GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllBufferedViaServer, currentHangar.transform.name); }
+        if (Input.GetKeyUp(KeyCode.T) && GetComponent<Fighter>().currentHangar != null) { GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllBufferedViaServer, GetComponent<Fighter>().currentHangar.transform.name); }
         if (Input.GetKey(KeyCode.Space)) { lift = 3; } else if (Input.GetKey(KeyCode.LeftShift)) { lift = -3; } else { lift = 0; }
         hort = Input.GetAxis("Horizontal");
         vert = Input.GetAxis("Vertical");
@@ -95,8 +83,9 @@ public class ViperControls : Photon.PunBehaviour
             }
             gunCoolDown -= Time.deltaTime;
         }
-        if (Input.GetKeyUp(KeyCode.T) && currentHangar != null) { GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllBufferedViaServer, currentHangar.transform.name); }
-        if (Input.GetKey(KeyCode.KeypadPlus)) { lift = 5; } else if (Input.GetKey(KeyCode.KeypadEnter)) { lift = -5; } else { lift = 0; }
+        if (Input.GetKeyUp(KeyCode.T) && GetComponent<Fighter>().currentHangar != null)
+        { GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllBufferedViaServer, GetComponent<Fighter>().currentHangar.transform.name); }
+            if (Input.GetKey(KeyCode.KeypadPlus)) { lift = 5; } else if (Input.GetKey(KeyCode.KeypadEnter)) { lift = -5; } else { lift = 0; }
 
         hort = Input.GetAxis("Horizontal");
         vert = Input.GetAxis("Vertical");
@@ -120,98 +109,8 @@ public class ViperControls : Photon.PunBehaviour
             
     }
 
-    [PunRPC]
-    public void TakeOff(int photonPlayerNumber) {
-        GetComponent<Rigidbody>().isKinematic = false;
-        transform.parent = null;
-
-      //  if (flying == false) {
-            
-
-            if (pilot != null)
-            { pilot.GetComponent<PhotonView>().RPC("GetInShip", PhotonTargets.AllBufferedViaServer); }
-        
-
-            GetComponent<Rigidbody>().useGravity = false;
-            GetComponent<Rigidbody>().AddForce(transform.up  * 10,ForceMode.Impulse);
-            this.photonView.ownerId = photonPlayerNumber;
-            // GameObject.Find(player).transform.parent = this.transform;
-             flying = true;
-           
-            
-       // } else { }
-        
-    }
-
-    [PunRPC]
-    public void Land(string myHangar)
-    {
-
-        // if (flying == true)
-        // {
-        
-        playerControlled = false;
-        myModel.GetComponent<MeshRenderer>().enabled = true;
-        myCam.active = false;
-            exit = false;
-            this.photonView.ownerId = 0;
-            flying = false;
 
 
-        currentHangar = GameObject.Find(myHangar);
-
-       
-        if (currentHangar != null)
-        {
-            GetComponent<Rigidbody>().isKinematic = true;
-            currentHangar.GetComponent<LandingBay>().AddThisShip(this.gameObject);
-        }
-        if (pilot != null)
-        {
-            pilot.transform.position = cockpitEntrance.transform.position;
-            pilot.active = true;
-            pilot.GetComponent<PlayerCharacter>().myCamera.active = true;
-            pilot.GetComponent<PhotonView>().RPC("GetOutShip", PhotonTargets.AllBufferedViaServer);
-        }
-        pilot = null;
-        //GetComponent<PhotonView>().RPC("ParentToShip", PhotonTargets.AllViaServer); 
-
-        // }
-
-
-    }
-    public void OnTriggerEnter(Collider col3)
-    {
-        if (col3.gameObject.tag == "HangarSpot") { col3.transform.name = "taken"; }
-        if (photonView.isMine == true)
-        {
-            if (col3.gameObject.tag == "ShipEntrance")
-            {
-                //if (col.GetComponent<LocationChange>().parentObjectThatUsesMe == true) { transform.parent = col.GetComponent<LocationChange>().myParent.transform; }
-                if (col3.GetComponent<LocationChange>().forFighters == true)
-                {
-                    transform.position = col3.gameObject.GetComponent<LocationChange>().exit.transform.position;
-                    transform.rotation = col3.gameObject.GetComponent<LocationChange>().exit.transform.rotation;
-                    if (col3.GetComponent<LocationChange>().enter == false) { col3.gameObject.GetComponent<LocationChange>().myHangar.GetComponent<LandingBay>().ShipLeavesHangar(this.gameObject);
-                        GetComponent<PhotonView>().RPC("NoParent", PhotonTargets.AllBufferedViaServer);
-                    }
-                }
-                
-            }
-        }
-
-    }
-    public void OnTriggerExit(Collider col)
-    {
-        
-        if (col.gameObject.tag == "HangarSpot") { col.transform.name = "open"; }
-        if (col.gameObject.tag == "Border" &&  m_PhotonView.isMine == true)
-        {
-            //TODO: give the border an object that looks at the ship and then moves it. That way you can't fly backward out of the border and end up going out the opposite one.
-            Debug.Log("border");
-            //transform.position = pacManObject.transform.position;
-        }
-    }
    // [PunRPC]
     public void flightControls(float vert,float hort,float roll,float rollX,float rollY,bool leave, float lift) {
         if (vert != 0)
@@ -235,144 +134,28 @@ public class ViperControls : Photon.PunBehaviour
     }
 
     //TODO: way back into the ship without jumping? someone needs to retract the pods?
-    [PunRPC]
-    public void LandOnDockingBay() {
-        if (flying == false)
-        {
-            GetComponent<Rigidbody>().velocity = Vector3.zero;
-            GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-            playerControlled = false;
-            GetComponent<Rigidbody>().isKinematic = true;
-            myCam.active = false;
-            myModel.GetComponent<MeshRenderer>().enabled = true;
-            //GetComponent<Rigidbody>().useGravity = true;
-            this.photonView.ownerId = 0;
-            flying = false;
-            if (pilot != null)
-            {
-                pilot.transform.position = cockpitEntrance.transform.position;
 
-                //pilot.active = true;
-                pilot.GetComponent<PlayerCharacter>().myCamera.active = true;
-                pilot.GetComponent<PhotonView>().RPC("GetOutShip", PhotonTargets.AllBufferedViaServer);
-            }
-            pilot = null;
-            if (currentHangar != null)
-            {
-                GetComponent<Rigidbody>().isKinematic = true;
-                transform.parent = currentHangar.transform;
-                GetComponent<PhotonView>().RPC("SetHangar", PhotonTargets.AllBufferedViaServer, currentHangar.transform.name);
-                GetComponent<PhotonView>().RPC("ParentToShip", PhotonTargets.AllBufferedViaServer);
-            }
-        }
-    }
-    public void OnCollisionExit(Collision col3)
-    {
-        if (col3.gameObject.tag == "LandingPad" && photonView.isMine == true)
-        {
-            currentHangar = null;
-        }
-    }
+ 
         public void OnCollisionEnter(Collision col2)
     {
 
-        if (col2.gameObject.tag == "LandingPad" && photonView.isMine == true)
-        {
-            //currentHangar = col2.transform.name;
-            Debug.Log(col2.transform.name);
-            GetComponent<PhotonView>().RPC("SetHangar", PhotonTargets.AllViaServer, col2.transform.name);
-        }
-        if (photonView.isMine == true)
-        {
-            
-
-            if (col2.gameObject.tag == "Bullet" && playerControlled == true)
-            {
-                GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer);
-
-                scoreKeeper = GameObject.Find("scorekeeper(Clone)");
-                scoreKeeper.GetComponent<ScoreKeeper>().ScoreAHit(col2.gameObject.GetComponent<Bullet>().owner);
-                //scoreKeeper.GetComponent<PhotonView>().RPC("Score", PhotonTargets.AllBufferedViaServer, col2.gameObject.GetComponent<Bullet>().owner);
-                //Destroy(col2.gameObject);
-            }
-        }
     }
-    [PunRPC]
-    public void SetHangar(string hangarFromCollision) { currentHangar = GameObject.Find(hangarFromCollision); }
 
-    [PunRPC]
-    public void ParentToShip() {
-        if (currentHangar != null) {
-            GetComponent<Rigidbody>().isKinematic = true;
-            transform.parent = currentHangar.transform;
-        }
-        
-    }
-    [PunRPC]
-    public void NoParent() { transform.parent = null; currentHangar = null; }
-    [PunRPC]
-    public void TakeDamage() {
-        hp--;
-        if (hp == 0) { if (pilot != null) {
-                pilot.transform.position = medbay.transform.position;
-                
-                pilot.active = true;
-                pilot.GetComponent<PlayerCharacter>().myCamera.active = true;
-                
-            }
-            GetComponent<PhotonView>().RPC("Die", PhotonTargets.AllViaServer);
-           
-        } 
-    }
-    [PunRPC]
-    public void Die()
-    {
-      
-            if (pilot != null)
-            {
-            pilot.transform.parent = medbay.transform;
-               pilot.transform.position = medbay.transform.position;
-            pilot.transform.rotation = medbay.transform.rotation;
-           
-            pilot.active = true;
-                pilot.GetComponent<PlayerCharacter>().myCamera.active = true;
 
-            }
-            Destroy(this.gameObject);
-        
-    }
+
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.isWriting)
         {
-            stream.SendNext(flying);
+           // stream.SendNext(flying);
             stream.SendNext(transform.position);
         }
         else
         {
-            flying = (bool)stream.ReceiveNext();
+           // flying = (bool)stream.ReceiveNext();
             transform.position = (Vector3)stream.ReceiveNext();
         }
     }
-    public void Interact(GameObject whoUsedMe) {
-        //when interacted with it takes off
-        if (flying == false)
-        {
-            if (xwing == true) {
-                //whoUsedMe.GetComponent<HumanControls>().cam.GetComponent<FPScamera>().lockCursor = false;
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.lockState = CursorLockMode.Confined;
-            }
 
-            playerControlled = true;
-            pilot = whoUsedMe;
-            
-            whoUsedMe.active = false;
-            myCam.active = true;
-            myModel.GetComponent<MeshRenderer>().enabled = false;
-            GetComponent<PhotonView>().RPC("TakeOff", PhotonTargets.AllBufferedViaServer, whoUsedMe.GetComponent<PhotonView>().owner.ID);
-        }
-    }
 }

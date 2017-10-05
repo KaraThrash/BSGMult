@@ -21,9 +21,16 @@ public class HumanControls : Photon.PunBehaviour
     public GameObject raycastObject;
     PhotonTransformView m_TransformView;
     public float jumpClock;
+    public GameObject charModel;
+    public GameObject camGunModel;
+    private Animator anim;
+    public GameObject gunModel;
+    private float h;
+    private float v;
     // Use this for initialization
     void Start()
     {
+        anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         m_TransformView = GetComponent<PhotonTransformView>();
         //cam = GameObject.Find("RPG Camera");
@@ -32,6 +39,9 @@ public class HumanControls : Photon.PunBehaviour
        // cam.active = true;
         cam.GetComponent<Camera>().enabled = true;
         cam.GetComponent<FPScamera>().enabled = true;
+        gunModel.active = false;
+        camGunModel.active = true;
+        charModel.active = false;
         controlled = true;
 
     }
@@ -67,8 +77,32 @@ public class HumanControls : Photon.PunBehaviour
             if (grounded == false && jumpClock <= 0) { transform.position = Vector3.MoveTowards(transform.position, downObject.transform.position, 3 * Time.deltaTime); }
             if (jumpClock > 0) { jumpClock -= Time.deltaTime; }
         }
-        ApplySynchronizedValues();
+        
+        if (cam.transform.eulerAngles.x >= 270)
+        {
+            Debug.Log(cam.transform.eulerAngles.x);
+            
+            anim.SetFloat("CamAngle", cam.transform.eulerAngles.x - 360 );
+        }
+        else
+        {
+            Debug.Log("less");
+            anim.SetFloat("CamAngle", cam.transform.eulerAngles.x);
+            // anim.SetFloat("CamAngleNeg", 0);
+        }
+       // anim.SetFloat("CamAngle", cam.transform.eulerAngles.x);
+      //  anim.SetFloat("CamAngleNeg", cam.transform.eulerAngles.x - 360);
+
     }
+    [PunRPC]
+    public void UpdateAnimationValues(float newH, float newV)
+    {
+
+        anim.SetFloat("h", newH);
+        anim.SetFloat("v", newV);
+        
+    }
+
     void ApplySynchronizedValues()
     {
         m_TransformView.SetSynchronizedValues(transform.position, 1);
@@ -80,17 +114,17 @@ public class HumanControls : Photon.PunBehaviour
         if (canMove == true)
         {
             if (Input.GetAxis("Horizontal") != 0) {
-                float h = Input.GetAxis("Horizontal");
+                 h = Input.GetAxis("Horizontal");
                 transform.position += transform.right * Time.deltaTime * speed * h;
             }
             if (Input.GetAxis("Vertical") != 0)
             {
-                float v = Input.GetAxis("Vertical");
+                 v = Input.GetAxis("Vertical");
                 transform.position += transform.forward * Time.deltaTime * speed * v;
             }
-  
-            
-            
+            GetComponent<PhotonView>().RPC("UpdateAnimationValues", PhotonTargets.AllViaServer,h,v);
+
+
 
         }
     }

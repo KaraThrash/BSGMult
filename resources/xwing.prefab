@@ -1782,6 +1782,7 @@ GameObject:
   - component: {fileID: 114284630180906110}
   - component: {fileID: 114716704368297680}
   - component: {fileID: 114958483809064522}
+  - component: {fileID: 114553484269385378}
   m_Layer: 0
   m_Name: Xwing
   m_TagString: Interactable
@@ -3475,7 +3476,7 @@ GameObject:
   - component: {fileID: 65475446637348054}
   - component: {fileID: 23215906676671430}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Colliders
   m_TagString: Viper
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4748,7 +4749,7 @@ GameObject:
   - component: {fileID: 65381863773025326}
   - component: {fileID: 23093987343307986}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Colliders
   m_TagString: Viper
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21248,6 +21249,28 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 0
     InterpolateLerpSpeed: 0
+--- !u!114 &114553484269385378
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1359368815269666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e42853c518d2f4d4b80bd2cce160da52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 5
+  pilot: {fileID: 0}
+  flying: 0
+  cockpitEntrance: {fileID: 1425368973580722}
+  exit: 0
+  myCam: {fileID: 1928589038645394}
+  playerControlled: 0
+  currentHangar: {fileID: 0}
+  myModel: {fileID: 1287842363916812}
+  medbayName: GalacticaMedbay
+  xwing: 1
 --- !u!114 &114716704368297680
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -21298,12 +21321,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7f0db9308b35984696f64b468efe7ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 11
-  scoreKeeper: {fileID: 0}
-  pacManObject: {fileID: 1982362611319146}
   pilot: {fileID: 0}
   flying: 0
-  cockpitEntrance: {fileID: 1425368973580722}
   lift: 0
   exit: 0
   hort: 0
@@ -21313,18 +21332,11 @@ MonoBehaviour:
   mouseY: 0
   gun1: {fileID: 1797371853125598}
   gun2: {fileID: 1306007223243034}
-  bullet1: {fileID: 1061179596772382, guid: a97bec4c664446849867dd23edd1cff8, type: 2}
-  bullet2: {fileID: 1061179596772382, guid: a3e3f6df3b4cd9f45a4b13dce0ee1dc1, type: 2}
-  bullet3: {fileID: 1061179596772382, guid: 1972f8ca0fee2964eaa0975f1c07f7b8, type: 2}
-  bullet4: {fileID: 1061179596772382, guid: 77cadfa3cb036254aa522c7f93962160, type: 2}
   bullet: {fileID: 1061179596772382, guid: a97bec4c664446849867dd23edd1cff8, type: 2}
-  myCam: {fileID: 1928589038645394}
   gunCoolDown: 0
   xwing: 1
   playerControlled: 0
   afterBurner: 0
-  currentHangar: {fileID: 0}
-  myModel: {fileID: 1203190378698448}
 --- !u!124 &124708933890279310
 Behaviour:
   m_ObjectHideFlags: 1

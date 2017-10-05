@@ -1,0 +1,420 @@
+fileFormatVersion: 2
+guid: f1222e77f2dfac84ba264b6f18d2c48b
+timeCreated: 1507059969
+licenseType: Free
+SketchUpImporter:
+  generateBackFace: 0
+  mergeCoplanarFaces: 0
+  selectedNodes: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f000000200000002100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f000000300000003100000032000000330000003400000035000000360000003700000038000000390000003a0000003b0000003c0000003d0000003e0000003f000000400000004100000042000000430000004400000045000000460000004700000048000000490000004a0000004b0000004c0000004d0000004e0000004f000000500000005100000052000000530000005400000055000000560000005700000058000000590000005a0000005b0000005c0000005d0000005e0000005f000000600000006100000062000000630000006400000065000000660000006700000068000000690000006a0000006b0000006c0000006d0000006e0000006f000000700000007100000072000000730000007400000075000000760000007700000078000000790000007a0000007b0000007c0000007d0000007e0000007f000000800000008100000082000000830000008400000085000000860000008700000088000000890000008a0000008b0000008c000000
+  assetHash:
+    serializedVersion: 2
+    Hash: f64cd8e116214f16984c890c62af3743
+  longitude: -105.283
+  latitude: 40.017
+  northCorrection: -0
+  fileUnit: 0
+  sketchUpImportData:
+    defaultCamera:
+      position: {x: 19.974808, y: 19.461338, z: 19.942041}
+      lookAt: {x: 4.125599, y: 11.905313, z: 4.1235948}
+      up: {x: -0.22629903, y: 0.9475105, z: -0.2258598}
+      fov: 30
+      aspectRatio: 0
+      orthoSize: 1
+      isPerspective: 1
+    scenes: []
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: Battle Rifle
+    100002: Battle Rifle 1
+    100004: bullet
+    100006: bullet 1
+    100008: bullet 2
+    100010: bullet 3
+    100012: bullet 4
+    100014: bullet 5
+    100016: bullet 6
+    100018: core
+    100020: core 1
+    100022: core 10
+    100024: core 11
+    100026: core 12
+    100028: core 2
+    100030: core 3
+    100032: core 4
+    100034: core 5
+    100036: core 6
+    100038: core 7
+    100040: core 8
+    100042: core 9
+    100044: grenade
+    100046: grenade 1
+    100048: grenade 2
+    100050: grenade 3
+    100052: grenade 4
+    100054: Group 21
+    100056: Group 23
+    100058: Group 30
+    100060: Group 34
+    100062: Halo ELite
+    100064: Halo Spartan
+    100066: halo's body
+    100068: halo's croch
+    100070: halo's head
+    100072: halo's high left arm
+    100074: halo's high right arm
+    100076: halo's high right leg
+    100078: halo's left foot
+    100080: halo's left hand
+    100082: halo's mid left arm
+    100084: halo's mid left leg
+    100086: halo's mid right arm
+    100088: halo's mid right leg
+    100090: halo's right foot
+    100092: halo's right hand
+    100094: jason's first gun
+    100096: //RootNode
+    100098: M6C_Pistol
+    100100: Peac of plasma rifle
+    100102: Peac of plasma rifle 1
+    100104: Peac of plasma rifle 2
+    100106: Peac of plasma rifle 3
+    100108: Plasma Pistol
+    100110: Plasma Rifle
+    100112: Plasma Rifle 1
+    100114: Plasma rifle peace
+    100116: Plasma rifle peace 1
+    100118: Plasma rifle peace 2
+    100120: Plasma rifle peace 3
+    100122: Plasma rifle peace 4
+    100124: Plasma rifle peace 5
+    100126: Plasma rifle peace 6
+    100128: Plasma rifle peace 7
+    100130: S2_AM_Sniper_Rifle
+    100132: sketchup-download200612031812116
+    100134: sketchup-download200701181601304
+    100136: sketchup-download200701181601304 1
+    100138: Sketchup_Plasma_Pistol
+    100140: SMG
+    100142: SPAS12
+    400000: Battle Rifle
+    400002: Battle Rifle 1
+    400004: bullet
+    400006: bullet 1
+    400008: bullet 2
+    400010: bullet 3
+    400012: bullet 4
+    400014: bullet 5
+    400016: bullet 6
+    400018: core
+    400020: core 1
+    400022: core 10
+    400024: core 11
+    400026: core 12
+    400028: core 2
+    400030: core 3
+    400032: core 4
+    400034: core 5
+    400036: core 6
+    400038: core 7
+    400040: core 8
+    400042: core 9
+    400044: grenade
+    400046: grenade 1
+    400048: grenade 2
+    400050: grenade 3
+    400052: grenade 4
+    400054: Group 21
+    400056: Group 23
+    400058: Group 30
+    400060: Group 34
+    400062: Halo ELite
+    400064: Halo Spartan
+    400066: halo's body
+    400068: halo's croch
+    400070: halo's head
+    400072: halo's high left arm
+    400074: halo's high right arm
+    400076: halo's high right leg
+    400078: halo's left foot
+    400080: halo's left hand
+    400082: halo's mid left arm
+    400084: halo's mid left leg
+    400086: halo's mid right arm
+    400088: halo's mid right leg
+    400090: halo's right foot
+    400092: halo's right hand
+    400094: jason's first gun
+    400096: //RootNode
+    400098: M6C_Pistol
+    400100: Peac of plasma rifle
+    400102: Peac of plasma rifle 1
+    400104: Peac of plasma rifle 2
+    400106: Peac of plasma rifle 3
+    400108: Plasma Pistol
+    400110: Plasma Rifle
+    400112: Plasma Rifle 1
+    400114: Plasma rifle peace
+    400116: Plasma rifle peace 1
+    400118: Plasma rifle peace 2
+    400120: Plasma rifle peace 3
+    400122: Plasma rifle peace 4
+    400124: Plasma rifle peace 5
+    400126: Plasma rifle peace 6
+    400128: Plasma rifle peace 7
+    400130: S2_AM_Sniper_Rifle
+    400132: sketchup-download200612031812116
+    400134: sketchup-download200701181601304
+    400136: sketchup-download200701181601304 1
+    400138: Sketchup_Plasma_Pistol
+    400140: SMG
+    400142: SPAS12
+    2300000: Battle Rifle
+    2300002: Battle Rifle 1
+    2300004: bullet
+    2300006: bullet 1
+    2300008: bullet 2
+    2300010: bullet 3
+    2300012: bullet 4
+    2300014: bullet 5
+    2300016: bullet 6
+    2300018: core
+    2300020: core 1
+    2300022: core 10
+    2300024: core 11
+    2300026: core 12
+    2300028: core 2
+    2300030: core 3
+    2300032: core 4
+    2300034: core 5
+    2300036: core 6
+    2300038: core 7
+    2300040: core 8
+    2300042: core 9
+    2300044: grenade
+    2300046: grenade 1
+    2300048: grenade 2
+    2300050: grenade 3
+    2300052: grenade 4
+    2300054: Group 21
+    2300056: Group 30
+    2300058: Group 34
+    2300060: Halo ELite
+    2300062: halo's body
+    2300064: halo's croch
+    2300066: halo's head
+    2300068: halo's high left arm
+    2300070: halo's high right arm
+    2300072: halo's high right leg
+    2300074: halo's left foot
+    2300076: halo's left hand
+    2300078: halo's mid left arm
+    2300080: halo's mid left leg
+    2300082: halo's mid right arm
+    2300084: halo's mid right leg
+    2300086: halo's right foot
+    2300088: halo's right hand
+    2300090: jason's first gun
+    2300092: //RootNode
+    2300094: M6C_Pistol
+    2300096: Peac of plasma rifle
+    2300098: Peac of plasma rifle 1
+    2300100: Peac of plasma rifle 2
+    2300102: Peac of plasma rifle 3
+    2300104: Plasma Pistol
+    2300106: Plasma Rifle
+    2300108: Plasma Rifle 1
+    2300110: Plasma rifle peace
+    2300112: Plasma rifle peace 1
+    2300114: Plasma rifle peace 2
+    2300116: Plasma rifle peace 3
+    2300118: Plasma rifle peace 4
+    2300120: Plasma rifle peace 5
+    2300122: Plasma rifle peace 6
+    2300124: Plasma rifle peace 7
+    2300126: S2_AM_Sniper_Rifle
+    2300128: sketchup-download200612031812116
+    2300130: sketchup-download200701181601304
+    2300132: sketchup-download200701181601304 1
+    2300134: SMG
+    2300136: SPAS12
+    3300000: Battle Rifle
+    3300002: Battle Rifle 1
+    3300004: bullet
+    3300006: bullet 1
+    3300008: bullet 2
+    3300010: bullet 3
+    3300012: bullet 4
+    3300014: bullet 5
+    3300016: bullet 6
+    3300018: core
+    3300020: core 1
+    3300022: core 10
+    3300024: core 11
+    3300026: core 12
+    3300028: core 2
+    3300030: core 3
+    3300032: core 4
+    3300034: core 5
+    3300036: core 6
+    3300038: core 7
+    3300040: core 8
+    3300042: core 9
+    3300044: grenade
+    3300046: grenade 1
+    3300048: grenade 2
+    3300050: grenade 3
+    3300052: grenade 4
+    3300054: Group 21
+    3300056: Group 30
+    3300058: Group 34
+    3300060: Halo ELite
+    3300062: halo's body
+    3300064: halo's croch
+    3300066: halo's head
+    3300068: halo's high left arm
+    3300070: halo's high right arm
+    3300072: halo's high right leg
+    3300074: halo's left foot
+    3300076: halo's left hand
+    3300078: halo's mid left arm
+    3300080: halo's mid left leg
+    3300082: halo's mid right arm
+    3300084: halo's mid right leg
+    3300086: halo's right foot
+    3300088: halo's right hand
+    3300090: jason's first gun
+    3300092: //RootNode
+    3300094: M6C_Pistol
+    3300096: Peac of plasma rifle
+    3300098: Peac of plasma rifle 1
+    3300100: Peac of plasma rifle 2
+    3300102: Peac of plasma rifle 3
+    3300104: Plasma Pistol
+    3300106: Plasma Rifle
+    3300108: Plasma Rifle 1
+    3300110: Plasma rifle peace
+    3300112: Plasma rifle peace 1
+    3300114: Plasma rifle peace 2
+    3300116: Plasma rifle peace 3
+    3300118: Plasma rifle peace 4
+    3300120: Plasma rifle peace 5
+    3300122: Plasma rifle peace 6
+    3300124: Plasma rifle peace 7
+    3300126: S2_AM_Sniper_Rifle
+    3300128: sketchup-download200612031812116
+    3300130: sketchup-download200701181601304
+    3300132: sketchup-download200701181601304 1
+    3300134: SMG
+    3300136: SPAS12
+    4300000: Mesh Lockout5
+    4300002: Mesh Halo ELite
+    4300004: Mesh sketchup-download200701181601304
+    4300006: Mesh Plasma rifle peace
+    4300008: Mesh Peac of plasma rifle
+    4300010: Mesh Group 21
+    4300012: Mesh halo's right foot
+    4300014: Mesh halo's high right leg
+    4300016: Mesh halo's mid right leg
+    4300018: Mesh Group 30
+    4300020: Mesh halo's right hand
+    4300022: Mesh Group 34
+    4300024: Mesh halo's mid left leg
+    4300026: Mesh halo's left foot
+    4300028: Mesh halo's body
+    4300030: Mesh halo's high right arm
+    4300032: Mesh halo's left hand
+    4300034: Mesh halo's high left arm
+    4300036: Mesh halo's mid left arm
+    4300038: Mesh jason's first gun
+    4300040: Mesh bullet
+    4300042: Mesh halo's croch
+    4300044: Mesh halo's mid right arm
+    4300046: Mesh halo's head
+    4300048: Mesh sketchup-download200612031812116
+    4300050: Mesh S2_AM_Sniper_Rifle
+    4300052: Mesh core
+    4300054: Mesh Battle Rifle
+    4300056: Mesh M6C_Pistol
+    4300058: Mesh SPAS12
+    4300060: Mesh Plasma Rifle
+    4300062: Mesh Plasma rifle peace
+    4300064: Mesh Peac of plasma rifle
+    4300066: Mesh SMG
+    4300068: Mesh Plasma Pistol
+    4300070: Mesh grenade
+  materials:
+    importMaterials: 1
+    materialName: 2
+    materialSearch: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.0254
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

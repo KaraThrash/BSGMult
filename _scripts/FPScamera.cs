@@ -17,7 +17,8 @@ public class FPScamera : MonoBehaviour {
     private Quaternion m_CharacterTargetRot;
     private Quaternion m_CameraTargetRot;
     private bool m_cursorIsLocked = true;
-
+    public GameObject playerSpine;
+    public GameObject spineLookSpot;
     public void Start()
     {
         m_CharacterTargetRot = transform.localRotation;
@@ -60,7 +61,7 @@ public class FPScamera : MonoBehaviour {
             character.localRotation = m_CharacterTargetRot;
             camera.localRotation = m_CameraTargetRot;
         }
-
+        playerSpine.transform.LookAt(spineLookSpot.transform.position);
         UpdateCursorLock();
     }
 

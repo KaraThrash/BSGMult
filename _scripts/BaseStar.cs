@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BaseStar : Photon.PunBehaviour
 {
+    public GameObject myHangar;
     public GameObject launchBay;
     public GameObject raider;
     public GameObject galactica;

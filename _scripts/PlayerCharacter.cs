@@ -70,7 +70,7 @@ public class PlayerCharacter : Photon.PunBehaviour
         }
 
     }
-
+    
 
     [PunRPC]
     public void ShootGuns()

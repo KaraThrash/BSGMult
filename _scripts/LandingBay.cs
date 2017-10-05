@@ -25,7 +25,7 @@ public class LandingBay : Photon.PunBehaviour
     {
         // if (col2.gameObject.GetComponent<ViperControls>()) { col2.transform.parent = myShip.transform; }
 
-        if (col2.gameObject.GetComponent<ViperControls>() != null && !dockedShips.Contains(col2.gameObject))
+        if (col2.gameObject.GetComponent<Fighter>() != null && !dockedShips.Contains(col2.gameObject))
         {
             dockedShips.Add(col2.gameObject);
 
@@ -52,16 +52,22 @@ public class LandingBay : Photon.PunBehaviour
         {
             nextAvailableSpot = shipSpots[shipsDocked].transform.gameObject;
             if (!dockedShips.Contains(shipToDock))
-        {
-            dockedShips.Add(shipToDock);
+            {
+                dockedShips.Add(shipToDock);
+
+            }
+            shipToDock.transform.parent = myShip.transform;
+            shipToDock.GetComponent<Rigidbody>().isKinematic = true;
+            shipToDock.transform.position = nextAvailableSpot.transform.position;
+            shipToDock.transform.rotation = nextAvailableSpot.transform.rotation;
+            shipsDocked++;
 
         }
-        shipToDock.transform.parent = myShip.transform;
-        shipToDock.GetComponent<Rigidbody>().isKinematic = true;
-        shipToDock.transform.position = nextAvailableSpot.transform.position;
-        shipToDock.transform.rotation = nextAvailableSpot.transform.rotation;
-            shipsDocked++;
-            
+        else {
+            shipToDock.transform.parent = myShip.transform;
+            shipToDock.GetComponent<Rigidbody>().isKinematic = true;
+           // shipToDock.transform.position = nextAvailableSpot.transform.position;
+           // shipToDock.transform.rotation = nextAvailableSpot.transform.rotation;
         }
     }
     
@@ -76,20 +82,22 @@ public class LandingBay : Photon.PunBehaviour
 
             if (shipsDocked < (hangarSpots - 1) )
             {
-                if (child.GetComponent<ViperControls>().flying == false) { 
-                //child.transform.GetChild(shipsDocked);
-                child.GetComponent<PhotonView>().ownerId = 0;
-                child.GetComponent<Rigidbody>().isKinematic = true;
-                child.GetComponent<ViperControls>().currentHangar = this.gameObject;
-                child.transform.parent = myShip.transform;
-                child.transform.position = shipSpots[shipsDocked].transform.position;
-                child.transform.rotation = shipSpots[shipsDocked].transform.rotation;
-                child.GetComponent<PhotonView>().RPC("LandOnDockingBay", PhotonTargets.AllViaServer);
-                    shipsDocked++;
-                }
+                if (child.GetComponent<Fighter>() != null)
+                {
+                   
+                        //child.transform.GetChild(shipsDocked);
+                        child.GetComponent<PhotonView>().ownerId = 0;
+                        child.GetComponent<Rigidbody>().isKinematic = true;
+                        child.GetComponent<Fighter>().currentHangar = this.gameObject;
+                        child.transform.parent = myShip.transform;
+                        child.transform.position = shipSpots[shipsDocked].transform.position;
+                        child.transform.rotation = shipSpots[shipsDocked].transform.rotation;
+                        child.GetComponent<PhotonView>().RPC("LandOnDockingBay", PhotonTargets.AllViaServer);
+                        shipsDocked++;
                     
-                
                 }
+     
+            }
                 else { break; }
             
 

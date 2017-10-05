@@ -24,7 +24,8 @@ public class SpawnServerObjects : MonoBehaviour {
        // PhotonNetwork.InstantiateSceneObject("UnknownSpaceLocation", new Vector3(50,50,50), new Quaternion(0, 0, 0, 0), 0, null);
         GameObject clone = PhotonNetwork.InstantiateSceneObject("Galactica", galacticaSpot.transform.position, new Quaternion(0, 0, 0, 0), 0, null) as GameObject;
         clone.GetComponent<Galactica>().myHangar.GetComponent<PhotonView>().RPC("Jumped", PhotonTargets.AllViaServer);
-        PhotonNetwork.InstantiateSceneObject("BaseStar", basestarSpot.transform.position, new Quaternion(0, 0, 0, 0), 0, null);
+        GameObject clone2 = PhotonNetwork.InstantiateSceneObject("BaseStar", basestarSpot.transform.position, new Quaternion(0, 0, 0, 0), 0, null) as GameObject;
+        clone2.GetComponent<BaseStar>().myHangar.GetComponent<PhotonView>().RPC("Jumped", PhotonTargets.AllViaServer);
         PhotonNetwork.InstantiateSceneObject("scorekeeper", humanShipInterior.transform.position, new Quaternion(0, 0, 0, 0), 0, null);
        // GameObject.Find("Galactica(CLone)") GetComponent<PhotonView>().RPC("Jumped", PhotonTargets.AllViaServer);
         //PhotonNetwork.InstantiateSceneObject("viper", spot1.transform.position, new Quaternion(0, 0, 0, 0), 0, null);
