@@ -50,7 +50,7 @@ public class Fighter : Photon.PunBehaviour
     public void TakeOff(int photonPlayerNumber)
     {
         GetComponent<Rigidbody>().isKinematic = false;
-        transform.parent = null;
+        //transform.parent = null; //TODO: Do I need this? the locationchange/hangar exits should handle this.
         if (pilot != null)
         { pilot.GetComponent<PhotonView>().RPC("GetInShip", PhotonTargets.AllBufferedViaServer); }
 
@@ -64,29 +64,32 @@ public class Fighter : Photon.PunBehaviour
     }
 
     [PunRPC]
-    public void Land(string myHangar)
+    public void Land(string myHangar) //Used by players/pilots
     {
+        
+            playerControlled = false;
+            myModel.active = true;
+            myCam.active = false;
+            exit = false;
+            this.photonView.ownerId = 0;
+            flying = false;
+            currentHangar = GameObject.Find(myHangar);
+            if (currentHangar != null)
+            {
+                GetComponent<Rigidbody>().isKinematic = true;
+                currentHangar.GetComponent<LandingBay>().AddThisShip(this.gameObject);
+            }
+            else { }
 
-        playerControlled = false;
-        myModel.active = true;
-        myCam.active = false;
-        exit = false;
-        this.photonView.ownerId = 0;
-        flying = false;
-        currentHangar = GameObject.Find(myHangar);
-        if (currentHangar != null)
-        {
-            GetComponent<Rigidbody>().isKinematic = true;
-            currentHangar.GetComponent<LandingBay>().AddThisShip(this.gameObject);
-        }
-        if (pilot != null)
-        {
-            pilot.transform.position = cockpitEntrance.transform.position;
-            pilot.active = true;
-            pilot.GetComponent<PlayerCharacter>().myCamera.active = true;
-            pilot.GetComponent<PhotonView>().RPC("GetOutShip", PhotonTargets.AllBufferedViaServer);
-        }
-        pilot = null;
+            if (pilot != null)
+            {
+                pilot.transform.position = cockpitEntrance.transform.position;
+                pilot.active = true;
+                pilot.GetComponent<PlayerCharacter>().myCamera.active = true;
+                pilot.GetComponent<PhotonView>().RPC("GetOutShip", PhotonTargets.AllBufferedViaServer);
+            }
+            pilot = null;
+        
 
     }
     public void OnTriggerEnter(Collider col3)
@@ -98,11 +101,15 @@ public class Fighter : Photon.PunBehaviour
             {
                 if (col3.GetComponent<LocationChange>().forFighters == true)
                 {
-                    transform.position = col3.gameObject.GetComponent<LocationChange>().exit.transform.position;
-                    transform.rotation = col3.gameObject.GetComponent<LocationChange>().exit.transform.rotation;
+                    if (col3.gameObject.GetComponent<LocationChange>().exit != null) {
+                        transform.position = col3.gameObject.GetComponent<LocationChange>().exit.transform.position;
+                        transform.rotation = col3.gameObject.GetComponent<LocationChange>().exit.transform.rotation;
+                    }
+                    
                     if (col3.GetComponent<LocationChange>().enter == false)
                     {
-                        col3.gameObject.GetComponent<LocationChange>().myHangar.GetComponent<LandingBay>().ShipLeavesHangar(this.gameObject);
+                        if (currentHangar != null) { col3.gameObject.GetComponent<LocationChange>().myHangar.GetComponent<LandingBay>().ShipLeavesHangar(this.gameObject); }
+                        
                         GetComponent<PhotonView>().RPC("NoParent", PhotonTargets.AllBufferedViaServer);
                     }
                 }
@@ -126,9 +133,9 @@ public class Fighter : Photon.PunBehaviour
 
     //TODO: way back into the ship without jumping? someone needs to retract the pods?
     [PunRPC]
-    public void LandOnDockingBay()
+    public void LandOnDockingBay() //used by landingbay scripts
     {
-        if (flying == false)
+        if (flying == false) // To make sure there is no conflict with players joining the server
         {
             GetComponent<Rigidbody>().velocity = Vector3.zero;
             GetComponent<Rigidbody>().angularVelocity = Vector3.zero;

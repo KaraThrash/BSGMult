@@ -64,7 +64,13 @@ public class CylonFighterControls : Photon.PunBehaviour
             }
             gunCoolDown -= Time.deltaTime;
         }
-        if (Input.GetKeyUp(KeyCode.T) && GetComponent<Fighter>().currentHangar != null) { GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllBufferedViaServer, GetComponent<Fighter>().currentHangar.transform.name); }
+        if (Input.GetKeyUp(KeyCode.T) && GetComponent<Fighter>().currentHangar != null) {
+            if (GetComponent<Fighter>().currentHangar != null)
+            {
+                GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllBufferedViaServer, GetComponent<Fighter>().currentHangar.transform.name);
+            }
+            else { GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllBufferedViaServer, "none"); }
+        }
         if (Input.GetKey(KeyCode.Space)) { lift = 3; } else if (Input.GetKey(KeyCode.LeftShift)) { lift = -3; } else { lift = 0; }
         hort = Input.GetAxis("Horizontal");
         vert = Input.GetAxis("Vertical");
@@ -87,7 +93,13 @@ public class CylonFighterControls : Photon.PunBehaviour
             gunCoolDown -= Time.deltaTime;
         }
         if (Input.GetKeyUp(KeyCode.T) && GetComponent<Fighter>().currentHangar != null)
-        { GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllBufferedViaServer, GetComponent<Fighter>().currentHangar.transform.name); }
+        {
+            if (GetComponent<Fighter>().currentHangar != null)
+            {
+                GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllBufferedViaServer, GetComponent<Fighter>().currentHangar.transform.name);
+            }
+            else { GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllBufferedViaServer, "none"); }
+        }
         if (Input.GetKey(KeyCode.KeypadPlus)) { lift = 5; } else if (Input.GetKey(KeyCode.KeypadEnter)) { lift = -5; } else { lift = 0; }
 
         hort = Input.GetAxis("Horizontal");

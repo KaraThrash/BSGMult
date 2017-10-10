@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HumanControls : Photon.PunBehaviour
 {
-
+    //This is the current movementyController for humanoid characters
     public GameObject gun;
     public int speed;
     public float coolDown;

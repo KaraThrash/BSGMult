@@ -762,7 +762,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: {x: -9.371, y: -1.1170001, z: 14.172001}
+        value: {x: -2.1820002, y: -2.765, z: 3.3360002}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -1129,7 +1129,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: -9.371
+        value: -2.1820002
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -1145,7 +1145,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: -1.1170001
+        value: -2.765
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -1161,7 +1161,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 2
         time: 0
-        value: 14.172001
+        value: 3.3360002
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -7318,7 +7318,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: swat:Hips/swat:Spine
+    path: swat:Hips/swat:Spine/swat:Spine1
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -7328,17 +7328,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: swat:Hips/swat:Spine
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.x
-    path: swat:Hips/swat:Spine
+    path: swat:Hips/swat:Spine/swat:Spine1
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -7357,8 +7347,18 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.x
+    path: swat:Hips/swat:Spine
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: swat:Hips/swat:Spine/swat:Spine1
+    path: swat:Hips/swat:Spine
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -7368,7 +7368,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: swat:Hips/swat:Spine/swat:Spine1
+    path: swat:Hips/swat:Spine
     classID: 4
     script: {fileID: 0}
   m_HasGenericRootTransform: 0

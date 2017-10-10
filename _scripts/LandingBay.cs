@@ -23,7 +23,7 @@ public class LandingBay : Photon.PunBehaviour
     }
     public void OnCollisionEnter(Collision col2)
     {
-        // if (col2.gameObject.GetComponent<ViperControls>()) { col2.transform.parent = myShip.transform; }
+        
 
         if (col2.gameObject.GetComponent<Fighter>() != null && !dockedShips.Contains(col2.gameObject))
         {
