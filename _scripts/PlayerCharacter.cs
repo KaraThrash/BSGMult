@@ -16,18 +16,19 @@ public class PlayerCharacter : Photon.PunBehaviour
     void Start()
     {
         //transform.parent = GameObject.Find("Galactica(Clone)").transform;
-        GetComponent<PhotonView>().RPC("ParentToShip", PhotonTargets.AllViaServer, "PeopleOnBoardGalactica");
-        transform.position = GameObject.Find("Galactica(Clone)").GetComponent<Galactica>().shipInterior.transform.position;
+        //GetComponent<PhotonView>().RPC("ParentToShip", PhotonTargets.AllViaServer, "PeopleOnBoardGalactica");
+        //transform.position = GameObject.Find("Galactica(Clone)").GetComponent<Galactica>().medbay.transform.position;
         //myCamera = GameObject.Find("RPG Camera");
         m_PhotonView = GetComponent<PhotonView>();
-        
+        if (photonView.isMine == true) { GetComponent<PhotonView>().RPC("ParentToShip", PhotonTargets.AllViaServer, "PeopleOnBoardGalactica");
+            transform.position = GameObject.Find("Galactica(Clone)").GetComponent<Galactica>().medbay.transform.position;}
 
-    }
-    // Use this for initialization
+        }
+        // Use this for initialization
 
 
-    // Update is called once per frame
-    void Update()
+        // Update is called once per frame
+        void Update()
     {
         if (m_PhotonView.isMine == true)
         {
@@ -97,14 +98,14 @@ public class PlayerCharacter : Photon.PunBehaviour
                 //if (col.GetComponent<LocationChange>().parentObjectThatUsesMe == true) { transform.parent = col.GetComponent<LocationChange>().myParent.transform; }
                 if (col.GetComponent<LocationChange>().parentObjectThatUsesMe == true)
                 {
-                    GetComponent<PhotonView>().RPC("ParentToShip", PhotonTargets.AllViaServer, col.GetComponent<LocationChange>().myParent.name);
+                    GetComponent<PhotonView>().RPC("ParentToShip", PhotonTargets.AllBufferedViaServer, col.GetComponent<LocationChange>().myParent.name);
                 }
 
                 else
                 {
                     //transform.parent = null;
                     //TODO: right now the only way a player leaves a ship is in a fighter so if they are on the hangar or the bridge they should still jump
-                    GetComponent<PhotonView>().RPC("NoParent", PhotonTargets.AllViaServer);
+                    GetComponent<PhotonView>().RPC("NoParent", PhotonTargets.AllBufferedViaServer);
                 }
                 transform.position = col.gameObject.GetComponent<LocationChange>().exit.transform.position;
                 transform.rotation = col.gameObject.GetComponent<LocationChange>().exit.transform.rotation;

@@ -36,7 +36,9 @@ public class HumanControls : Photon.PunBehaviour
         //cam = GameObject.Find("RPG Camera");
     }
     public void SetAsMyPlayer() {
-       // cam.active = true;
+        // cam.active = true;
+       // GetComponent<PhotonView>().RPC("ParentToShip", PhotonTargets.AllViaServer, "PeopleOnBoardGalactica");
+       // transform.position = GameObject.Find("Galactica(Clone)").GetComponent<Galactica>().medbay.transform.position;
         cam.GetComponent<Camera>().enabled = true;
         cam.GetComponent<FPScamera>().enabled = true;
         gunModel.active = false;
@@ -113,15 +115,28 @@ public class HumanControls : Photon.PunBehaviour
 
         if (canMove == true)
         {
-            if (Input.GetAxis("Horizontal") != 0) {
-                 h = Input.GetAxis("Horizontal");
-                transform.position += transform.right * Time.deltaTime * speed * h;
-            }
-            if (Input.GetAxis("Vertical") != 0)
-            {
-                 v = Input.GetAxis("Vertical");
-                transform.position += transform.forward * Time.deltaTime * speed * v;
-            }
+            v = Input.GetAxis("Vertical");
+            h = Input.GetAxis("Horizontal");
+            //if (Input.GetAxis("Horizontal") != 0) {
+            //     h = Input.GetAxis("Horizontal");
+            //   // transform.position += transform.right * Time.deltaTime * speed * h;
+            //    transform.position = Vector3.MoveTowards(transform.position, transform.right * h + transform.forward * v , Time.deltaTime * speed * h);
+            //}
+            //if (Input.GetAxis("Vertical") != 0)
+            //{
+            //     v = Input.GetAxis("Vertical");
+            //    //transform.position += transform.forward * Time.deltaTime * speed * v;
+            //    transform.position = Vector3.MoveTowards(transform.position, transform.forward, Time.deltaTime * speed * v);
+            //}
+            fwdObject.transform.localPosition = new Vector3(h,0,v);
+            //transform.position = Vector3.MoveTowards(transform.position, fwdObject.transform.position, Time.deltaTime * speed );
+
+            Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            moveDirection = transform.TransformDirection(moveDirection);
+            //Multiply it by speed.
+            moveDirection *= speed;
+
+            GetComponent<CharacterController>().Move(moveDirection * Time.deltaTime);
             GetComponent<PhotonView>().RPC("UpdateAnimationValues", PhotonTargets.AllViaServer,h,v);
 
 

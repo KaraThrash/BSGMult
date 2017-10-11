@@ -26,7 +26,8 @@ public class SpawnServerObjects : MonoBehaviour {
         clone.GetComponent<Galactica>().myHangar.GetComponent<PhotonView>().RPC("Jumped", PhotonTargets.AllViaServer);
         GameObject clone2 = PhotonNetwork.InstantiateSceneObject("BaseStar", basestarSpot.transform.position, new Quaternion(0, 0, 0, 0), 0, null) as GameObject;
         clone2.GetComponent<BaseStar>().myHangar.GetComponent<PhotonView>().RPC("Jumped", PhotonTargets.AllViaServer);
-        PhotonNetwork.InstantiateSceneObject("scorekeeper", humanShipInterior.transform.position, new Quaternion(0, 0, 0, 0), 0, null);
+       //TODO: Do I need to spawn the score keeper? childing it to the galactica should work.
+        // PhotonNetwork.InstantiateSceneObject("scorekeeper", humanShipInterior.transform.position, new Quaternion(0, 0, 0, 0), 0, null);
        // GameObject.Find("Galactica(CLone)") GetComponent<PhotonView>().RPC("Jumped", PhotonTargets.AllViaServer);
         //PhotonNetwork.InstantiateSceneObject("viper", spot1.transform.position, new Quaternion(0, 0, 0, 0), 0, null);
         //PhotonNetwork.InstantiateSceneObject("viper", spot2.transform.position, new Quaternion(0, 0, 0, 0), 0, null);

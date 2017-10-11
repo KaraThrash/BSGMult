@@ -21337,6 +21337,9 @@ MonoBehaviour:
   xwing: 1
   playerControlled: 0
   afterBurner: 0
+  rollSpeed: 80
+  flySpeed: 200
+  liftSpeed: 4
 --- !u!124 &124708933890279310
 Behaviour:
   m_ObjectHideFlags: 1

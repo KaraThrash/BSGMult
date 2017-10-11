@@ -23,7 +23,10 @@ public class ViperControls : Photon.PunBehaviour
     public bool playerControlled;
     public float afterBurner;
     private Vector3 holdPosValue;
-
+    public int rollSpeed;
+    public int flySpeed;
+    public int liftSpeed;
+    public int strafeSpeed;
     // Use this for initialization
     void Start () {
        
@@ -70,10 +73,10 @@ public class ViperControls : Photon.PunBehaviour
             }
             else { GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllBufferedViaServer, "none"); }
         }
-        if (Input.GetKey(KeyCode.Space)) { lift = 3; } else if (Input.GetKey(KeyCode.LeftShift)) { lift = -3; } else { lift = 0; }
+        if (Input.GetKey(KeyCode.Space)) { lift = liftSpeed; } else if (Input.GetKey(KeyCode.LeftShift)) { lift = -liftSpeed; } else { lift = 0; }
         hort = Input.GetAxis("Horizontal");
         vert = Input.GetAxis("Vertical");
-        if (Input.GetKey(KeyCode.Q)) { roll = -60; } else if (Input.GetKey(KeyCode.E)) { roll = 60; } else { roll = 0; }
+        if (Input.GetKey(KeyCode.Q)) { roll = -rollSpeed; } else if (Input.GetKey(KeyCode.E)) { roll = rollSpeed; } else { roll = 0; }
         if (Input.mousePosition.x < 600) { mouseX = Input.mousePosition.x - 600; } else if (Input.mousePosition.x > 700) { mouseX = Input.mousePosition.x - 700; } else { mouseX = 0; }
         if (Input.mousePosition.y < 325) { mouseY = Input.mousePosition.y - 325; } else if (Input.mousePosition.y > 475) { mouseY = Input.mousePosition.y - 475; } else { mouseY = 0; }
         //GetComponent<PhotonView>().RPC("flightControls", PhotonTargets.AllViaServer, vert, hort, roll, (mouseX * 0.5f), (-mouseY * 0.5f), exit, lift);
@@ -99,13 +102,13 @@ public class ViperControls : Photon.PunBehaviour
                 }
                 else { GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllBufferedViaServer, "none"); }
             }
-        if (Input.GetKey(KeyCode.KeypadPlus)) { lift = 5; } else if (Input.GetKey(KeyCode.KeypadEnter)) { lift = -5; } else { lift = 0; }
+        if (Input.GetKey(KeyCode.KeypadPlus)) { lift = liftSpeed; } else if (Input.GetKey(KeyCode.KeypadEnter)) { lift = -liftSpeed; } else { lift = 0; }
 
         hort = Input.GetAxis("Horizontal");
         vert = Input.GetAxis("Vertical");
         // if (Input.GetKey(KeyCode.KeypadPlus)) { vert += Time.deltaTime; }
         //if (Input.GetKey(KeyCode.KeypadMinus)) { vert -= Time.deltaTime; }
-        if (Input.GetKey(KeyCode.Keypad7)) { roll = -120; } else if (Input.GetKey(KeyCode.Keypad9)) { roll = 120; } else { roll = 0; }
+        if (Input.GetKey(KeyCode.Keypad7)) { roll = -rollSpeed; } else if (Input.GetKey(KeyCode.Keypad9)) { roll = rollSpeed; } else { roll = 0; }
         if (Input.GetKey(KeyCode.Keypad4)) { mouseX = -160; } else if (Input.GetKey(KeyCode.Keypad6)) { mouseX = 160; } else { mouseX = 0; }
         if (Input.GetKey(KeyCode.Keypad2)) { mouseY = -160; } else if (Input.GetKey(KeyCode.Keypad8)) { mouseY = 160; } else { mouseY = 0; }
         if (Input.GetKey(KeyCode.Keypad5)) { afterBurner = 1400.0f; }
@@ -129,12 +132,12 @@ public class ViperControls : Photon.PunBehaviour
     public void flightControls(float vert,float hort,float roll,float rollX,float rollY,bool leave, float lift) {
         if (vert != 0)
         {
-            rb.AddForce(transform.forward * ((-vert * 300) - afterBurner)) ;
+            rb.AddForce(transform.forward * ((-vert * flySpeed) - afterBurner)) ;
         
         }
         if (hort != 0)
         {
-            rb.AddForce(transform.right * (-hort * 5), ForceMode.Impulse);
+            rb.AddForce(transform.right * (-hort * strafeSpeed), ForceMode.Impulse);
         }
         //TODO: two monitors makes the X value freak out
         Mathf.Clamp(rollX, -50.0F, 50.0F);

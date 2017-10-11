@@ -18,6 +18,7 @@ public class Galactica : Photon.PunBehaviour
     public int fuel;
     private int jumpSpotTest = 0;
     public GameObject myFtlComputer;
+    public GameObject medbay;
     // Use this for initialization
     void Start () {
        // myCamera.transform.parent = null;

@@ -24065,6 +24065,10 @@ MonoBehaviour:
   xwing: 0
   playerControlled: 0
   afterBurner: 0
+  rollSpeed: 120
+  flySpeed: 400
+  liftSpeed: 7
+  strafeSpeed: 8
 --- !u!124 &124980625678454062
 Behaviour:
   m_ObjectHideFlags: 1

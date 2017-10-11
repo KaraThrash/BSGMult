@@ -145,6 +145,14 @@ public class Fighter : Photon.PunBehaviour
             myModel.active = true;
             this.photonView.ownerId = 0;
             flying = false;
+       
+            if (currentHangar != null)
+            {
+                GetComponent<Rigidbody>().isKinematic = true;
+                transform.parent = currentHangar.transform;
+                GetComponent<PhotonView>().RPC("SetHangar", PhotonTargets.AllBufferedViaServer, currentHangar.transform.name);
+                GetComponent<PhotonView>().RPC("ParentToShip", PhotonTargets.AllBufferedViaServer);
+            }
             if (pilot != null)
             {
                 pilot.transform.position = cockpitEntrance.transform.position;
@@ -152,14 +160,6 @@ public class Fighter : Photon.PunBehaviour
                 //pilot.active = true;
                 pilot.GetComponent<PlayerCharacter>().myCamera.active = true;
                 pilot.GetComponent<PhotonView>().RPC("GetOutShip", PhotonTargets.AllBufferedViaServer);
-            }
-            pilot = null;
-            if (currentHangar != null)
-            {
-                GetComponent<Rigidbody>().isKinematic = true;
-                transform.parent = currentHangar.transform;
-                GetComponent<PhotonView>().RPC("SetHangar", PhotonTargets.AllBufferedViaServer, currentHangar.transform.name);
-                GetComponent<PhotonView>().RPC("ParentToShip", PhotonTargets.AllBufferedViaServer);
             }
         }
     }
