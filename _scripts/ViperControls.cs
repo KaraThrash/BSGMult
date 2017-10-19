@@ -65,13 +65,13 @@ public class ViperControls : Photon.PunBehaviour
             }
             gunCoolDown -= Time.deltaTime;
         }
-        if (Input.GetKeyUp(KeyCode.T) && GetComponent<Fighter>().currentHangar != null)
+        if (Input.GetKeyUp(KeyCode.T) )
         {
             if (GetComponent<Fighter>().currentHangar != null)
             {
-                GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllBufferedViaServer, GetComponent<Fighter>().currentHangar.transform.name);
+                GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllViaServer);
             }
-            else { GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllBufferedViaServer, "none"); }
+            else { GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllViaServer); }
         }
         if (Input.GetKey(KeyCode.Space)) { lift = liftSpeed; } else if (Input.GetKey(KeyCode.LeftShift)) { lift = -liftSpeed; } else { lift = 0; }
         hort = Input.GetAxis("Horizontal");
@@ -93,14 +93,14 @@ public class ViperControls : Photon.PunBehaviour
             }
             gunCoolDown -= Time.deltaTime;
         }
-        if (Input.GetKeyUp(KeyCode.T) && GetComponent<Fighter>().currentHangar != null)
-            if (Input.GetKeyUp(KeyCode.T) && GetComponent<Fighter>().currentHangar != null)
+    
+            if (Input.GetKeyUp(KeyCode.T))
             {
                 if (GetComponent<Fighter>().currentHangar != null)
                 {
-                    GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllBufferedViaServer, GetComponent<Fighter>().currentHangar.transform.name);
-                }
-                else { GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllBufferedViaServer, "none"); }
+                GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllViaServer);
+            }
+                else { GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllViaServer); }
             }
         if (Input.GetKey(KeyCode.KeypadPlus)) { lift = liftSpeed; } else if (Input.GetKey(KeyCode.KeypadEnter)) { lift = -liftSpeed; } else { lift = 0; }
 
@@ -166,12 +166,14 @@ public class ViperControls : Photon.PunBehaviour
         if (stream.isWriting)
         {
            // stream.SendNext(flying);
-            stream.SendNext(transform.position);
+          //  stream.SendNext(transform.position);
         }
         else
         {
-           // flying = (bool)stream.ReceiveNext();
-            transform.position = (Vector3)stream.ReceiveNext();
+            // flying = (bool)stream.ReceiveNext();
+           
+              //  transform.position = (Vector3)stream.ReceiveNext();
+            
         }
     }
 

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LandingBay : Photon.PunBehaviour
 {
+    public int myShipInList; //uses masterShipList 1:galactica 2:fleet 3:basestar 4:space
     public GameObject myShip;
     public List<GameObject> dockedShips = new List<GameObject>();
     public GameObject[] shipSpots;
@@ -12,9 +13,10 @@ public class LandingBay : Photon.PunBehaviour
     public int shipsDocked;
     public GameObject nextAvailableSpot;
     public GameObject shipToDock;
+    public GameObject forPeopleObject;
     // Use this for initialization
     void Start() {
-        // GetComponent<PhotonView>().RPC("Jumped", PhotonTargets.AllViaServer);
+        
     }
 
     // Update is called once per frame
@@ -45,64 +47,48 @@ public class LandingBay : Photon.PunBehaviour
         }
 
     }
-    //[PunRPC]
+
     public void AddThisShip(GameObject shipToDock)
     {
-        if (shipsDocked < hangarSpots)
-        {
-            nextAvailableSpot = shipSpots[shipsDocked].transform.gameObject;
+
             if (!dockedShips.Contains(shipToDock))
             {
                 dockedShips.Add(shipToDock);
 
             }
-            shipToDock.transform.parent = myShip.transform;
-            shipToDock.GetComponent<Rigidbody>().isKinematic = true;
-            shipToDock.transform.position = nextAvailableSpot.transform.position;
-            shipToDock.transform.rotation = nextAvailableSpot.transform.rotation;
-            shipsDocked++;
 
-        }
-        else {
-            shipToDock.transform.parent = myShip.transform;
-            shipToDock.GetComponent<Rigidbody>().isKinematic = true;
-           // shipToDock.transform.position = nextAvailableSpot.transform.position;
-           // shipToDock.transform.rotation = nextAvailableSpot.transform.rotation;
-        }
     }
     
 
    [PunRPC]
     public void Jumped()
     {
-        shipsDocked = 0;
-        foreach (GameObject child in dockedShips)
+        shipsDocked = dockedShips.Count;
+        for (int i = dockedShips.Count - 1; i >= 0; --i)
         {
-
-
-            if (shipsDocked < (hangarSpots - 1) )
-            {
-                if (child.GetComponent<Fighter>() != null)
+            if (dockedShips[i] != null) { 
+            //if (shipsDocked > hangarSpots)
+           // {
+                if (dockedShips[i].GetComponent<Fighter>().currentHangar == this.gameObject && dockedShips[i].GetComponent<Fighter>().flying == false)
                 {
-                   
-                        //child.transform.GetChild(shipsDocked);
-                        child.GetComponent<PhotonView>().ownerId = 0;
-                        child.GetComponent<Rigidbody>().isKinematic = true;
-                        child.GetComponent<Fighter>().currentHangar = this.gameObject;
-                        child.transform.parent = myShip.transform;
-                        child.transform.position = shipSpots[shipsDocked].transform.position;
-                        child.transform.rotation = shipSpots[shipsDocked].transform.rotation;
-                        child.GetComponent<PhotonView>().RPC("LandOnDockingBay", PhotonTargets.AllViaServer);
-                        shipsDocked++;
+                        dockedShips[i].GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.masterClient);
+                    dockedShips[i].GetComponent<Rigidbody>().isKinematic = true;
+                   // dockedShips[i].GetComponent<Fighter>().currentHangar = this.gameObject;
+                        dockedShips[i].GetComponent<Fighter>().currentCords = myShip.GetComponent<Galactica>().currentCord;
+                        dockedShips[i].GetComponent<Fighter>().jumpManager = myShip.GetComponent<Galactica>().jumpManager;
+                        //dockedShips[i].transform.parent = this.transform;
+                    dockedShips[i].transform.position = shipSpots[shipsDocked].transform.position; 
+                    dockedShips[i].transform.rotation = shipSpots[shipsDocked].transform.rotation;
+                    dockedShips[i].GetComponent<PhotonView>().RPC("LandOnDockingBay", PhotonTargets.AllViaServer, myShip.GetComponent<FTLDrive>().currentCords, shipsDocked, myShipInList);
                     
                 }
-     
+                    shipsDocked--;
+               // }
+           // else { break; }
             }
-                else { break; }
-            
-
+            else { dockedShips.Remove(dockedShips[i]); }
         }
-       // nextAvailableSpot = shipSpots[shipsDocked].transform.gameObject;
+        
     }
 
 
@@ -112,7 +98,7 @@ public class LandingBay : Photon.PunBehaviour
         if (dockedShips.Contains(leavingShip) )
         {
 
-            dockedShips.Remove(leavingShip);
+           // dockedShips.Remove(leavingShip);
 
         }
     }
@@ -120,13 +106,12 @@ public class LandingBay : Photon.PunBehaviour
     {
         if (stream.isWriting)
         {
-           // stream.SendNext(flying);
-            //stream.SendNext(transform.position);
+
+           
         }
         else
         {
-           // flying = (bool)stream.ReceiveNext();
-            // transform.position = (Vector3)stream.ReceiveNext();
+ 
         }
     }
 

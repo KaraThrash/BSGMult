@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class Galactica : Photon.PunBehaviour
 {
+    public int currentCord;
+    public GameObject baseStar;
     public Transform peopleOnBoard;
+    public GameObject jumpManager;
     public GameObject shipInterior;
     public GameObject myHangar;
     public GameObject localSpacePositionObject;//use this to set duplicate local position for jump position
@@ -19,19 +22,27 @@ public class Galactica : Photon.PunBehaviour
     private int jumpSpotTest = 0;
     public GameObject myFtlComputer;
     public GameObject medbay;
-    // Use this for initialization
-    void Start () {
-       // myCamera.transform.parent = null;
-        rotationObject.transform.parent = null;
-        theFleet.transform.parent = null;
-        //GameObject spawnLocation = GameObject.Find("PlayerSpawn");
-        //spawnLocation.transform.parent = shipInterior.transform;
-    }
 
+    void Start () {
+
+    }
+    void Awake()
+    {
+       // DontDestroyOnLoad(this.gameObject);
+    }
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+           
 
+        }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+           
+
+        }
         transform.rotation = Quaternion.Lerp(transform.rotation, rotationObject.transform.rotation, 5.0f);
         transform.position = Vector3.MoveTowards(theGalactica.transform.position, fwdObject.transform.position, 1.0f);
         fwdObject.transform.position = Vector3.MoveTowards(fwdObject.transform.position, theGalactica.transform.position, 2.0f);
@@ -52,25 +63,29 @@ public class Galactica : Photon.PunBehaviour
             GetComponent<PhotonView>().RPC("SetMovementObjects", PhotonTargets.Others, rotationObject.transform.rotation, fwdObject.transform.localPosition);
         }
     }
+    [PunRPC]
+    public void SetNewCords(int newCord) { currentCord = newCord; GetComponent<FTLDrive>().currentCords = newCord; }
+
+
 
     [PunRPC]
     public void SetMovementObjects(Quaternion rot, Vector3 pos) { fwdObject.transform.localPosition = pos; rotationObject.transform.rotation = rot; }
     [PunRPC]
     public void SetForwardObject() { fwdObject.transform.localPosition = new Vector3( 0, 0, -1000.0f); }
 
-    public void Manned() { rotationObject.transform.rotation = theGalactica.transform.rotation;  manned = true; myCamera.active = true; }
+    public void Manned() { rotationObject.transform.rotation = transform.rotation; manned = true; myCamera.active = true; }
     public void NotManned() { manned = false; myCamera.active = false; rotationObject.transform.rotation = transform.rotation; }
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.isWriting)
         {
            
-          //  stream.SendNext(fwdObject.transform.position);
+            stream.SendNext(currentCord);
           //  stream.SendNext(rotationObject.transform.rotation);
         }
         else
         {
-           // fwdObject.transform.position = (Vector3)stream.ReceiveNext();
+            currentCord = (int)stream.ReceiveNext();
            // rotationObject.transform.rotation = (Quaternion)stream.ReceiveNext();
         }
     }
@@ -78,20 +93,41 @@ public class Galactica : Photon.PunBehaviour
     [PunRPC]
     public void Jump(int coordsToJump) {
         fuel -= 1;
-        Debug.Log(coordsToJump);
-        if (GameObject.Find(coordsToJump.ToString()) != null)
+ 
+        currentCord = coordsToJump;
+        GetComponent<FTLDrive>().currentCords = coordsToJump;
+        baseStar.GetComponent<PhotonView>().RPC("StartFTL", PhotonTargets.AllViaServer, coordsToJump);
+        GetComponent<PhotonView>().RPC("SetNewCords", PhotonTargets.AllBufferedViaServer, coordsToJump);
+        jumpManager.GetComponent<PhotonView>().RPC("UpdateLocationGalactica", PhotonTargets.AllBufferedViaServer, coordsToJump);
+        //GameObject.Find("BaseStar(Clone)").GetComponent<BaseStar>().StartFTL();
+        ForPassengersDuringJump(coordsToJump);
+        myHangar.GetComponent<LandingBay>().jumping = true;
+
+
+
+    }
+    public void ForPassengersDuringJump(int newCords)
+    {
+        foreach (Transform child in peopleOnBoard)
         {
-            GameObject.Find("BaseStar(Clone)").GetComponent<PhotonView>().RPC("StartFTL", PhotonTargets.AllBufferedViaServer, coordsToJump);
-            //GameObject.Find("BaseStar(Clone)").GetComponent<BaseStar>().StartFTL();
-            ForPassengersDuringJump();
-            myHangar.GetComponent<LandingBay>().jumping = true;
-            transform.position = GameObject.Find(coordsToJump.ToString()).transform.Find("HumanSpaceSpot").transform.position;
+            if (child.GetComponent<PlayerCharacter>().localPlayer != null)
+            {
+                //TODO: what about people sitting on the flight deck? >> handled on fighter script currently
+                if (child.GetComponent<PlayerCharacter>().flying == false)
+                {
+
+                    child.GetComponent<PlayerCharacter>().localPlayer.GetComponent<PlayerMain>().spaceCoordinates = newCords;
+                    child.GetComponent<PlayerCharacter>().JumpEffects(newCords);
+                    jumpManager.GetComponent<JumpManager>().ManageJump(newCords, 0, 0, newCords); //galactica cords, fleet cords, basestar cords, localPlayer cords
+
+                }
+                else { jumpManager.GetComponent<JumpManager>().ManageJump(newCords, 0, 0, 0); }
+
+            }
+
+
 
         }
 
-    }
-    public void ForPassengersDuringJump() {
-        foreach (Transform child in peopleOnBoard)
-            child.GetComponent<PlayerCharacter>().JumpEffects();
     }
 }

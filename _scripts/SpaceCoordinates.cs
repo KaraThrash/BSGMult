@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class SpaceCoordinates : MonoBehaviour {
 
-
-    public GameObject spaceLocation;
+    public bool mapped;
+    public int spaceLocation;
+    public string locationType;
+    public int thisX;
+    public int thisY;
+    public int thisZ;
     public int maxX;
     public int maxY;
     public int maxZ;
@@ -18,18 +22,26 @@ public class SpaceCoordinates : MonoBehaviour {
 	void Update () {
 		
 	}
-    public GameObject SelectSpace(int newX,int newY, int newZ) {
-        
-        if (newX > maxX) { newX = 1; }
-        if (newX < 1) { newX = maxX; }
+    public int SelectSpace(int newX,int newY, int newZ) {
+        mapped = false;
+        if (newX > maxX) { newX = 1; locationType = "planets"; }
+        if (newX < 1) { newX = maxX; locationType = "notPlanets"; }
         if (newY > maxY) { newY = 0; }
         if (newY < 0) { newY = maxY; }
         if (newZ > maxZ) { newZ = 0; }
         if (newZ < 0) { newZ = maxZ; }
+
+        if (newX % 2 == 0) { locationType = "planets"; } else { locationType = "notPlanets"; }
+        thisX = newX;
+        thisY = newY;
+        thisZ = newZ;
+
+
        // Debug.Log(newX.ToString() + " " + newY.ToString() + " " + newZ.ToString());
         // string xstr = 
         string newCoordinates = newX.ToString() + newY.ToString() + newZ.ToString();
-        spaceLocation = GameObject.Find(newCoordinates);
+         spaceLocation = (thisX * 100) + (thisY * 10) + thisZ;
+        //TODO: use this to compare to a formula you make later that determines the type of location the charted area witll be
 
         return spaceLocation;
     }

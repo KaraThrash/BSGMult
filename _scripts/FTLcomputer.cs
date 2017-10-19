@@ -7,12 +7,16 @@ public class FTLcomputer : Photon.PunBehaviour
     public int xCord = 1;
     public int yCord = 0;
     public int zCord = 0;
+    public int jumpTargetCords;
+    public GameObject jumpTarget;
+
     public GameObject spaceCoordinates;
     public GameObject theFleet;
-    public GameObject jumpTarget;
-    public int jumpTargetCoordinates;
+
     public int currentCoordinates;
     public int previousJumpCoordinates;
+
+
     public GameObject jumpTargetLocation;
     public Vector3 previousLocation;
     public Text jumpCalculations;
@@ -21,6 +25,8 @@ public class FTLcomputer : Photon.PunBehaviour
     public GameObject myHangar;
     public float interactTimer;
     public float timeCost;
+
+    //changhed the game objects to ints
     public GameObject jumpTargetOne;
     public Text oneStats;
     public GameObject jumpTargetTwo;
@@ -46,15 +52,12 @@ public class FTLcomputer : Photon.PunBehaviour
 
     // Use this for initialization
     void Start() {
-        spaceCoordinates = GameObject.Find("Space");
-        SetAvailableJumpCoordinates();
-        jumpTargetTextObject.transform.parent = GameObject.Find("Canvas").transform;
+        GetComponent<PhotonView>().RPC("SetAvailableJumpCoordinates", PhotonTargets.AllBufferedViaServer, xCord, yCord, zCord);
     }
 
     // Update is called once per frame
     void Update() {
-        //if ( )
-        // { GetComponent<PhotonView>().RPC("SetFtlTarget", PhotonTargets.AllViaServer); }
+
         if (Input.GetKey(KeyCode.Tab)) { jumpTargetTextObject.active = true;
 
 
@@ -72,84 +75,108 @@ public class FTLcomputer : Photon.PunBehaviour
     }
 
     //sets new space coordinate locations
-    public void SetAvailableJumpCoordinates() {
+    [PunRPC]
+    public void SetAvailableJumpCoordinates(int newX,int newY,int newZ) {
+        currentCoordinates = (newX * 100) + (newY * 10) + newZ;
+        xCord = newX;
+        yCord = newY;
+        zCord = newZ;
+        jumpTarget = null;
+        oneStats.text = "Jump not calculated";
+
+        twoStats.text = "Jump not calculated";
+
+        threeStats.text = "Jump not calculated";
+        fourStats.text = "Jump not calculated";
+
+        fiveStats.text = "Jump not calculated";
+
+        oneStats.text = "Jump not calculated";
+        oneStats.transform.parent.gameObject.active = false;
+        twoStats.transform.parent.gameObject.active = false;
+        threeStats.transform.parent.gameObject.active = false;
+        fourStats.transform.parent.gameObject.active = false;
+        fiveStats.transform.parent.gameObject.active = false;
+        sixStats.transform.parent.gameObject.active = false;
+
         //TODO: note plotted locations only appear after 1 jump is calculated. So when you jump in you have no immediatly available jump locations.
         //after you chart the first one some available jumps become visible at no extra cost
-        jumpTargetOne = spaceCoordinates.GetComponent<SpaceCoordinates>().SelectSpace(xCord + 1, yCord , zCord);
-        jumpTargetTwo = spaceCoordinates.GetComponent<SpaceCoordinates>().SelectSpace(xCord - 1, yCord , zCord);
-        jumpTargetThree = spaceCoordinates.GetComponent<SpaceCoordinates>().SelectSpace(xCord , yCord , zCord + 1);
-        jumpTargetFour = spaceCoordinates.GetComponent<SpaceCoordinates>().SelectSpace(xCord , yCord, zCord - 1);
-        jumpTargetFive = spaceCoordinates.GetComponent<SpaceCoordinates>().SelectSpace(xCord , yCord + 1, zCord );
-        jumpTargetSix = spaceCoordinates.GetComponent<SpaceCoordinates>().SelectSpace(xCord , yCord - 1, zCord );
+        jumpTargetOne.GetComponent<SpaceCoordinates>().SelectSpace(newX + 1, newY, newZ);
+        jumpTargetTwo.GetComponent<SpaceCoordinates>().SelectSpace(newX - 1, newY, newZ);
+        jumpTargetThree.GetComponent<SpaceCoordinates>().SelectSpace(newX, newY, newZ + 1);
+        jumpTargetFour.GetComponent<SpaceCoordinates>().SelectSpace(newX, newY, newZ - 1);
+        jumpTargetFive.GetComponent<SpaceCoordinates>().SelectSpace(newX, newY + 1, newZ);
+        jumpTargetSix.GetComponent<SpaceCoordinates>().SelectSpace(newX, newY - 1, newZ);
 
     }
 
     //Map the available jump targets
     [PunRPC]
     public void SetFtlTarget() {
-        if (jumpTargetOne.GetComponent<FTLTarget>().mapped == true)
+        if (jumpTargetOne.GetComponent<SpaceCoordinates>().mapped == true)
         {
-            oneStats.gameObject.active = true;
-            oneStats.text = jumpTargetOne.GetComponent<FTLTarget>().locationType;
+            oneStats.transform.parent.gameObject.active = true;
+            oneStats.text = jumpTargetOne.GetComponent<SpaceCoordinates>().locationType;
             
         }
-         if (jumpTargetTwo.GetComponent<FTLTarget>().mapped == true)
+         if (jumpTargetTwo.GetComponent<SpaceCoordinates>().mapped == true)
         {
-            twoStats.gameObject.active = true;
-            twoStats.text = jumpTargetOne.GetComponent<FTLTarget>().locationType;
+            twoStats.transform.parent.gameObject.active = true;
+            twoStats.text = jumpTargetOne.GetComponent<SpaceCoordinates>().locationType;
         }
-         if (jumpTargetThree.GetComponent<FTLTarget>().mapped == true)
+         if (jumpTargetThree.GetComponent<SpaceCoordinates>().mapped == true)
         {
-            threeStats.gameObject.active = true;
-            threeStats.text = jumpTargetOne.GetComponent<FTLTarget>().locationType;
+            threeStats.transform.parent.gameObject.active = true;
+            threeStats.text = jumpTargetOne.GetComponent<SpaceCoordinates>().locationType;
         }
-         if (jumpTargetFour.GetComponent<FTLTarget>().mapped == true)
+         if (jumpTargetFour.GetComponent<SpaceCoordinates>().mapped == true)
         {
-            fourStats.gameObject.active = true;
-            fourStats.text = jumpTargetOne.GetComponent<FTLTarget>().locationType;
+            fourStats.transform.parent.gameObject.active = true;
+            fourStats.text = jumpTargetOne.GetComponent<SpaceCoordinates>().locationType;
         }
-         if (jumpTargetFive.GetComponent<FTLTarget>().mapped == true)
+         if (jumpTargetFive.GetComponent<SpaceCoordinates>().mapped == true)
         {
-            fiveStats.gameObject.active = true;
-            fiveStats.text = jumpTargetOne.GetComponent<FTLTarget>().locationType;
+            fiveStats.transform.parent.gameObject.active = true;
+            fiveStats.text = jumpTargetOne.GetComponent<SpaceCoordinates>().locationType;
         }
         
-        if(jumpTargetSix.GetComponent<FTLTarget>().mapped == true)
+        if(jumpTargetSix.GetComponent<SpaceCoordinates>().mapped == true)
         {
-            sixStats.gameObject.active = true;
-            sixStats.text = jumpTargetOne.GetComponent<FTLTarget>().locationType;
+            sixStats.transform.parent.gameObject.active = true;
+            sixStats.text = jumpTargetOne.GetComponent<SpaceCoordinates>().locationType;
         }
 
-        if (jumpTargetOne.GetComponent<FTLTarget>().mapped == false) { jumpTargetOne.GetComponent<PhotonView>().RPC("Map", PhotonTargets.AllViaServer);
-            oneStats.text = jumpTargetOne.GetComponent<FTLTarget>().locationType;
-            oneStats.gameObject.active = true;
+        if (jumpTargetOne.GetComponent<SpaceCoordinates>().mapped == false) {
+            jumpTargetOne.GetComponent<SpaceCoordinates>().mapped = true; 
+            oneStats.text = jumpTargetOne.GetComponent<SpaceCoordinates>().locationType;
+            oneStats.transform.parent.gameObject.active = true;
         }
-        else if (jumpTargetTwo.GetComponent<FTLTarget>().mapped == false) { jumpTargetTwo.GetComponent<PhotonView>().RPC("Map", PhotonTargets.AllViaServer);
-            twoStats.text = jumpTargetOne.GetComponent<FTLTarget>().locationType;
-            twoStats.gameObject.active = true;
+        else if (jumpTargetTwo.GetComponent<SpaceCoordinates>().mapped == false) { jumpTargetTwo.GetComponent<SpaceCoordinates>().mapped = true;
+            twoStats.text = jumpTargetOne.GetComponent<SpaceCoordinates>().locationType;
+            twoStats.transform.parent.gameObject.active = true;
         }
-        else if (jumpTargetThree.GetComponent<FTLTarget>().mapped == false) { jumpTargetThree.GetComponent<PhotonView>().RPC("Map", PhotonTargets.AllViaServer);
-            threeStats.text = jumpTargetOne.GetComponent<FTLTarget>().locationType;
-            threeStats.gameObject.active = true;
+        else if (jumpTargetThree.GetComponent<SpaceCoordinates>().mapped == false) { jumpTargetThree.GetComponent<SpaceCoordinates>().mapped = true;
+            threeStats.text = jumpTargetOne.GetComponent<SpaceCoordinates>().locationType;
+            threeStats.transform.parent.gameObject.active = true;
         }
-        else if (jumpTargetFour.GetComponent<FTLTarget>().mapped == false) { jumpTargetFour.GetComponent<PhotonView>().RPC("Map", PhotonTargets.AllViaServer);
-            fourStats.text = jumpTargetOne.GetComponent<FTLTarget>().locationType;
-            fourStats.gameObject.active = true;
+        else if (jumpTargetFour.GetComponent<SpaceCoordinates>().mapped == false) { jumpTargetFour.GetComponent<SpaceCoordinates>().mapped = true;
+            fourStats.text = jumpTargetOne.GetComponent<SpaceCoordinates>().locationType;
+            fourStats.transform.parent.gameObject.active = true;
         }
-        else if (jumpTargetFive.GetComponent<FTLTarget>().mapped == false) { jumpTargetFive.GetComponent<PhotonView>().RPC("Map", PhotonTargets.AllViaServer);
-            fiveStats.text = jumpTargetOne.GetComponent<FTLTarget>().locationType;
-            fiveStats.gameObject.active = true;
+        else if (jumpTargetFive.GetComponent<SpaceCoordinates>().mapped == false) { jumpTargetFive.GetComponent<SpaceCoordinates>().mapped = true;
+            fiveStats.text = jumpTargetOne.GetComponent<SpaceCoordinates>().locationType;
+            fiveStats.transform.parent.gameObject.active = true;
         }
-        else { jumpTargetSix.GetComponent<PhotonView>().RPC("Map", PhotonTargets.AllViaServer);
-            sixStats.text = jumpTargetOne.GetComponent<FTLTarget>().locationType;
-            sixStats.gameObject.active = true;
+        else { jumpTargetSix.GetComponent<SpaceCoordinates>().mapped = true;
+            sixStats.text = jumpTargetOne.GetComponent<SpaceCoordinates>().locationType;
+            sixStats.transform.parent.gameObject.active = true;
         }
 
 
 
     }
 
-    public void CalculateJump()
+    public void CalculateJump() 
     {
 
         GetComponent<PhotonView>().RPC("SetFtlTarget", PhotonTargets.AllViaServer);
@@ -161,15 +188,10 @@ public class FTLcomputer : Photon.PunBehaviour
     public void SelectThisJUmpDestination(int jumpTargetSelected)
     {
         //OnButton
-
         GameObject temp2 = JumpTargetRelativeCoordinates(jumpTargetSelected);
-        if (temp2.GetComponent<FTLTarget>().mapped == true)
+        if (temp2.GetComponent<SpaceCoordinates>().mapped == true)
         {
-
-            //int tempInt = int.Parse(temp2.transform.name);
-            
-            GetComponent<PhotonView>().RPC("SetJumpTargetForServer", PhotonTargets.AllViaServer, temp2.transform.name);
-     
+            GetComponent<PhotonView>().RPC("SetJumpTargetForServer", PhotonTargets.AllViaServer,jumpTargetSelected);
         }
     }
     public GameObject JumpTargetRelativeCoordinates(int relativeCoord) {
@@ -198,61 +220,55 @@ public class FTLcomputer : Photon.PunBehaviour
         return tempJumpObject;
     }
     [PunRPC]
-    public void SetJumpTargetForServer(string jumpTargetVariable) {
-        //TODO: find out why there is this extra 48
-        char[] myChars = jumpTargetVariable.ToCharArray();
+    public void SetJumpTargetForServer(int thejumpTarget) {
+        GameObject temp = JumpTargetRelativeCoordinates(thejumpTarget);
+        jumpTarget = temp;
+        jumpTargetCords = temp.GetComponent<SpaceCoordinates>().spaceLocation;
+        
 
-        xCord = myChars[0] - 48;
-
-        yCord = myChars[1] - 48;
-        zCord = myChars[2] - 48;
-        jumpTarget = GameObject.Find(jumpTargetVariable);
-     
-        int tempInt = int.Parse(jumpTargetVariable);
-        jumpTargetCoordinates = tempInt;
-       // jumpTarget = spaceCoordinates.GetComponent<SpaceCoordinates>().SelectSpace(xCord + 1, yCord, zCord);
         
     }
 
     public void JumpTheFleet() {
-        myShip.GetComponent<Galactica>().theFleet.GetComponent<PhotonView>().RPC("Jumping", PhotonTargets.AllViaServer, jumpTargetCoordinates);
-        //myShip.GetComponent<Galactica>().theFleet.GetComponent<Fleet>().Jumping();
+        myShip.GetComponent<Galactica>().theFleet.GetComponent<PhotonView>().RPC("Jumping", PhotonTargets.AllViaServer, jumpTargetCords);
+    
     }
 
-    public void JumpThisShip() {
+    public void JumpThisShip()
+    {
         if (jumpTarget != null)
-        { GetComponent<PhotonView>().RPC("SelectJumpDestinationOnServer", PhotonTargets.AllViaServer , jumpTargetCoordinates);
-            
+        {
+
+            numberOfJumps++;
+            myShip.GetComponent<PhotonView>().RPC("Jump", PhotonTargets.AllViaServer, jumpTargetCords);
+
+            myHangar.GetComponent<PhotonView>().RPC("Jumped", PhotonTargets.AllViaServer);
+         
+            xCord = jumpTarget.GetComponent<SpaceCoordinates>().thisX;
+            yCord = jumpTarget.GetComponent<SpaceCoordinates>().thisY;
+            zCord = jumpTarget.GetComponent<SpaceCoordinates>().thisZ;
+            //SetAvailableJumpCoordinates(xCord,yCord,zCord);
+            GetComponent<PhotonView>().RPC("SetAvailableJumpCoordinates", PhotonTargets.AllBufferedViaServer, xCord, yCord, zCord);
+
+            //GetComponent<PhotonView>().RPC("SelectJumpDestinationOnServer", PhotonTargets.AllViaServer, jumpTargetCords);
         }
-        }
+        else { Debug.Log("No Jump target Selected"); }
+    }
     [PunRPC]
     public void SelectJumpDestinationOnServer(int coords)
     {
         numberOfJumps++;
-        myShip.GetComponent<PhotonView>().RPC("Jump", PhotonTargets.AllBufferedViaServer, jumpTargetCoordinates);
-       // myShip.GetComponent<PhotonView>().RPC("Jump", PhotonTargets.AllBufferedViaServer);
-        myHangar.GetComponent<PhotonView>().RPC("Jumped", PhotonTargets.AllBufferedViaServer);
-        SetAvailableJumpCoordinates();
-        //jumpTarget = null;
+        myShip.GetComponent<PhotonView>().RPC("Jump", PhotonTargets.AllViaServer, coords);
 
-      
-            oneStats.text = "Jump not calculated";
+       // myHangar.GetComponent<PhotonView>().RPC("Jumped", PhotonTargets.AllViaServer);
+        myHangar.GetComponent<LandingBay>().Jumped();
+        xCord = jumpTarget.GetComponent<SpaceCoordinates>().thisX;
+        yCord = jumpTarget.GetComponent<SpaceCoordinates>().thisY;
+        zCord = jumpTarget.GetComponent<SpaceCoordinates>().thisZ;
+        //SetAvailableJumpCoordinates(xCord,yCord,zCord);
+        GetComponent<PhotonView>().RPC("SetAvailableJumpCoordinates", PhotonTargets.AllBufferedViaServer, xCord, yCord, zCord);
 
-        twoStats.text = "Jump not calculated";
 
-        threeStats.text = "Jump not calculated";
-        fourStats.text = "Jump not calculated";
-
-        fiveStats.text = "Jump not calculated";
-
-        oneStats.text = "Jump not calculated";
-        oneStats.gameObject.active = false;
-        twoStats.gameObject.active = false;
-        threeStats.gameObject.active = false;
-        fourStats.gameObject.active = false;
-        fiveStats.gameObject.active = false;
-        sixStats.gameObject.active = false;
-        
 
     }
 
@@ -262,12 +278,12 @@ public class FTLcomputer : Photon.PunBehaviour
         if (stream.isWriting)
         {
 
-             // stream.SendNext(jumpTarget);
+             stream.SendNext(currentCoordinates);
             //  stream.SendNext(rotationObject.transform.rotation);
         }
         else
         {
-            // fwdObject.transform.position = (Vector3)stream.ReceiveNext();
+             currentCoordinates = (int)stream.ReceiveNext();
             //jumpTarget  = (GameObject)stream.ReceiveNext();
         }
     }

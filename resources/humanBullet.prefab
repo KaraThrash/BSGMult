@@ -136,8 +136,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 658aecb010325f34c902ca4ceba42323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 555
-  lifeTime: 3
+  speed: 1
+  lifeTime: 31
   ownerObject: {fileID: 0}
   owner: 3
 --- !u!135 &135981378684968666
@@ -148,7 +148,7 @@ SphereCollider:
   m_GameObject: {fileID: 1061179596772382}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}

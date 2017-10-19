@@ -12,6 +12,7 @@ public class Fleet : Photon.PunBehaviour
     public int shipsInFleetCount;
     public int shipsJumped;
     public int jumpCoordinates;
+    public GameObject jumpManager;
     public GameObject jumpDestination;
     public Vector3 jumpLocation;
     public int fuelCost;
@@ -28,20 +29,24 @@ public class Fleet : Photon.PunBehaviour
         if (jumping == true)
         {
             shipsJumpedText.text = shipsJumped.ToString() + "/" + shipsInFleetCount.ToString() + " Currently jumped away.";
-            if (shipsJumped >= shipsInFleetCount) {
-                jumping = false; shipsJumped = 0; shipsJumpedText.text = "Fleet Away";
-
+            if (shipsJumped >= shipsInFleet.Count) {
+                jumping = false;
+                shipsJumped = 0;
+                shipsJumpedText.text = "Fleet Away";
+                jumpManager.GetComponent<PhotonView>().RPC("UpdateLocationFleet", PhotonTargets.AllBufferedViaServer, GetComponent<FTLDrive>().currentCords);
             }
         }
 
     }
     [PunRPC]
     public void Jumping(int jumpCoords) {
+        GetComponent<FTLDrive>().currentCords = jumpCoords;
+        jumpManager.GetComponent<PhotonView>().RPC("UpdateLocationFleet", PhotonTargets.AllBufferedViaServer, GetComponent<FTLDrive>().currentCords);
         jumpCoordinates = jumpCoords;
-        jumpDestination = GameObject.Find(jumpCoordinates.ToString());
+       // jumpDestination = GameObject.Find(jumpCoordinates.ToString());
         shipsJumped = 0;
         jumping = true;
-        for (var i = shipsInFleet.Count - 1; i > -1; i--)
+        for (var i = shipsInFleet.Count - 1; i >= 0; i--)
         {
 
             if (jumpDestination != null)

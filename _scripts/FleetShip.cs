@@ -8,6 +8,9 @@ public class FleetShip : Photon.PunBehaviour
     public int popHeld;
     public int foodHeld;
     public int fuelHeld;
+    public int targetJumpCords;
+
+
     public GameObject placeHolderInFleet;
     public float ftlTimer;
     public float ftlCost;
@@ -32,27 +35,26 @@ public class FleetShip : Photon.PunBehaviour
     }
     public void OrderJump(int jumpCoords)
     {
-        jumpTarget = GameObject.Find(jumpCoords.ToString()); 
-       // transform.position = jumpTarget.transform.position;
 
-        Vector3 localObject = localSpaceObject.transform.localPosition;
-        localSpaceObject.transform.parent = jumpTarget.transform;
-        localSpaceObject.transform.localPosition = localObject;
-        transform.position = localSpaceObject.transform.position;
-        fleetParent.GetComponent<Fleet>().shipsJumped++;
+        targetJumpCords = jumpCoords;
         ftlTimer = 0;
-        jumpOrdered = false;
+        jumpOrdered = true;
     }
 
     [PunRPC]
     public void Jump() {
-        Vector3 localObject = localSpaceObject.transform.localPosition;
-        localSpaceObject.transform.parent = fleetParent.GetComponent<Fleet>().jumpDestination.transform;
-        localSpaceObject.transform.localPosition = localObject;
-        transform.position = localSpaceObject.transform.position;
-        fleetParent.GetComponent<Fleet>().shipsJumped++;
-        ftlTimer = 0;
-        jumpOrdered = false;
+        //Vector3 localObject = localSpaceObject.transform.localPosition;
+        //localSpaceObject.transform.parent = fleetParent.GetComponent<Fleet>().jumpDestination.transform;
+        //localSpaceObject.transform.localPosition = localObject;
+        //transform.position = localSpaceObject.transform.position;
+       
+            fleetParent.GetComponent<Fleet>().shipsJumped++;
+            GetComponent<FTLDrive>().currentCords = targetJumpCords;
+            ftlTimer = 0;
+            jumpOrdered = false;
+        
+        
+        
     }
     public void OnCollisionEnter(Collision col)
     {

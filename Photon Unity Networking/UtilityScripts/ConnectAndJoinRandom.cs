@@ -50,6 +50,7 @@ public class ConnectAndJoinRandom : Photon.MonoBehaviour
 
     public virtual void OnJoinedLobby()
     {
+        PhotonNetwork.automaticallySyncScene = true;
         Debug.Log("OnJoinedLobby(). This client is connected and does get a room-list, which gets stored as PhotonNetwork.GetRoomList(). This script now calls: PhotonNetwork.JoinRandomRoom();");
         PhotonNetwork.JoinRandomRoom();
     }
@@ -72,13 +73,19 @@ public class ConnectAndJoinRandom : Photon.MonoBehaviour
 
     public void OnJoinedRoom()
     {
+        PhotonNetwork.automaticallySyncScene = false;
         if (firstIn == true)
         {
-            spawnServerSTuff.GetComponent<SpawnServerObjects>().SpawnEverythingOnServer();
+           // PhotonNetwork.Instantiate("Server", new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0), 0, null);
+            Application.LoadLevel("ServerStart");
+            PhotonNetwork.InstantiateSceneObject("Everything", Vector3.zero, new Quaternion(0, 0, 0, 0), 0, null);
+
+            // PhotonNetwork.Instantiate("Server", new Vector3(0,0,0), new Quaternion(0, 0, 0, 0), 0, null);
+            // spawnServerSTuff.GetComponent<SpawnServerObjects>().SpawnEverythingOnServer();
             //GameObject Clone = PhotonNetwork.Instantiate("scorekeeper", Vector3.zero, new Quaternion(0,0,0,0), 0) as GameObject;
         }
-        //else { Application.LoadLevel("Lobby"); }
-        
-        //Debug.Log("OnJoinedRoom() called by PUN. Now this client is in a room. From here on, your game would be running. For reference, all callbacks are listed in enum: PhotonNetworkingMessage");
+        else { Application.LoadLevel("PlayerLobby"); }
+        //Application.LoadLevel("ServerStart");
+       
     }
 }

@@ -45,29 +45,32 @@ public class HumanControls : Photon.PunBehaviour
         camGunModel.active = true;
         charModel.active = false;
         controlled = true;
-
+        GetComponent<PlayerCharacter>().controlled = true;
+      
     }
+
     // Update is called once per frame
     void Update()
     {
+
         if (controlled == true)
         {
-           // if (transform.parent != null) { cam.transform.parent = transform.parent; }
-            //print(rb.velocity.magnitude);
-            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0) { Move(); }
-
-           // CheckGround();
-            if (Input.GetKey(KeyCode.Space)) { Jump(); }
-            if (coolDown <= 0)
+            if (canMove == true)
             {
-                if (Input.GetKey(KeyCode.Q))
+                if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0) { Move(); }
+
+                if (Input.GetKey(KeyCode.Space)) { Jump(); }
+                if (coolDown <= 0)
                 {
+                    if (Input.GetKey(KeyCode.Q))
+                    {
 
+                    }
                 }
+                else { coolDown -= Time.deltaTime; }
+                CheckGround();
             }
-            else { coolDown -= Time.deltaTime; }
-
-            if (Input.GetKey(KeyCode.Escape))
+            if (Input.GetKey(KeyCode.Backspace))
             {
                 canMove = true;
             }
@@ -75,31 +78,26 @@ public class HumanControls : Photon.PunBehaviour
            // {
                // CheckForIneractableObject();
             //}
-            CheckGround();
-            if (grounded == false && jumpClock <= 0) { transform.position = Vector3.MoveTowards(transform.position, downObject.transform.position, 3 * Time.deltaTime); }
+            
+            if (grounded == false && jumpClock <= 0) { transform.position = Vector3.MoveTowards(transform.position, downObject.transform.position, 3 * (airTime + 0.1f) * Time.deltaTime); }
             if (jumpClock > 0) { jumpClock -= Time.deltaTime; }
         }
         
-        if (cam.transform.eulerAngles.x >= 270)
+        if (cam.transform.localEulerAngles.x >= 270)
         {
-            Debug.Log(cam.transform.eulerAngles.x);
-            
-            anim.SetFloat("CamAngle", cam.transform.eulerAngles.x - 360 );
+
+            anim.SetFloat("CamAngle", cam.transform.localEulerAngles.x - 360 );
         }
         else
-        {
-            Debug.Log("less");
-            anim.SetFloat("CamAngle", cam.transform.eulerAngles.x);
-            // anim.SetFloat("CamAngleNeg", 0);
+        {  
+            anim.SetFloat("CamAngle", cam.transform.localEulerAngles.x);
         }
-       // anim.SetFloat("CamAngle", cam.transform.eulerAngles.x);
-      //  anim.SetFloat("CamAngleNeg", cam.transform.eulerAngles.x - 360);
 
     }
     [PunRPC]
     public void UpdateAnimationValues(float newH, float newV)
     {
-
+        fwdObject.transform.localPosition = new Vector3(newH, 0, newV);
         anim.SetFloat("h", newH);
         anim.SetFloat("v", newV);
         
@@ -117,23 +115,12 @@ public class HumanControls : Photon.PunBehaviour
         {
             v = Input.GetAxis("Vertical");
             h = Input.GetAxis("Horizontal");
-            //if (Input.GetAxis("Horizontal") != 0) {
-            //     h = Input.GetAxis("Horizontal");
-            //   // transform.position += transform.right * Time.deltaTime * speed * h;
-            //    transform.position = Vector3.MoveTowards(transform.position, transform.right * h + transform.forward * v , Time.deltaTime * speed * h);
-            //}
-            //if (Input.GetAxis("Vertical") != 0)
-            //{
-            //     v = Input.GetAxis("Vertical");
-            //    //transform.position += transform.forward * Time.deltaTime * speed * v;
-            //    transform.position = Vector3.MoveTowards(transform.position, transform.forward, Time.deltaTime * speed * v);
-            //}
-            fwdObject.transform.localPosition = new Vector3(h,0,v);
-            //transform.position = Vector3.MoveTowards(transform.position, fwdObject.transform.position, Time.deltaTime * speed );
+
+            fwdObject.transform.localPosition = new Vector3(h, 0, v);
+
 
             Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             moveDirection = transform.TransformDirection(moveDirection);
-            //Multiply it by speed.
             moveDirection *= speed;
 
             GetComponent<CharacterController>().Move(moveDirection * Time.deltaTime);
@@ -146,13 +133,10 @@ public class HumanControls : Photon.PunBehaviour
     public void CheckGround()
     {
         Vector3 fwd = transform.TransformDirection(Vector3.down);
-        //Physics.Raycast(transform.position, fwd, groundCheckRange) ||
         if (Physics.Raycast(transform.position, fwd, groundCheckDistance))
-        {
-            
+        {    
             grounded = true;
-            airTime = 0;
-            
+            airTime = 0;   
         }
         else
         {
@@ -173,15 +157,15 @@ public class HumanControls : Photon.PunBehaviour
             if (col.gameObject.tag == "Entrance")
             {
                 //if (col.GetComponent<LocationChange>().parentObjectThatUsesMe == true) { transform.parent = col.GetComponent<LocationChange>().myParent.transform; }
-                if (col.GetComponent<LocationChange>().parentObjectThatUsesMe == true)
-                { GetComponent<PhotonView>().RPC("ParentToShip", PhotonTargets.AllViaServer, col.GetComponent<LocationChange>().myParent.name); }
+                //if (col.GetComponent<LocationChange>().parentObjectThatUsesMe == true)
+                //{ GetComponent<PhotonView>().RPC("ParentToShip", PhotonTargets.AllViaServer, col.GetComponent<LocationChange>().myParent.name); }
 
-                else
-                {
-                    //transform.parent = null;
-                    GetComponent<PhotonView>().RPC("NoParent", PhotonTargets.AllViaServer);
-                }
-                transform.position = col.gameObject.GetComponent<LocationChange>().exit.transform.position;
+                //else
+                //{
+                //    //transform.parent = null;
+                //    GetComponent<PhotonView>().RPC("NoParent", PhotonTargets.AllViaServer);
+                //}
+               // transform.position = col.gameObject.GetComponent<LocationChange>().exit.transform.position;
             }
         }
 
@@ -196,13 +180,13 @@ public class HumanControls : Photon.PunBehaviour
     {
         if (stream.isWriting)
         {
-           // stream.SendNext(transform.rotation);
-           // stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+            stream.SendNext(transform.position);
         }
         else
         {
-           // transform.rotation = (Quaternion)stream.ReceiveNext();
-           // transform.position = (Vector3)stream.ReceiveNext();
+            transform.rotation = (Quaternion)stream.ReceiveNext();
+            transform.position = (Vector3)stream.ReceiveNext();
         }
     }
 

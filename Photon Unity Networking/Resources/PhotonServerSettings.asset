@@ -78,4 +78,14 @@ MonoBehaviour:
   - Die
   - SetHangar
   - UpdateAnimationValues
+  - SetNewCords
+  - Selected
+  - OutInSpace
+  - SetAvailableJumpCoordinates
+  - UpdateLocationGalactica
+  - NoHangar
+  - UpdateLocationBaseStar
+  - UpdateLocationFleet
+  - ShipDestroyed
+  - JustSpawned
   DisableAutoOpenWizard: 1

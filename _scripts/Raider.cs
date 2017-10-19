@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Raider : Photon.PunBehaviour
+public class Raider : MonoBehaviour
 {
     public int speed;
     public GameObject patrolPointsParent;
@@ -18,30 +18,42 @@ public class Raider : Photon.PunBehaviour
     private Rigidbody rb;
     private int strafeDirection;
     public string patrolPointType;
+    public bool canPatrol;
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody>();
         if (Random.Range(0, 2) == 1) { strafeDirection = 1; } else { strafeDirection = -1; }
-        patrolPointsParent = GameObject.Find(patrolPointType);
-        foreach (Transform child in patrolPointsParent.transform)
-        {
-            if (currentPoint < points.Length)
-            {
-                points[currentPoint] = child.gameObject;
-                currentPoint++;
-            }
-           
-        }
-        patrolTarget = points[0];
-        currentPoint = 0;
-	}
+        
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        
-        if (shipTarget == null  ) { Patrol(); }
-        if (shipTarget != null) {  Attack(); if (Vector3.Distance(transform.position, shipTarget.transform.position) > 3000) { shipTarget = null; } }
+        if (canPatrol == true)
+        {
+            if (shipTarget == null) { Patrol(); }
+            if (shipTarget != null) { Attack(); if (Vector3.Distance(transform.position, shipTarget.transform.position) > 3000) { shipTarget = null; } }
+        }
 	}
+    public void AssignPatrol()
+    {
+        canPatrol = true;
+        patrolPointsParent = GameObject.Find(patrolPointType);
+        if (patrolPointsParent != null)
+        {
+            foreach (Transform child in patrolPointsParent.transform)
+            {
+                if (currentPoint < points.Length)
+                {
+                    points[currentPoint] = child.gameObject;
+                    currentPoint++;
+                }
+
+            }
+            patrolTarget = points[0];
+            currentPoint = 0;
+        }
+    }
+
     public void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.tag == "Bullet")
@@ -89,6 +101,7 @@ public class Raider : Photon.PunBehaviour
         }
     }
     public void Patrol() {
+        canPatrol = true;
         targetRotation = Quaternion.LookRotation(patrolTarget.transform.position - transform.position);
 
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 6 * Time.deltaTime);
@@ -103,9 +116,12 @@ public class Raider : Photon.PunBehaviour
         patrolTarget = points[currentPoint];
         
     }
-    [PunRPC]
+   // [PunRPC]
     public void Die()
     {
         Destroy(this.gameObject);
     }
+
+
+
 }

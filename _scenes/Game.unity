@@ -4670,7 +4670,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4373668303428084, guid: c28e39698c2f379498043d0fea91ffab, type: 2}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 114614455596527390, guid: c28e39698c2f379498043d0fea91ffab,
         type: 2}
@@ -16179,6 +16179,7 @@ MonoBehaviour:
   parentObjectThatUsesMe: 0
   forFighters: 0
   enter: 0
+  space: 0
   myHangar: {fileID: 0}
 --- !u!114 &298286506
 MonoBehaviour:
@@ -16367,6 +16368,7 @@ MonoBehaviour:
   parentObjectThatUsesMe: 0
   forFighters: 0
   enter: 0
+  space: 0
   myHangar: {fileID: 0}
 --- !u!114 &300712199
 MonoBehaviour:
@@ -20336,7 +20338,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &379332499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20413,6 +20415,7 @@ RectTransform:
   - {fileID: 647826725}
   - {fileID: 2078169005}
   - {fileID: 104728240}
+  - {fileID: 1171824811}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -29502,6 +29505,7 @@ MonoBehaviour:
   parentObjectThatUsesMe: 0
   forFighters: 0
   enter: 0
+  space: 0
   myHangar: {fileID: 0}
 --- !u!114 &569736920
 MonoBehaviour:
@@ -32553,6 +32557,7 @@ MonoBehaviour:
   parentObjectThatUsesMe: 0
   forFighters: 0
   enter: 0
+  space: 0
   myHangar: {fileID: 0}
 --- !u!114 &625667330
 MonoBehaviour:
@@ -33755,72 +33760,6 @@ Transform:
   m_Father: {fileID: 503216846}
   m_RootOrder: 84
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &653462984
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4288682867860262, guid: bd77e012007690b41a2d228ecdfc6c66, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -67.654205
-      objectReference: {fileID: 0}
-    - target: {fileID: 4288682867860262, guid: bd77e012007690b41a2d228ecdfc6c66, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 38.09999
-      objectReference: {fileID: 0}
-    - target: {fileID: 4288682867860262, guid: bd77e012007690b41a2d228ecdfc6c66, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 28.866852
-      objectReference: {fileID: 0}
-    - target: {fileID: 4288682867860262, guid: bd77e012007690b41a2d228ecdfc6c66, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4288682867860262, guid: bd77e012007690b41a2d228ecdfc6c66, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4288682867860262, guid: bd77e012007690b41a2d228ecdfc6c66, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4288682867860262, guid: bd77e012007690b41a2d228ecdfc6c66, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4288682867860262, guid: bd77e012007690b41a2d228ecdfc6c66, type: 2}
-      propertyPath: m_RootOrder
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 114099040657350650, guid: bd77e012007690b41a2d228ecdfc6c66,
-        type: 2}
-      propertyPath: viewIdField
-      value: 76
-      objectReference: {fileID: 0}
-    - target: {fileID: 114099040657350650, guid: bd77e012007690b41a2d228ecdfc6c66,
-        type: 2}
-      propertyPath: instantiationId
-      value: 76
-      objectReference: {fileID: 0}
-    - target: {fileID: 114055917329233302, guid: bd77e012007690b41a2d228ecdfc6c66,
-        type: 2}
-      propertyPath: viewIdField
-      value: 75
-      objectReference: {fileID: 0}
-    - target: {fileID: 114055917329233302, guid: bd77e012007690b41a2d228ecdfc6c66,
-        type: 2}
-      propertyPath: instantiationId
-      value: 75
-      objectReference: {fileID: 0}
-    - target: {fileID: 1379880693426896, guid: bd77e012007690b41a2d228ecdfc6c66, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: bd77e012007690b41a2d228ecdfc6c66, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &653737170
 GameObject:
   m_ObjectHideFlags: 0
@@ -37350,6 +37289,7 @@ MonoBehaviour:
   parentObjectThatUsesMe: 0
   forFighters: 0
   enter: 0
+  space: 0
   myHangar: {fileID: 0}
 --- !u!114 &725810682
 MonoBehaviour:
@@ -47804,7 +47744,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &932288062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60867,7 +60807,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4568711972085788, guid: 1e87f66e72a42f44689776ebc9c49a1a, type: 2}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1179561869198292, guid: 1e87f66e72a42f44689776ebc9c49a1a, type: 2}
       propertyPath: m_IsActive
@@ -61496,6 +61436,80 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1170663492}
   m_Mesh: {fileID: 4300000, guid: f92961f1fb9b04dff92f9d52bdc72230, type: 3}
+--- !u!1 &1171824810
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1171824811}
+  - component: {fileID: 1171824813}
+  - component: {fileID: 1171824812}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1171824811
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1171824810}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 379332502}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -47.200073, y: 143.90002}
+  m_SizeDelta: {x: 328.45, y: 125.82}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1171824812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1171824810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 40
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 4
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Game
+--- !u!222 &1171824813
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1171824810}
 --- !u!1 &1172934282
 GameObject:
   m_ObjectHideFlags: 0
@@ -76116,7 +76130,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1443596218
 Transform:
   m_ObjectHideFlags: 0
@@ -88322,7 +88336,7 @@ Transform:
   - {fileID: 310619424}
   - {fileID: 1135562846}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1610787680
 GameObject:
@@ -90849,6 +90863,7 @@ MonoBehaviour:
   parentObjectThatUsesMe: 1
   forFighters: 0
   enter: 0
+  space: 0
   myHangar: {fileID: 0}
 --- !u!114 &1669592856
 MonoBehaviour:
@@ -91706,6 +91721,7 @@ MonoBehaviour:
   parentObjectThatUsesMe: 0
   forFighters: 0
   enter: 0
+  space: 0
   myHangar: {fileID: 0}
 --- !u!114 &1682220323
 MonoBehaviour:
@@ -100303,6 +100319,7 @@ MonoBehaviour:
   Camera: {fileID: 771022290}
   position: {x: 0, y: 0, z: 0}
   spawnLocation: {fileID: 0}
+  playerObject: 
 --- !u!114 &1824828492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104068,7 +104085,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1891880759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104125,7 +104142,7 @@ Transform:
   - {fileID: 2092390340}
   - {fileID: 1063524850}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1891935423
 GameObject:
@@ -104375,6 +104392,7 @@ MonoBehaviour:
   parentObjectThatUsesMe: 0
   forFighters: 0
   enter: 0
+  space: 0
   myHangar: {fileID: 0}
 --- !u!114 &1896196708
 MonoBehaviour:

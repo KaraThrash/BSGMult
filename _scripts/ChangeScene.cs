@@ -12,12 +12,12 @@ public class ChangeScene : Photon.PunBehaviour
 	// Use this for initialization
 	void Start () {
         dieClock = 3;
-        Debug.Log("start");
+      
         if (saveNewObjects == true) {
-            Debug.Log("Save them");
+          
 
             ChangeScene[] saveThese = FindObjectsOfType(typeof(ChangeScene)) as ChangeScene[];
-            Debug.Log(saveThese);
+        
             foreach (ChangeScene go in saveThese) { go.GetComponent<ChangeScene>().tickClock = false; }
         }
     }
@@ -27,7 +27,7 @@ public class ChangeScene : Photon.PunBehaviour
         if (tickClock == true) {
             dieClock -= Time.deltaTime;
             if (dieClock <= 0 && destroyMe == false) {
-                Debug.Log("ran out of time");
+           
                 Destroy(this.gameObject);
             }
         }
@@ -53,13 +53,12 @@ public class ChangeScene : Photon.PunBehaviour
         // if (destroyMe == false) {
         tickClock = false;
         dieClock = 3;
-        Debug.Log("Awake");
-        DontDestroyOnLoad(transform.gameObject);
+
+        //DontDestroyOnLoad(transform.gameObject);
     //}
     }
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("OnSceneLoaded: " + scene.name);
-        Debug.Log(mode);
+
     }
 }
