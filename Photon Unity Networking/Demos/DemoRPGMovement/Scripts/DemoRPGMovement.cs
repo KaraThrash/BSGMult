@@ -10,8 +10,8 @@ public class DemoRPGMovement : MonoBehaviour
     void OnJoinedRoom()
     {
         Debug.Log("joined room");
-        if (PhotonNetwork.countOfPlayers > 1) { CreatePlayerObject(); }
-       
+       // if (PhotonNetwork.countOfPlayers > 1) { CreatePlayerObject(); }
+        CreatePlayerObject();
     }
 
     void CreatePlayerObject()

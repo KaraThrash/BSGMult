@@ -88,4 +88,5 @@ MonoBehaviour:
   - UpdateLocationFleet
   - ShipDestroyed
   - JustSpawned
+  - SetRotationObjects
   DisableAutoOpenWizard: 1

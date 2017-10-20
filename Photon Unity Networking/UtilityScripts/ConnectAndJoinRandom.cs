@@ -77,15 +77,16 @@ public class ConnectAndJoinRandom : Photon.MonoBehaviour
         if (firstIn == true)
         {
            // PhotonNetwork.Instantiate("Server", new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0), 0, null);
-            Application.LoadLevel("ServerStart");
+          //  Application.LoadLevel("ServerStart");
             PhotonNetwork.InstantiateSceneObject("Everything", Vector3.zero, new Quaternion(0, 0, 0, 0), 0, null);
 
             // PhotonNetwork.Instantiate("Server", new Vector3(0,0,0), new Quaternion(0, 0, 0, 0), 0, null);
             // spawnServerSTuff.GetComponent<SpawnServerObjects>().SpawnEverythingOnServer();
             //GameObject Clone = PhotonNetwork.Instantiate("scorekeeper", Vector3.zero, new Quaternion(0,0,0,0), 0) as GameObject;
         }
-        else { Application.LoadLevel("PlayerLobby"); }
+        else { }
+        Application.LoadLevel("PlayerLobby");
         //Application.LoadLevel("ServerStart");
-       
+
     }
 }

@@ -17,19 +17,19 @@ public class LevelManager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.J))
         {
-            SceneManager.LoadScene("Game 3");
+           // SceneManager.LoadScene("Game 3");
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
-            SceneManager.LoadScene("Game 4");
+           // SceneManager.LoadScene("Game 4");
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
-            SceneManager.LoadScene("Game 1");
+          //  SceneManager.LoadScene("Game 1");
         }
         if (Input.GetKeyDown(KeyCode.U))
         {
-            SceneManager.LoadScene("ServerStart");
+           // SceneManager.LoadScene("ServerStart");
         }
     }
     void Awake()

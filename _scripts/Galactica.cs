@@ -43,8 +43,14 @@ public class Galactica : Photon.PunBehaviour
            
 
         }
-        transform.rotation = Quaternion.Lerp(transform.rotation, rotationObject.transform.rotation, 5.0f);
+        if (photonView.isMine == true)
+        {
+            
+           
+        }
+   
         transform.position = Vector3.MoveTowards(theGalactica.transform.position, fwdObject.transform.position, 1.0f);
+        transform.rotation = Quaternion.Lerp(transform.rotation, rotationObject.transform.rotation, 5.0f);
         fwdObject.transform.position = Vector3.MoveTowards(fwdObject.transform.position, theGalactica.transform.position, 2.0f);
         if (manned == true)
         {
@@ -60,7 +66,7 @@ public class Galactica : Photon.PunBehaviour
             if (Input.GetKey(KeyCode.E)) { rotationObject.transform.Rotate(0, 0,0.5f); }
             if (Input.GetKey(KeyCode.D)) { rotationObject.transform.Rotate(0, 0.5f, 0); }
             if (Input.GetKey(KeyCode.A)) { rotationObject.transform.Rotate(0, -0.5f, 0); }
-            GetComponent<PhotonView>().RPC("SetMovementObjects", PhotonTargets.Others, rotationObject.transform.rotation, fwdObject.transform.localPosition);
+            GetComponent<PhotonView>().RPC("SetRotationObjects", PhotonTargets.Others, rotationObject.transform.rotation);
         }
     }
     [PunRPC]
@@ -69,27 +75,28 @@ public class Galactica : Photon.PunBehaviour
 
 
     [PunRPC]
-    public void SetMovementObjects(Quaternion rot, Vector3 pos) { fwdObject.transform.localPosition = pos; rotationObject.transform.rotation = rot; }
+    public void SetRotationObjects(Quaternion rot) { rotationObject.transform.rotation = rot; }
     [PunRPC]
     public void SetForwardObject() { fwdObject.transform.localPosition = new Vector3( 0, 0, -1000.0f); }
 
     public void Manned() { rotationObject.transform.rotation = transform.rotation; manned = true; myCamera.active = true; }
     public void NotManned() { manned = false; myCamera.active = false; rotationObject.transform.rotation = transform.rotation; }
+
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.isWriting)
         {
-           
+            //stream.SendNext(transform.rotation);
+            //stream.SendNext(transform.position);
             stream.SendNext(currentCord);
-          //  stream.SendNext(rotationObject.transform.rotation);
         }
         else
         {
+           // transform.rotation = (Quaternion)stream.ReceiveNext();
+           // transform.position = (Vector3)stream.ReceiveNext();
             currentCord = (int)stream.ReceiveNext();
-           // rotationObject.transform.rotation = (Quaternion)stream.ReceiveNext();
         }
     }
-
     [PunRPC]
     public void Jump(int coordsToJump) {
         fuel -= 1;

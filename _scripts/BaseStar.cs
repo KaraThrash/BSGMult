@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BaseStar : Photon.PunBehaviour
 {
+    public GameObject myShip;
+
     public GameObject myHangar;
     public GameObject launchBay;
     public GameObject raider;
@@ -20,9 +22,9 @@ public class BaseStar : Photon.PunBehaviour
     public GameObject masterShipList;
     public bool hasTarget; //galactica or fleet in same space
     public bool jumping;
-
-	// Use this for initialization
-	void Start () {
+    public Transform peopleOnBoard;
+    // Use this for initialization
+    void Start () {
         if (raiderParentObject == null)
         {
             GameObject parentclone = Instantiate(raiderParentObjectPrefab, transform.position, transform.rotation) as GameObject;
@@ -72,7 +74,7 @@ public class BaseStar : Photon.PunBehaviour
             GameObject parentclone = Instantiate(raiderParentObjectPrefab, transform.position, transform.rotation) as GameObject;
             raiderParentObject = parentclone;
         }
-         GameObject clone = PhotonNetwork.Instantiate(objectToSpawn, launchBay.transform.position, launchBay.transform.rotation, 0, null);
+         GameObject clone = PhotonNetwork.InstantiateSceneObject(objectToSpawn, launchBay.transform.position, launchBay.transform.rotation, 0, null);
         //GameObject clone = Instantiate(raider, launchBay.transform.position, launchBay.transform.rotation) as GameObject;
         clone.GetComponent<PhotonView>().RPC("JustSpawned", PhotonTargets.All);
         //clone.transform.parent = raiderParentObject.transform;
@@ -90,7 +92,8 @@ public class BaseStar : Photon.PunBehaviour
        
     }
 
-    public void Jump() {
+    public void Jump()
+    {
         //TODO: modify this so that it is recalling it's fighters and not justs deleteing them
         hasTarget = false;
         jumping = false;
@@ -99,26 +102,64 @@ public class BaseStar : Photon.PunBehaviour
         if (raiderParentObject != null)
         {
             foreach (Transform child in raiderParentObject.transform)
-             {
-            if (child.childCount > 0) { numberOfRaiderWings += child.childCount; } 
-            PhotonNetwork.Destroy(child.gameObject);
-           // Destroy(child.gameObject);
-        }
-       
+            {
+                if (child.childCount > 0) { numberOfRaiderWings += child.childCount; }
+                PhotonNetwork.Destroy(child.gameObject);
+                // Destroy(child.gameObject);
 
-           // Destroy(raiderParentObject);
+            }
+
+
+            // Destroy(raiderParentObject);
         }
         numberOfRaiderWings += 2;
         GetComponent<FTLDrive>().currentCords = ftlCoords;
+       // Application.LoadLevel(ftlCoords.ToString()); //this only works if the server isnt also a player
         jumpManager.GetComponent<PhotonView>().RPC("UpdateLocationBaseStar", PhotonTargets.AllBufferedViaServer, ftlCoords);
 
         if (Vector3.Distance(galactica.transform.position, transform.position) < 3000)
         { attackpatrolPoints.transform.position = galactica.transform.position; }
         //jumpManager.GetComponent<JumpManager>().ManageJump(0, 0, 0, 0);
         hasTarget = jumpManager.GetComponent<JumpManager>().CheckCoordinatesBaseStarForFleetGalactica();
+
+
+        ForPassengersDuringJump(ftlCoords);
+        myHangar.GetComponent<LandingBay>().jumping = true;
     }
 
-    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+
+    
+public void ForPassengersDuringJump(int newCords)
+{
+    foreach (Transform child in peopleOnBoard)
+    {
+        if (child.GetComponent<PlayerCharacter>().localPlayer != null)
+        {
+            //TODO: what about people sitting on the flight deck? >> handled on fighter script currently
+            if (child.GetComponent<PlayerCharacter>().flying == false)
+            {
+
+                child.GetComponent<PlayerCharacter>().localPlayer.GetComponent<PlayerMain>().spaceCoordinates = newCords;
+                child.GetComponent<PlayerCharacter>().JumpEffects(newCords);
+                jumpManager.GetComponent<JumpManager>().ManageJump(0, 0, newCords, newCords); //galactica cords, fleet cords, basestar cords, localPlayer cords
+
+            }
+            else { jumpManager.GetComponent<JumpManager>().ManageJump(0, 0, newCords, 0); }
+
+        }
+
+
+
+    }
+
+}
+
+
+
+
+
+
+void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.isWriting)
         {

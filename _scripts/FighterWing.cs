@@ -18,7 +18,8 @@ public class FighterWing : Photon.PunBehaviour
     [PunRPC]
     public void JustSpawned()
     {
-        if (GameObject.Find("RaiderParentObject").transform != null)
+        GameObject raiderParent = GameObject.Find("RaiderParentObject");
+        if (raiderParent != null)
         {
             transform.parent = GameObject.Find("RaiderParentObject").transform;
 
@@ -26,5 +27,11 @@ public class FighterWing : Photon.PunBehaviour
             { raiderchild.GetComponent<Raider>().AssignPatrol(); }
             this.gameObject.active = true;
         }
+    }
+    void Awake()
+    {
+
+       // Debug.Log("basestar In New Scene");
+         DontDestroyOnLoad(this.gameObject);
     }
 }

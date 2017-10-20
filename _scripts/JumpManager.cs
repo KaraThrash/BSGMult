@@ -10,6 +10,7 @@ public class JumpManager : Photon.PunBehaviour
     public GameObject galactica;
     public int galacticaCoordinates;
     public GameObject baseStar;
+    public GameObject baseStarShip;
     public int baseStarCoordinates;
     public GameObject fleet;
     public int fleetCoordinates;
@@ -44,7 +45,7 @@ public class JumpManager : Photon.PunBehaviour
             if (basestarCord != 0) { baseStarCoordinates = basestarCord; }
             if (fleetCord != 0) { fleetCoordinates = fleetCord; }
 
-            if (baseStarCoordinates == localPlayerCords) { baseStar.active = true; } else { baseStar.active = false; }
+            if (baseStarCoordinates == localPlayerCords) { baseStarShip.active = true; } else { baseStarShip.active = false; }
             if (galacticaCoordinates == localPlayerCords) { galactica.active = true; } else { galactica.active = false; Debug.Log("Turn Galactica Off: " + galacticaCoordinates + localPlayerCords); }
 
             if (fleetCoordinates == localPlayerCords) { fleet.active = true; } else { fleet.active = false; }
@@ -75,8 +76,8 @@ public class JumpManager : Photon.PunBehaviour
         baseStarCoordinates = newBaseStarCordinates;
         if (localPlayer != null) {
             //make sure to check for local player otherwise the server turns the basestar off
-            if (baseStarCoordinates == localPlayerCords) { baseStar.active = true; }
-            else { baseStar.active = false; }
+            if (baseStarCoordinates == localPlayerCords) { baseStarShip.active = true; }
+            else { baseStarShip.active = false; }
         }
         
     }
@@ -87,7 +88,7 @@ public class JumpManager : Photon.PunBehaviour
 
         joiningPlayer.GetComponent<PlayerMain>().Jumping(galacticaCoordinates);
 
-            if (baseStarCoordinates == galacticaCoordinates) { baseStar.active = true; } else { baseStar.active = false; }
+            if (baseStarCoordinates == galacticaCoordinates) { baseStarShip.active = true; } else { baseStarShip.active = false; }
            
 
             if (fleetCoordinates == galacticaCoordinates) { fleet.active = true; } else { fleet.active = false; }
