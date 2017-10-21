@@ -46,7 +46,7 @@ public class PlayerCharacter : Photon.PunBehaviour
             if (Input.GetMouseButtonDown(0) )
             {
 
-                GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer);
+               // GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer);
 
             }
 

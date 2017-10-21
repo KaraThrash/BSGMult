@@ -32,7 +32,7 @@ public class FPScamera : MonoBehaviour {
             
         }
         else {
-            Cursor.lockState = CursorLockMode.Locked;
+           // Cursor.lockState = CursorLockMode.Locked;
             LookRotation(player.transform, this.transform);
         }
         

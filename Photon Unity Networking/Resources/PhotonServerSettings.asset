@@ -89,4 +89,8 @@ MonoBehaviour:
   - ShipDestroyed
   - JustSpawned
   - SetRotationObjects
+  - UpdateAimAnimationValues
+  - ChangeItem
+  - SwingWrench
+  - DeployLandingGear
   DisableAutoOpenWizard: 1

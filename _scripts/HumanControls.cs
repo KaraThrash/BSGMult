@@ -25,24 +25,27 @@ public class HumanControls : Photon.PunBehaviour
     public GameObject camGunModel;
     private Animator anim;
     public GameObject gunModel;
-    private float h;
-    private float v;
+    public GameObject wrenchModel;
+    public GameObject camWrenchModel;
+    public float h;
+    public float v;
+    public float camGunAimAngle;
     // Use this for initialization
     void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         m_TransformView = GetComponent<PhotonTransformView>();
-        //cam = GameObject.Find("RPG Camera");
+       
     }
     public void SetAsMyPlayer() {
-        // cam.active = true;
-       // GetComponent<PhotonView>().RPC("ParentToShip", PhotonTargets.AllViaServer, "PeopleOnBoardGalactica");
-       // transform.position = GameObject.Find("Galactica(Clone)").GetComponent<Galactica>().medbay.transform.position;
+       
         cam.GetComponent<Camera>().enabled = true;
         cam.GetComponent<FPScamera>().enabled = true;
         gunModel.active = false;
         camGunModel.active = true;
+        camWrenchModel.active = false;
+        wrenchModel.active = false;
         charModel.active = false;
         controlled = true;
         GetComponent<PlayerCharacter>().controlled = true;
@@ -52,6 +55,14 @@ public class HumanControls : Photon.PunBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        if (jumpClock > 0) { jumpClock -= Time.deltaTime; }
+        else {
+            CheckGround();
+            if (grounded == false)
+            { transform.position = Vector3.MoveTowards(transform.position, downObject.transform.position, 3 * (airTime + 0.1f) * Time.deltaTime); }
+        }
+
 
         if (controlled == true)
         {
@@ -62,45 +73,103 @@ public class HumanControls : Photon.PunBehaviour
                 if (Input.GetKey(KeyCode.Space)) { Jump(); }
                 if (coolDown <= 0)
                 {
-                    if (Input.GetKey(KeyCode.Q))
+                    if (Input.GetKeyDown(KeyCode.Q))
                     {
-
+                        GetComponent<PhotonView>().RPC("ChangeItem", PhotonTargets.AllViaServer);
                     }
                 }
                 else { coolDown -= Time.deltaTime; }
-                CheckGround();
+                if (cam.transform.localEulerAngles.x >= 270)
+                {
+                    camGunAimAngle = cam.transform.localEulerAngles.x - 360;
+
+                }
+                else
+                {
+                    camGunAimAngle = cam.transform.localEulerAngles.x;
+
+                }
+                GetComponent<PhotonView>().RPC("UpdateAimAnimationValues", PhotonTargets.AllViaServer, camGunAimAngle);
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (anim.GetBool("RifleOut") == true) { GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer); }
+                    else { GetComponent<PhotonView>().RPC("SwingWrench", PhotonTargets.AllViaServer); }
+
+
+                }
+
+
+
             }
             if (Input.GetKey(KeyCode.Backspace))
             {
                 canMove = true;
             }
-           // if (Input.GetKey(KeyCode.V) )
-           // {
-               // CheckForIneractableObject();
-            //}
-            
-            if (grounded == false && jumpClock <= 0) { transform.position = Vector3.MoveTowards(transform.position, downObject.transform.position, 3 * (airTime + 0.1f) * Time.deltaTime); }
-            if (jumpClock > 0) { jumpClock -= Time.deltaTime; }
-        }
-        
-        if (cam.transform.localEulerAngles.x >= 270)
-        {
 
-            anim.SetFloat("CamAngle", cam.transform.localEulerAngles.x - 360 );
+           
+
+
+
+           
+        }
+       // anim.SetFloat("CamAngle", camGunAimAngle);
+    }
+    [PunRPC]
+    public void ChangeItem( )
+    {
+        GetComponent<Animator>().ResetTrigger("SwingWrench") ;
+       
+        if (controlled == true)
+        {
+            if (camWrenchModel.active == true)
+            {
+                anim.SetBool("RifleOut", true);
+                camWrenchModel.active = false;
+                camGunModel.active = true;
+            }
+            else
+            {
+                anim.SetBool("RifleOut", false);
+                camWrenchModel.active = true;
+                camGunModel.active = false;
+            }
         }
         else
-        {  
-            anim.SetFloat("CamAngle", cam.transform.localEulerAngles.x);
-        }
+        {
+            camWrenchModel.active = false;
+            camGunModel.active = false;
+            if (wrenchModel.active == true)
+            {
+                GetComponent<Animator>().SetBool("RifleOut", true);
+                wrenchModel.active = false; gunModel.active = true;
 
+            }
+            else
+            {
+                GetComponent<Animator>().SetBool("RifleOut", false);
+                gunModel.active = false; wrenchModel.active = true;
+
+            }
+        }
+    }
+    [PunRPC]
+    public void UpdateAimAnimationValues(float aimAngle)
+    {
+        GetComponent<Animator>().SetFloat("CamAngle", aimAngle);
+    }
+    [PunRPC]
+    public void SwingWrench()
+    {
+        GetComponent<Animator>().SetTrigger("SwingWrench");
     }
     [PunRPC]
     public void UpdateAnimationValues(float newH, float newV)
     {
+
         fwdObject.transform.localPosition = new Vector3(newH, 0, newV);
         anim.SetFloat("h", newH);
         anim.SetFloat("v", newV);
-        
+       
     }
 
     void ApplySynchronizedValues()
@@ -173,7 +242,7 @@ public class HumanControls : Photon.PunBehaviour
  
     void Jump()
     {
-        if (grounded == true)
+        if (grounded == true && jumpClock <= 0)
         { jumpClock = 1; rb.AddForce(transform.up * 100 * Time.deltaTime, ForceMode.Impulse); }
     }
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -190,16 +259,5 @@ public class HumanControls : Photon.PunBehaviour
         }
     }
 
-    public void CheckForIneractableObject()
-    {
-        RaycastHit hit;
-
-        if (Physics.Raycast(raycastObject.transform.position, raycastObject.transform.forward, out hit, 5.0f) && hit.transform.tag == "Interactable")
-        {
-            hit.transform.gameObject.SendMessage("Interact", this.gameObject);
-
-        }
-
-    }
 
 }

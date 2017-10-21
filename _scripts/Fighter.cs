@@ -22,6 +22,7 @@ public class Fighter : Photon.PunBehaviour
     public GameObject jumpManager;
     public GameObject spaceObject;
     public GameObject masterShipList;
+    public GameObject landingGear;
     // Use this for initialization
     void Start()
     {
@@ -53,6 +54,7 @@ public class Fighter : Photon.PunBehaviour
     [PunRPC]
     public void TakeOff(int photonPlayerNumber)
     {
+        landingGear.active = false;
         GetComponent<Rigidbody>().isKinematic = false;
         GetComponent<Rigidbody>().useGravity = false;
         GetComponent<Rigidbody>().AddForce(transform.up * 10, ForceMode.Impulse);
