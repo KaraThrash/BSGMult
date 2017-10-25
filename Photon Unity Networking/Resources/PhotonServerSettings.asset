@@ -93,4 +93,7 @@ MonoBehaviour:
   - ChangeItem
   - SwingWrench
   - DeployLandingGear
+  - SyncAimTarget
+  - PickedUpObject
+  - DropCarriedObject
   DisableAutoOpenWizard: 1

@@ -101429,6 +101429,7 @@ MonoBehaviour:
   gunCooldown: 0
   patrolPointType: AttackPatrolPoints
   canPatrol: 0
+  explosion: {fileID: 1265627233013650, guid: b0feb142427356e4b88350e2d2739065, type: 2}
 --- !u!114 &114541296121964152
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -101456,6 +101457,7 @@ MonoBehaviour:
   gunCooldown: 0
   patrolPointType: PatrolPoints
   canPatrol: 0
+  explosion: {fileID: 1265627233013650, guid: b0feb142427356e4b88350e2d2739065, type: 2}
 --- !u!114 &114678982972259308
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -101483,6 +101485,7 @@ MonoBehaviour:
   gunCooldown: 0
   patrolPointType: PatrolPoints
   canPatrol: 0
+  explosion: {fileID: 1265627233013650, guid: b0feb142427356e4b88350e2d2739065, type: 2}
 --- !u!114 &114683842493529594
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -101510,6 +101513,7 @@ MonoBehaviour:
   gunCooldown: 0
   patrolPointType: PatrolPoints
   canPatrol: 0
+  explosion: {fileID: 1265627233013650, guid: b0feb142427356e4b88350e2d2739065, type: 2}
 --- !u!114 &114685658901765418
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -101537,6 +101541,7 @@ MonoBehaviour:
   gunCooldown: 0
   patrolPointType: AttackPatrolPoints
   canPatrol: 0
+  explosion: {fileID: 1265627233013650, guid: b0feb142427356e4b88350e2d2739065, type: 2}
 --- !u!114 &114698136965507378
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -101576,6 +101581,7 @@ MonoBehaviour:
   gunCooldown: 0
   patrolPointType: PatrolPoints
   canPatrol: 0
+  explosion: {fileID: 1265627233013650, guid: b0feb142427356e4b88350e2d2739065, type: 2}
 --- !u!114 &114936831468578000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -101603,6 +101609,7 @@ MonoBehaviour:
   gunCooldown: 0
   patrolPointType: PatrolPoints
   canPatrol: 0
+  explosion: {fileID: 1265627233013650, guid: b0feb142427356e4b88350e2d2739065, type: 2}
 --- !u!135 &135250708557228608
 SphereCollider:
   m_ObjectHideFlags: 1

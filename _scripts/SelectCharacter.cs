@@ -31,7 +31,7 @@ public class SelectCharacter : Photon.PunBehaviour
             myCharacter.GetComponent<HumanControls>().SetAsMyPlayer();
             myCharacter.GetComponent<PlayerCharacter>().localPlayer = pickedBy;
             myCharacter.GetComponent<PhotonView>().ownerId = newView;
-          
+            myCharacter.GetComponent<HumanControls>().cam.GetComponent<PhotonView>().ownerId = newView;
         }
 
     }

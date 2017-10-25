@@ -23,6 +23,10 @@ public class Fighter : Photon.PunBehaviour
     public GameObject spaceObject;
     public GameObject masterShipList;
     public GameObject landingGear;
+
+    public GameObject explosion;
+    public bool destroyed;
+    public float dieClock;
     // Use this for initialization
     void Start()
     {
@@ -36,7 +40,11 @@ public class Fighter : Photon.PunBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (destroyed == true)
+        {
+            dieClock -= Time.deltaTime;
+            if (dieClock <= 0) { Die(); }
+        }
         if (flying == true)
         {
 
@@ -258,21 +266,27 @@ public class Fighter : Photon.PunBehaviour
     {
         //TODO: is that counting once for everyone in the server? need to check this
         hp--;
-        if (hp == 0)
+        if (hp == 0 && destroyed == false)
         {
+            destroyed = true;
+            dieClock = 2;
             if (pilot != null)
             {
-                pilot.transform.position = medbay.transform.position;
+                //pilot.transform.position = medbay.transform.position;
 
-                pilot.active = true;
-                pilot.GetComponent<PlayerCharacter>().myCamera.active = true;
+                //pilot.active = true;
+                //pilot.GetComponent<PlayerCharacter>().myCamera.active = true;
 
             }
-            GetComponent<PhotonView>().RPC("Die", PhotonTargets.AllViaServer);
-
+            
+            
         }
     }
-    [PunRPC]
+    public void DieOnServer() {
+     // GetComponent<PhotonView>().RPC("Die", PhotonTargets.AllViaServer);
+    }
+   // [PunRPC]
+
     public void Die()
     {
 
@@ -286,6 +300,7 @@ public class Fighter : Photon.PunBehaviour
             pilot.GetComponent<PlayerCharacter>().myCamera.active = true;
 
         }
+        Instantiate(explosion, transform.position, transform.rotation);
         Destroy(this.gameObject);
 
     }

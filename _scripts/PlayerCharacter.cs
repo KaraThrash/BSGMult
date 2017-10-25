@@ -19,6 +19,8 @@ public class PlayerCharacter : Photon.PunBehaviour
     public GameObject localPlayer;
     public GameObject spaceObject;
     public GameObject masterShipList;
+    public GameObject backpack;
+    public GameObject carriedObject;
     // Use this for initialization
     void Start()
     {
@@ -49,13 +51,18 @@ public class PlayerCharacter : Photon.PunBehaviour
                // GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer);
 
             }
+            if (Input.GetKey(KeyCode.T))
+            {
 
+                GetComponent<PhotonView>().RPC("DropCarriedObject", PhotonTargets.AllViaServer);
+            }
+            if (Input.GetKey(KeyCode.E))
+            {
+
+                CheckForIneractableObject();
+            }
         }
-        if (Input.GetKey(KeyCode.E))
-        {
-            
-            CheckForIneractableObject();
-        }
+        
     }
     public void CheckForIneractableObject()
     {
@@ -148,6 +155,33 @@ public class PlayerCharacter : Photon.PunBehaviour
         localPlayer.GetComponent<PlayerMain>().Jumping(coords);
     }
 
-   
-   
+
+    [PunRPC]
+    public void PickedUpObject() {
+        backpack.active = true;
+        RaycastHit hit;
+        if (Physics.Raycast(myCamera.transform.position, myCamera.transform.forward, out hit, 5.0f) && hit.transform.gameObject.GetComponent<SupplyCrate>() != null)
+        {
+            hit.transform.gameObject.SendMessage("Interact", this.gameObject);
+
+        }
+        
+    }
+    [PunRPC]
+    public void DropCarriedObject()
+    {
+        backpack.active = false;
+        if (carriedObject != null)
+        {
+            if (transform.parent != null) { carriedObject.transform.parent = transform.parent; } else { carriedObject.transform.parent = null; }
+            
+            carriedObject.transform.position = gun.transform.position;
+            carriedObject.active = true;
+            carriedObject.GetComponent<Rigidbody>().AddForce(gun.transform.forward * 10,ForceMode.Impulse );
+            
+        }
+        carriedObject = null;
+        
+        //transform.parent = masterShipList.GetComponent<MasterShipList>().ParentHumanToShip(newShipParent).transform;
+    }
 }

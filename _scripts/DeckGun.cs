@@ -93,13 +93,17 @@ public class DeckGun : MonoBehaviour {
             if (Input.GetKey(KeyCode.D) && vertTarget < rightLimit) { vertTarget += 1; }
             if (Input.GetKey(KeyCode.A) && vertTarget > leftLimit) { vertTarget -= 1; }
         }
-
+        GetComponent<PhotonView>().RPC("SyncAimTarget", PhotonTargets.AllViaServer,hortTarget,vertTarget);
     }
     public void Manned() {
         myCamera.active = true;
         manned = true;
         GetComponent<PhotonView>().RPC("ActivateOnServer", PhotonTargets.AllBufferedViaServer);
     }
+    [PunRPC]
+    public void SyncAimTarget(float newH,float newV) { activated = true; }
+
+
     [PunRPC]
     public void ActivateOnServer() { activated = true; }
 
@@ -117,8 +121,7 @@ public class DeckGun : MonoBehaviour {
         if (stream.isWriting)
         {
             stream.SendNext(activated);
-           // stream.SendNext(readyPosition.transform.position);
-           // stream.SendNext(transform.rotation);
+            
         }
         else
         {

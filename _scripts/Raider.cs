@@ -19,6 +19,7 @@ public class Raider : MonoBehaviour
     private int strafeDirection;
     public string patrolPointType;
     public bool canPatrol;
+    public GameObject explosion;
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody>();
@@ -59,6 +60,7 @@ public class Raider : MonoBehaviour
     {
         if (col.gameObject.tag == "Bullet")
         {
+            Instantiate(explosion, transform.position, transform.rotation);
             Destroy(this.gameObject);
             Debug.Log("hit");
         }
