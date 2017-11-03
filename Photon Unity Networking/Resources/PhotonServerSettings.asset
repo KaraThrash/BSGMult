@@ -96,4 +96,6 @@ MonoBehaviour:
   - SyncAimTarget
   - PickedUpObject
   - DropCarriedObject
+  - StartJump
+  - UpdateTotal
   DisableAutoOpenWizard: 1

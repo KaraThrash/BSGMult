@@ -15,10 +15,12 @@ public class FleetShip : Photon.PunBehaviour
     public float ftlTimer;
     public float ftlCost;
     public bool jumpOrdered;
+    public bool jumped;
     public GameObject fleetParent;
     public GameObject jumpTarget;
     public GameObject localSpaceObject;
     public Vector3 myPlaceInTheFleetFormation;
+    public bool leftBehind;
     // Use this for initialization
     void Start () {
 		
@@ -30,7 +32,10 @@ public class FleetShip : Photon.PunBehaviour
         //if (Input.GetKeyDown(KeyCode.U))
             if (jumpOrdered == true && ftlTimer >= ftlCost)
           
-            { ftlTimer = 0; GetComponent<PhotonView>().RPC("Jump", PhotonTargets.AllBufferedViaServer); }
+            {
+            Jump();
+           // ftlTimer = 0; GetComponent<PhotonView>().RPC("Jump", PhotonTargets.AllBufferedViaServer);
+        }
 
     }
     public void OrderJump(int jumpCoords)
@@ -38,20 +43,19 @@ public class FleetShip : Photon.PunBehaviour
 
         targetJumpCords = jumpCoords;
         ftlTimer = 0;
+        jumped = false;
         jumpOrdered = true;
     }
 
-    [PunRPC]
+    //[PunRPC]
     public void Jump() {
-        //Vector3 localObject = localSpaceObject.transform.localPosition;
-        //localSpaceObject.transform.parent = fleetParent.GetComponent<Fleet>().jumpDestination.transform;
-        //localSpaceObject.transform.localPosition = localObject;
-        //transform.position = localSpaceObject.transform.position;
-       
-            fleetParent.GetComponent<Fleet>().shipsJumped++;
+
+        jumpOrdered = false;
+        fleetParent.GetComponent<Fleet>().shipsJumped++;
             GetComponent<FTLDrive>().currentCords = targetJumpCords;
             ftlTimer = 0;
-            jumpOrdered = false;
+           
+        jumped = true;
         
         
         
@@ -72,5 +76,13 @@ public class FleetShip : Photon.PunBehaviour
         fleetParent.GetComponent<Fleet>().UpdateResources(-fuelHeld,-foodHeld,-1,-popHeld,-1); ;
 
         Destroy(this.gameObject);
+    }
+    public void RemoveFleetResources()
+    {
+        fleetParent.GetComponent<Fleet>().UpdateResources(-fuelHeld, -foodHeld, -1, -popHeld, -1);
+    }
+    public void AddFleetResources()
+    {
+        fleetParent.GetComponent<Fleet>().UpdateResources(+fuelHeld, +foodHeld, +1, +popHeld, +1);
     }
 }

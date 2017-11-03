@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 public class PlayerCharacter : Photon.PunBehaviour
 {
     //using this for humanoid
+    public int hp;
+    public GameObject hpHud;
     public GameObject testObj;
     PhotonView m_PhotonView;
     public GameObject myCamera;
@@ -56,7 +58,7 @@ public class PlayerCharacter : Photon.PunBehaviour
 
                 GetComponent<PhotonView>().RPC("DropCarriedObject", PhotonTargets.AllViaServer);
             }
-            if (Input.GetKey(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E))
             {
 
                 CheckForIneractableObject();
@@ -92,6 +94,7 @@ public class PlayerCharacter : Photon.PunBehaviour
     [PunRPC]
     public void GetInShip()
     {
+        if (localPlayer != null) { localPlayer.GetComponent<PlayerMain>().shipGroup = 3; }
         flying = true;
         this.gameObject.active = false;
         
@@ -102,7 +105,7 @@ public class PlayerCharacter : Photon.PunBehaviour
         flying = false;
         transform.parent = masterShipList.GetComponent<MasterShipList>().ParentHumanToShip(shipOnList).transform;
         this.gameObject.active = true;
-        if (localPlayer != null) { myCamera.active = true; }
+        if (localPlayer != null) { myCamera.active = true; localPlayer.GetComponent<PlayerMain>().shipGroup = shipOnList; }
     }
     public void OnTriggerEnter(Collider col)
     {
@@ -129,6 +132,26 @@ public class PlayerCharacter : Photon.PunBehaviour
         }
 
     }
+    public void OnCollisionEnter(Collision col2)
+    {
+        if (col2.gameObject.tag == "Bullet")
+        {
+            hp--;
+            if (hp > 0 && photonView.isMine == true)
+            {
+                hpHud.transform.GetChild(hp).gameObject.active = false;
+            }
+            if (hp <= 0) {
+                transform.localPosition = Vector3.zero; hp = 3;
+                hpHud.transform.GetChild(0).gameObject.active = true;
+                hpHud.transform.GetChild(1).gameObject.active = true;
+                hpHud.transform.GetChild(2).gameObject.active = true;
+            }
+        }
+    }
+
+
+
     [PunRPC]
     public void ParentToShip(int newShipParent) { transform.parent = masterShipList.GetComponent<MasterShipList>().ParentHumanToShip(newShipParent).transform; }
     [PunRPC]
@@ -149,12 +172,17 @@ public class PlayerCharacter : Photon.PunBehaviour
             flying = (bool)stream.ReceiveNext();
         }
     }
-    public void JumpEffects(int coords) {
-        myCamera.GetComponent<CameraEffects>().StartFTLEffect();
+    public void JumpEffects(int coords,int newShipGroup) {
+       // myCamera.GetComponent<CameraEffects>().StartFTLEffect();
         localPlayer.GetComponent<PlayerMain>().spaceCoordinates = coords;
-        localPlayer.GetComponent<PlayerMain>().Jumping(coords);
+        localPlayer.GetComponent<PlayerMain>().Jumping(coords, newShipGroup);
     }
-
+    public void JumpCameraEffects()
+    {
+        myCamera.GetComponent<CameraEffects>().StartFTLEffect();
+       // localPlayer.GetComponent<PlayerMain>().spaceCoordinates = coords;
+        //localPlayer.GetComponent<PlayerMain>().Jumping(coords);
+    }
 
     [PunRPC]
     public void PickedUpObject() {

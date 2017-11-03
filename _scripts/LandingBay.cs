@@ -6,7 +6,10 @@ public class LandingBay : Photon.PunBehaviour
 {
     public int myShipInList; //uses masterShipList 1:galactica 2:fleet 3:basestar 4:space
     public GameObject myShip;
+    public GameObject spaceExit;
     public List<GameObject> dockedShips = new List<GameObject>();
+    public List<GameObject> dockingSpaces = new List<GameObject>();
+
     public GameObject[] shipSpots;
     public bool jumping;
     public int hangarSpots = 8;
@@ -54,8 +57,24 @@ public class LandingBay : Photon.PunBehaviour
             if (!dockedShips.Contains(shipToDock))
             {
                 dockedShips.Add(shipToDock);
-
+                shipsDocked++;
+                
             }
+        int openSpace = FindAvailableSpace();
+        if (openSpace >= 0) {
+            
+            nextAvailableSpot = dockingSpaces[openSpace];
+            shipToDock.GetComponent<Fighter>().inHangar = true;
+
+            if (shipToDock.GetComponent<Fighter>().pilot != null)
+            { shipToDock.GetComponent<Fighter>().pilot.GetComponent<PhotonView>().RPC("GetOutShip", PhotonTargets.AllBufferedViaServer, myShipInList); }
+
+            shipToDock.transform.position = nextAvailableSpot.transform.position;
+            shipToDock.transform.rotation = nextAvailableSpot.transform.rotation;
+
+            
+            shipToDock.GetComponent<Fighter>().pilot = null;
+        }
 
     }
     
@@ -63,34 +82,60 @@ public class LandingBay : Photon.PunBehaviour
    [PunRPC]
     public void Jumped()
     {
-        shipsDocked = dockedShips.Count;
-        for (int i = dockedShips.Count - 1; i >= 0; --i)
+        int shipsCurrentlyInHangar = dockedShips.Count;
+        
+        for (int i = shipsCurrentlyInHangar - 1; i >= 0; --i)
         {
-            if (dockedShips[i] != null) { 
-            //if (shipsDocked > hangarSpots)
-           // {
-                if (dockedShips[i].GetComponent<Fighter>().currentHangar == this.gameObject && dockedShips[i].GetComponent<Fighter>().flying == false)
-                {
-                        dockedShips[i].GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.masterClient);
-                    dockedShips[i].GetComponent<Rigidbody>().isKinematic = true;
-                   // dockedShips[i].GetComponent<Fighter>().currentHangar = this.gameObject;
-                        dockedShips[i].GetComponent<Fighter>().currentCords = myShip.GetComponent<Galactica>().currentCord;
-                        dockedShips[i].GetComponent<Fighter>().jumpManager = myShip.GetComponent<Galactica>().jumpManager;
-                        //dockedShips[i].transform.parent = this.transform;
-                    dockedShips[i].transform.position = shipSpots[shipsDocked].transform.position; 
-                    dockedShips[i].transform.rotation = shipSpots[shipsDocked].transform.rotation;
-                    dockedShips[i].GetComponent<PhotonView>().RPC("LandOnDockingBay", PhotonTargets.AllViaServer, myShip.GetComponent<FTLDrive>().currentCords, shipsDocked, myShipInList);
+            if (dockedShips[i] != null)
+            {
+                dockedShips[i].GetComponent<Fighter>().currentCords = myShip.GetComponent<FTLDrive>().currentCords;
+                dockedShips[i].GetComponent<Fighter>().jumpManager = myShip.GetComponent<FTLDrive>().jumpManager;
+                dockedShips[i].GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.masterClient);
+
+
+                //if (shipsDocked > hangarSpots)
+                // {
+                //if (dockedShips[i].GetComponent<Fighter>().currentHangar == this.gameObject && dockedShips[i].GetComponent<Fighter>().flying == false)
+                //{
+                        
+                //    dockedShips[i].GetComponent<Rigidbody>().isKinematic = true;
+                //   // dockedShips[i].GetComponent<Fighter>().currentHangar = this.gameObject;
+                        
+                //        //dockedShips[i].transform.parent = this.transform;
+                //    dockedShips[i].transform.position = shipSpots[shipsCurrentlyInHangar].transform.position; 
+                //    dockedShips[i].transform.rotation = shipSpots[shipsCurrentlyInHangar].transform.rotation;
+                //    dockedShips[i].GetComponent<PhotonView>().RPC("LandOnDockingBay", PhotonTargets.AllViaServer, myShip.GetComponent<FTLDrive>().currentCords, shipsCurrentlyInHangar, myShipInList);
                     
-                }
-                    shipsDocked--;
+                //}
+                shipsCurrentlyInHangar--;
                // }
            // else { break; }
             }
-            else { dockedShips.Remove(dockedShips[i]); }
+            else { dockedShips.Remove(dockedShips[i]); shipsDocked--; }
         }
-        
+        //if (dockingSpaces[dockedShips.Count] != null) { nextAvailableSpot = dockedShips[dockedShips.Count]; }
+
+
     }
 
+    public int FindAvailableSpace()
+    {
+        int openSpace = -1;
+        for (int i = dockingSpaces.Count - 1; i >= 0; --i)
+        {
+            Debug.Log("find space at: " + i.ToString() + dockingSpaces[i].GetComponent<DockingSpace>().spaceOpen);
+            if (dockingSpaces[i].GetComponent<DockingSpace>().spaceOpen == true && openSpace == -1)
+            {
+                dockingSpaces[i].GetComponent<DockingSpace>().spaceOpen = false;
+                Debug.Log("openspace found");
+                openSpace  = i;
+
+            }
+        }
+        Debug.Log("no openspace found");
+        return openSpace;
+
+    }
 
     //for ships that exit from the interior hangar
     public void ShipLeavesHangar(GameObject leavingShip)
@@ -98,7 +143,7 @@ public class LandingBay : Photon.PunBehaviour
         if (dockedShips.Contains(leavingShip) )
         {
 
-           // dockedShips.Remove(leavingShip);
+           dockedShips.Remove(leavingShip);
 
         }
     }

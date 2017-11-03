@@ -30,13 +30,14 @@ public class HumanControls : Photon.PunBehaviour
     public float h;
     public float v;
     public float camGunAimAngle;
-    // Use this for initialization
+    
+
     void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         m_TransformView = GetComponent<PhotonTransformView>();
-       
+      
     }
     public void SetAsMyPlayer() {
        
@@ -49,28 +50,35 @@ public class HumanControls : Photon.PunBehaviour
         charModel.active = false;
         controlled = true;
         GetComponent<PlayerCharacter>().controlled = true;
-      
+        GetComponent<PlayerCharacter>().hpHud.active = true;
     }
 
     // Update is called once per frame
     void Update()
     {
         
-        if (jumpClock > 0) { jumpClock -= Time.deltaTime; }
+            if (jumpClock > 0) { jumpClock -= 0.3f;  }
         else {
+            //jumpClock = 0;
             CheckGround();
             if (grounded == false)
-            { transform.position = Vector3.MoveTowards(transform.position, downObject.transform.position, 3 * (airTime + 0.1f) * Time.deltaTime); }
+            {
+                //Vector3 downDirection =  downObject.transform.position - transform.position;
+                //downDirection *= speed;
+               // GetComponent<CharacterController>().Move(downDirection * Time.deltaTime);
+                //transform.position = Vector3.MoveTowards(transform.position, downObject.transform.position, 3 * (airTime + 0.1f) * Time.deltaTime);
+            }
         }
-
-
         if (controlled == true)
         {
+
+
             if (canMove == true)
             {
-                if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0) { Move(); }
+                Move();
+                if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0) {  }
 
-                if (Input.GetKey(KeyCode.Space)) { Jump(); }
+                
                 if (coolDown <= 0)
                 {
                     if (Input.GetKeyDown(KeyCode.Q))
@@ -167,9 +175,11 @@ public class HumanControls : Photon.PunBehaviour
     {
 
         fwdObject.transform.localPosition = new Vector3(newH, 0, newV);
-        anim.SetFloat("h", newH);
-        anim.SetFloat("v", newV);
-       
+        if (anim != null)
+        {
+            anim.SetFloat("h", newH);
+            anim.SetFloat("v", newV);
+        }
     }
 
     void ApplySynchronizedValues()
@@ -185,13 +195,20 @@ public class HumanControls : Photon.PunBehaviour
             v = Input.GetAxis("Vertical");
             h = Input.GetAxis("Horizontal");
 
+            if (Input.GetKeyDown(KeyCode.Space)) { Jump(); }
             fwdObject.transform.localPosition = new Vector3(h, 0, v);
 
-
-            Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+           
+            Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), jumpClock, Input.GetAxis("Vertical"));
             moveDirection = transform.TransformDirection(moveDirection);
-            moveDirection *= speed;
+            
+            
+            if (grounded == true)
+            {
+                moveDirection *= speed;
 
+            }
+             else { moveDirection *= (speed * 0.5f); }
             GetComponent<CharacterController>().Move(moveDirection * Time.deltaTime);
             GetComponent<PhotonView>().RPC("UpdateAnimationValues", PhotonTargets.AllViaServer,h,v);
 
@@ -202,16 +219,22 @@ public class HumanControls : Photon.PunBehaviour
     public void CheckGround()
     {
         Vector3 fwd = transform.TransformDirection(Vector3.down);
-        if (Physics.Raycast(transform.position, fwd, groundCheckDistance))
+        RaycastHit raycastResult;
+        
+        if (Physics.Raycast(transform.position, fwd, out raycastResult, groundCheckDistance + 5))
         {    
             grounded = true;
-            airTime = 0;   
+            airTime = 0;
+            jumpClock = -Vector3.Distance(transform.position, raycastResult.point);
+            if (Vector3.Distance(transform.position, raycastResult.point) < 0.5f) { grounded = true; } else { grounded = false; }
+            //jumpClock = 0;
+            //GetComponent<CharacterController>().Move(raycastResult.point * Time.deltaTime);
         }
         else
         {
             grounded = false;
             if (airTime < 20) { airTime += 0.1f; }
-            
+           // GetComponent<CharacterController>().Move((downObject.transform.position - transform.position) * Time.deltaTime);
 
         }
     }
@@ -243,7 +266,10 @@ public class HumanControls : Photon.PunBehaviour
     void Jump()
     {
         if (grounded == true && jumpClock <= 0)
-        { jumpClock = 1; rb.AddForce(transform.up * 100 * Time.deltaTime, ForceMode.Impulse); }
+        {
+            jumpClock = 3;
+            grounded = false;
+        }
     }
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {

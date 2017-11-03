@@ -143,6 +143,7 @@ MonoBehaviour:
   atBattleStation: 0
   currentCord: 0
   jumpManager: {fileID: 0}
+  shipGroup: 1
 --- !u!114 &114691695021444418
 MonoBehaviour:
   m_ObjectHideFlags: 1

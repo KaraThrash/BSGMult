@@ -27,6 +27,7 @@ public class ViperControls : Photon.PunBehaviour
     public int flySpeed;
     public int liftSpeed;
     public int strafeSpeed;
+    public bool controlled;
     public GameObject landingGear;
     // Use this for initialization
     void Start () {
@@ -52,8 +53,8 @@ public class ViperControls : Photon.PunBehaviour
         {
             if (xwing == true) { MouseFlightControls(); } else { KeyboardFlightControls(); }
 
-            if (Input.GetKeyDown(KeyCode.T))
-            { GetComponent<PhotonView>().RPC("DeployLandingGear", PhotonTargets.AllViaServer, true); }
+            //if (Input.GetKeyDown(KeyCode.T))
+            //{ GetComponent<PhotonView>().RPC("DeployLandingGear", PhotonTargets.AllViaServer, true); }
 
         }
         else { hort = 0; vert = 0; }
@@ -65,7 +66,7 @@ public class ViperControls : Photon.PunBehaviour
         {
             if (gunCoolDown <= 0 && rb.velocity.magnitude < 150)
             {
-                GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer);
+                GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer, GetComponent<Rigidbody>().velocity);
                 gunCoolDown = 0.2f;
             }
             gunCoolDown = gunCoolDown - Time.deltaTime;
@@ -73,11 +74,12 @@ public class ViperControls : Photon.PunBehaviour
 
             if (Input.GetKeyUp(KeyCode.T) )
         {
-            if (GetComponent<Fighter>().currentHangar != null)
-            {
-                GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllViaServer);
-            }
-            else { GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllViaServer); GetComponent<PhotonView>().RPC("DeployLandingGear", PhotonTargets.AllViaServer, false); }
+            GetComponent<Fighter>().Land();
+           // if (GetComponent<Fighter>().currentHangar != null)
+           // {
+              //  GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllViaServer);
+           // }
+           // else { GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllViaServer); GetComponent<PhotonView>().RPC("DeployLandingGear", PhotonTargets.AllViaServer, false); }
         }
         if (Input.GetKey(KeyCode.Space)) { lift = liftSpeed; } else if (Input.GetKey(KeyCode.LeftShift)) { lift = -liftSpeed; } else { lift = 0; }
         hort = Input.GetAxis("Horizontal");
@@ -94,19 +96,20 @@ public class ViperControls : Photon.PunBehaviour
         if (Input.GetKey(KeyCode.Space)) {
             if (gunCoolDown <= 0 && rb.velocity.magnitude < 150)
             {
-                GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer);
+                GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer, GetComponent<Rigidbody>().velocity);
                 gunCoolDown = 0.2f;
             }
             gunCoolDown -= Time.deltaTime;
         }
     
             if (Input.GetKeyUp(KeyCode.T))
-            {
-                if (GetComponent<Fighter>().currentHangar != null)
-                {
-                GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllViaServer);
-            }
-                else { GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllViaServer); GetComponent<PhotonView>().RPC("DeployLandingGear", PhotonTargets.AllViaServer,false); }
+        {
+            GetComponent<Fighter>().Land();
+            //  if (GetComponent<Fighter>().currentHangar != null)
+            //   {
+           // GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllViaServer);
+           // }
+              //  else { GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllViaServer); GetComponent<PhotonView>().RPC("DeployLandingGear", PhotonTargets.AllViaServer,false); }
             }
         if (Input.GetKey(KeyCode.KeypadPlus)) { lift = liftSpeed; } else if (Input.GetKey(KeyCode.KeypadEnter)) { lift = -liftSpeed; } else { lift = 0; }
 
@@ -124,12 +127,13 @@ public class ViperControls : Photon.PunBehaviour
         flightControls(vert, hort, roll, mouseX, mouseY, exit, lift);
     }
     [PunRPC]
-    public void ShootGuns()
+    public void ShootGuns(Vector3 currentVelocity)
     {
-            Instantiate(bullet, gun2.transform.position, gun2.transform.rotation);
-            Instantiate(bullet, gun1.transform.position, gun1.transform.rotation);
-      
-            
+           GameObject clone = Instantiate(bullet, gun2.transform.position, gun2.transform.rotation) as GameObject;
+        clone.GetComponent<Rigidbody>().velocity += currentVelocity;
+        GameObject clone2 =  Instantiate(bullet, gun1.transform.position, gun1.transform.rotation) as GameObject;
+        clone2.GetComponent<Rigidbody>().velocity += currentVelocity;
+
     }
     [PunRPC]
     public void DeployLandingGear(bool GearOutOrIn)

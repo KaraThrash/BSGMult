@@ -50,7 +50,7 @@ public class Galactica : Photon.PunBehaviour
         }
    
         transform.position = Vector3.MoveTowards(theGalactica.transform.position, fwdObject.transform.position, 1.0f);
-        transform.rotation = Quaternion.Lerp(transform.rotation, rotationObject.transform.rotation, 5.0f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotationObject.transform.rotation, 5.0f);
         fwdObject.transform.position = Vector3.MoveTowards(fwdObject.transform.position, theGalactica.transform.position, 2.0f);
         if (manned == true)
         {
@@ -97,44 +97,44 @@ public class Galactica : Photon.PunBehaviour
             currentCord = (int)stream.ReceiveNext();
         }
     }
-    [PunRPC]
-    public void Jump(int coordsToJump) {
-        fuel -= 1;
+    //[PunRPC]
+    //public void Jump(int coordsToJump) {
+    //    fuel -= 1;
  
-        currentCord = coordsToJump;
-        GetComponent<FTLDrive>().currentCords = coordsToJump;
-        baseStar.GetComponent<PhotonView>().RPC("StartFTL", PhotonTargets.AllViaServer, coordsToJump);
-        GetComponent<PhotonView>().RPC("SetNewCords", PhotonTargets.AllBufferedViaServer, coordsToJump);
-        jumpManager.GetComponent<PhotonView>().RPC("UpdateLocationGalactica", PhotonTargets.AllBufferedViaServer, coordsToJump);
-        //GameObject.Find("BaseStar(Clone)").GetComponent<BaseStar>().StartFTL();
-        ForPassengersDuringJump(coordsToJump);
-        myHangar.GetComponent<LandingBay>().jumping = true;
+    //    currentCord = coordsToJump;
+    //    GetComponent<FTLDrive>().currentCords = coordsToJump;
+    //    baseStar.GetComponent<PhotonView>().RPC("StartFTL", PhotonTargets.AllViaServer, coordsToJump);
+    //    GetComponent<PhotonView>().RPC("SetNewCords", PhotonTargets.AllBufferedViaServer, coordsToJump);
+    //    jumpManager.GetComponent<PhotonView>().RPC("UpdateLocationGalactica", PhotonTargets.AllBufferedViaServer, coordsToJump);
+    //    //GameObject.Find("BaseStar(Clone)").GetComponent<BaseStar>().StartFTL();
+    //    ForPassengersDuringJump(coordsToJump);
+    //    myHangar.GetComponent<LandingBay>().jumping = true;
 
 
 
-    }
-    public void ForPassengersDuringJump(int newCords)
-    {
-        foreach (Transform child in peopleOnBoard)
-        {
-            if (child.GetComponent<PlayerCharacter>().localPlayer != null)
-            {
-                //TODO: what about people sitting on the flight deck? >> handled on fighter script currently
-                if (child.GetComponent<PlayerCharacter>().flying == false)
-                {
+    //}
+    //public void ForPassengersDuringJump(int newCords)
+    //{
+    //    foreach (Transform child in peopleOnBoard)
+    //    {
+    //        if (child.GetComponent<PlayerCharacter>().localPlayer != null)
+    //        {
+    //            //TODO: what about people sitting on the flight deck? >> handled on fighter script currently
+    //            if (child.GetComponent<PlayerCharacter>().flying == false)
+    //            {
 
-                    child.GetComponent<PlayerCharacter>().localPlayer.GetComponent<PlayerMain>().spaceCoordinates = newCords;
-                    child.GetComponent<PlayerCharacter>().JumpEffects(newCords);
-                    jumpManager.GetComponent<JumpManager>().ManageJump(newCords, 0, 0, newCords); //galactica cords, fleet cords, basestar cords, localPlayer cords
+    //                child.GetComponent<PlayerCharacter>().localPlayer.GetComponent<PlayerMain>().spaceCoordinates = newCords;
+    //                child.GetComponent<PlayerCharacter>().JumpEffects(newCords);
+    //                jumpManager.GetComponent<JumpManager>().ManageJump(newCords, 0, 0, newCords); //galactica cords, fleet cords, basestar cords, localPlayer cords
 
-                }
-                else { jumpManager.GetComponent<JumpManager>().ManageJump(newCords, 0, 0, 0); }
+    //            }
+    //            else { jumpManager.GetComponent<JumpManager>().ManageJump(newCords, 0, 0, 0); }
 
-            }
+    //        }
 
 
 
-        }
+    //    }
 
-    }
+    //}
 }

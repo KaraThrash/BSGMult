@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class JumpManager : Photon.PunBehaviour
 {
+    public GameObject roundManager;
     public List<GameObject> Humanoids = new List<GameObject>();
     public List<GameObject> CapitalShips = new List<GameObject>();
     public List<GameObject> jumpableGameObjects = new List<GameObject>();
@@ -17,38 +18,40 @@ public class JumpManager : Photon.PunBehaviour
     public int localPlayerCords;
     public GameObject localPlayer;
     public Transform activePersistantFighters; //fighters in space when jumps are made
+
+    public GameObject fleetLeftBehind;
+    public GameObject cylonFleetLeftBehind;
+    public GameObject activeCylongFleet; //currently in Galactica space space
+    public GameObject otherCylongFleet;// not currently in Galactica space space
+    //ShipGroup; //1: galactica + active fleet 2: Cylon fleet 3: space/planet 0:leftbehind
+
     // Use this for initialization
     void Start () {
 		
 	}
 	
 	// Update is called once per frame
-	void Update () {
-        if (Input.GetKeyUp(KeyCode.Y)) { PhotonNetwork.InstantiateSceneObject("humanBullet", Vector3.zero, Quaternion.identity, 0, null); }
+	void Update ()
+    {
+       // if (Input.GetKeyUp(KeyCode.Y)) { PhotonNetwork.InstantiateSceneObject("humanBullet", Vector3.zero, Quaternion.identity, 0, null); }
 
     }
+
     public void ManageJump(int galacticaCord,int fleetCord,int basestarCord,int localCord)
     {
         if (localPlayer != null)
         {
-            // int localPlayerSpaceCoordinates = localPlayer.GetComponent<PlayerMain>().spaceCoordinates;
             if (localCord != 0) { localPlayerCords = localCord; } else
             { localPlayerCords = localPlayer.GetComponent<PlayerMain>().spaceCoordinates; }
-         
-            //for (int i = jumpableGameObjects.Count; i > 0; --i)
-            //{
-            //    jumpableGameObjects[i]
-            //        if(jumpableGameObjects[i])
 
-            //}
             if (galacticaCord != 0) { galacticaCoordinates = galacticaCord; }
             if (basestarCord != 0) { baseStarCoordinates = basestarCord; }
             if (fleetCord != 0) { fleetCoordinates = fleetCord; }
 
             if (baseStarCoordinates == localPlayerCords) { baseStarShip.active = true; } else { baseStarShip.active = false; }
             if (galacticaCoordinates == localPlayerCords) { galactica.active = true; } else { galactica.active = false; Debug.Log("Turn Galactica Off: " + galacticaCoordinates + localPlayerCords); }
+                //fleet.GetComponent<Fleet>().CheckAllShipsLocation(localPlayerCords);
 
-            if (fleetCoordinates == localPlayerCords) { fleet.active = true; } else { fleet.active = false; }
             foreach (Transform fighter in activePersistantFighters) {
                 if (fighter.GetComponent<Fighter>().currentCords == localPlayerCords) { fighter.gameObject.active = true; }
                 else { fighter.gameObject.active = false; }
@@ -56,6 +59,46 @@ public class JumpManager : Photon.PunBehaviour
         }
 
     }
+
+    public void GalacticaJumped(int newScene) //new round
+    {
+        galacticaCoordinates = newScene;
+        foreach (Transform child in activeCylongFleet.transform)
+        { child.parent = cylonFleetLeftBehind.transform; }
+
+        
+        
+        fleet.GetComponent<Fleet>().CheckAllShipsLocation();
+        fleetLeftBehind.active = true;
+        foreach (Transform child in activePersistantFighters.transform)
+        { child.parent = fleetLeftBehind.transform; }
+
+
+        roundManager.GetComponent<RoundManager>().NewRound();
+        if (localPlayer != null)
+        {
+            if (localPlayer.GetComponent<PlayerMain>().shipGroup == 1)
+            {
+                galactica.active = true;
+                cylonFleetLeftBehind.active = false;
+
+                
+
+                fleetLeftBehind.active = false;
+                Application.LoadLevel(newScene.ToString());
+
+            }
+            else
+            {
+                galactica.active = false;
+                //baseStar.active = false;
+                fleetLeftBehind.active = true;
+            }
+
+
+        }
+    }
+
     [PunRPC]
     public void UpdateLocationGalactica(int newGalacticaCordinates)
     {
@@ -86,13 +129,14 @@ public class JumpManager : Photon.PunBehaviour
         localPlayer = joiningPlayer;
              //joiningPlayer.GetComponent<PlayerMain>().spaceCoordinates = galacticaCoordinates;
 
-        joiningPlayer.GetComponent<PlayerMain>().Jumping(galacticaCoordinates);
+        joiningPlayer.GetComponent<PlayerMain>().Jumping(galacticaCoordinates,1);
 
             if (baseStarCoordinates == galacticaCoordinates) { baseStarShip.active = true; } else { baseStarShip.active = false; }
-           
 
-            if (fleetCoordinates == galacticaCoordinates) { fleet.active = true; } else { fleet.active = false; }
 
+        // if (fleetCoordinates == galacticaCoordinates) { fleet.active = true; } else { fleet.active = false; }
+        fleetLeftBehind.active = false;
+        Application.LoadLevel(galacticaCoordinates.ToString());
         galactica.active = true;
         //should also turn on the fighters currently docked
     }
@@ -100,7 +144,10 @@ public class JumpManager : Photon.PunBehaviour
      public bool CheckCoordinates(int fighterCords)
     {
         Debug.Log(fighterCords == localPlayerCords);
-        return fighterCords == localPlayerCords;
+       // return fighterCords == localPlayerCords;
+
+        //If
+        return galactica.active;
     }
     public bool CheckCoordinatesBaseStarForFleetGalactica()
     {

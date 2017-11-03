@@ -6,7 +6,7 @@ public class PlayerMain : Photon.PunBehaviour
 {
     public GameObject galactica;
     public int spaceCoordinates;
-
+    public int score;
     //Parent script for each player on the server
     public GameObject myCamera;
     public GameObject currentController;
@@ -14,6 +14,7 @@ public class PlayerMain : Photon.PunBehaviour
     public bool atBattleStation;
     public int currentCord;
     public GameObject jumpManager;
+    public int shipGroup; //1: galactica + active fleet 2: Cylon fleet 3: space/planet/leftbehind
     // Use this for initialization
     void Start () {
         if (photonView.isMine == true)
@@ -61,12 +62,13 @@ public class PlayerMain : Photon.PunBehaviour
             }
         }
     }
-    public void Jumping(int newCords)
+    public void Jumping(int newCords, int newShipGroup)
     {
         Debug.Log("Joined game and changing to new scene: " + newCords);
         // SceneManager.LoadScene(newCords.ToString());
         spaceCoordinates = newCords;
-        Application.LoadLevel(newCords.ToString());
+
+        //Application.LoadLevel(newCords.ToString());
     }
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

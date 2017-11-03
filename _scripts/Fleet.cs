@@ -17,31 +17,47 @@ public class Fleet : Photon.PunBehaviour
     public Vector3 jumpLocation;
     public int fuelCost;
     public bool jumping;
+   
     public Text shipsJumpedText;
+    public GameObject resourceTextObj;
+    public Text foodText;
+    public Text fuelText;
+    public Text moraleText;
+    public Text popText;
     public List<GameObject> shipsInFleet = new List<GameObject>();
+    public GameObject activeFleet;
+    public GameObject shipsLeftBehind;
     // Use this for initialization
     void Start () {
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         if (jumping == true)
         {
             shipsJumpedText.text = shipsJumped.ToString() + "/" + shipsInFleetCount.ToString() + " Currently jumped away.";
-            if (shipsJumped >= shipsInFleet.Count) {
+            if (shipsJumped >= shipsInFleet.Count)
+            {
                 jumping = false;
                 shipsJumped = 0;
                 shipsJumpedText.text = "Fleet Away";
-                jumpManager.GetComponent<PhotonView>().RPC("UpdateLocationFleet", PhotonTargets.AllBufferedViaServer, GetComponent<FTLDrive>().currentCords);
+                // jumpManager.GetComponent<PhotonView>().RPC("UpdateLocationFleet", PhotonTargets.AllBufferedViaServer, GetComponent<FTLDrive>().currentCords);
+                //shipsInFleet[i].GetComponent<FTLDrive>().StartJump(jumpCoordinates);
             }
         }
 
+        if (Input.GetKey(KeyCode.LeftShift)) { foodText.text = food.ToString(); fuelText.text = fuel.ToString();
+            moraleText.text = morale.ToString(); popText.text = pop.ToString(); resourceTextObj.active = true;
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        { resourceTextObj.active = false; }
     }
     [PunRPC]
     public void Jumping(int jumpCoords) {
         GetComponent<FTLDrive>().currentCords = jumpCoords;
-        jumpManager.GetComponent<PhotonView>().RPC("UpdateLocationFleet", PhotonTargets.AllBufferedViaServer, GetComponent<FTLDrive>().currentCords);
+        jumpManager.GetComponent<PhotonView>().RPC("UpdateLocationFleet", PhotonTargets.AllBufferedViaServer, jumpCoords);
         jumpCoordinates = jumpCoords;
        // jumpDestination = GameObject.Find(jumpCoordinates.ToString());
         shipsJumped = 0;
@@ -49,18 +65,47 @@ public class Fleet : Photon.PunBehaviour
         for (var i = shipsInFleet.Count - 1; i >= 0; i--)
         {
 
-            if (jumpDestination != null)
-            {
+           
                 if (shipsInFleet[i] != null)
                 {
-                    //shipsInFleet[i].GetComponent<FleetShip>().jumpOrdered = true;
+
                     shipsInFleet[i].GetComponent<FleetShip>().OrderJump(jumpCoordinates);
-                    //  shipsInFleet[i].GetComponent<FleetShip>().jumpTarget = jumpLocation + (shipsInFleet[i].GetComponent<FleetShip>().myPlaceInTheFleetFormation * 10);
+                    
+                    //shipsInFleet[i].GetComponent<PhotonView>().RPC("StartJump", PhotonTargets.AllViaServer, jumpCoordinates);
                 }
                 else { shipsInFleet.RemoveAt(i); }
-            }
+            
         }
     }
+    public void CheckAllShipsLocation( )
+    {
+        for (var i = shipsInFleet.Count - 1; i >= 0; i--)
+        {
+
+           
+                if (shipsInFleet[i] != null)
+                {
+                if (shipsInFleet[i].GetComponent<FleetShip>().jumped == true)
+                { shipsInFleet[i].active = true; }
+                else {
+                    shipsInFleet[i].transform.parent = shipsLeftBehind.transform;
+                    if (shipsInFleet[i].GetComponent<FleetShip>().leftBehind == false)
+                    { shipsInFleet[i].GetComponent<FleetShip>().leftBehind = true; }
+                    else { GetComponent<PhotonView>().RPC("Die", PhotonTargets.AllBufferedViaServer); shipsInFleet.RemoveAt(i); }
+                        //.RemoveFleetResources();
+                    //shipsInFleet[i].active = false;
+                }
+                    
+                }
+                else { shipsInFleet.RemoveAt(i); }
+        }
+        
+
+    }
+
+
+
+
     public void UpdateResources(int foodChange, int fuelChange, int moraleChange, int popChange, int shipsChange )
     { food += foodChange; fuel += fuelChange; pop += popChange; morale += moraleChange;shipsInFleetCount += shipsChange;}
 

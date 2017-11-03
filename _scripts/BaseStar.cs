@@ -5,7 +5,7 @@ using UnityEngine;
 public class BaseStar : Photon.PunBehaviour
 {
     public GameObject myShip;
-
+    public int myShipGroup; //1: galactica + active fleet 2: Cylon fleet 3: space/planet/leftbehind
     public GameObject myHangar;
     public GameObject launchBay;
     public GameObject raider;
@@ -140,8 +140,8 @@ public void ForPassengersDuringJump(int newCords)
             {
 
                 child.GetComponent<PlayerCharacter>().localPlayer.GetComponent<PlayerMain>().spaceCoordinates = newCords;
-                child.GetComponent<PlayerCharacter>().JumpEffects(newCords);
-                jumpManager.GetComponent<JumpManager>().ManageJump(0, 0, newCords, newCords); //galactica cords, fleet cords, basestar cords, localPlayer cords
+                child.GetComponent<PlayerCharacter>().JumpEffects(newCords, myShipGroup);
+                    jumpManager.GetComponent<JumpManager>().ManageJump(0, 0, newCords, newCords); //galactica cords, fleet cords, basestar cords, localPlayer cords
 
             }
             else { jumpManager.GetComponent<JumpManager>().ManageJump(0, 0, newCords, 0); }

@@ -240,9 +240,9 @@ public class FTLcomputer : Photon.PunBehaviour
         {
 
             numberOfJumps++;
-            myShip.GetComponent<PhotonView>().RPC("Jump", PhotonTargets.AllViaServer, jumpTargetCords);
+            myShip.GetComponent<PhotonView>().RPC("StartJump", PhotonTargets.AllViaServer, jumpTargetCords);
 
-            myHangar.GetComponent<PhotonView>().RPC("Jumped", PhotonTargets.AllViaServer);
+           // myHangar.GetComponent<PhotonView>().RPC("Jumped", PhotonTargets.AllViaServer);
          
             xCord = jumpTarget.GetComponent<SpaceCoordinates>().thisX;
             yCord = jumpTarget.GetComponent<SpaceCoordinates>().thisY;
@@ -257,6 +257,7 @@ public class FTLcomputer : Photon.PunBehaviour
     [PunRPC]
     public void SelectJumpDestinationOnServer(int coords)
     {
+        //Not in use
         numberOfJumps++;
         myShip.GetComponent<PhotonView>().RPC("Jump", PhotonTargets.AllViaServer, coords);
 
@@ -273,6 +274,8 @@ public class FTLcomputer : Photon.PunBehaviour
     }
 
     public void CommandFleetToJump() { }
+
+
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.isWriting)
