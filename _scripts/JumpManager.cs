@@ -95,7 +95,7 @@ public class JumpManager : Photon.PunBehaviour
                 fleetLeftBehind.active = true;
             }
 
-
+            
         }
     }
 

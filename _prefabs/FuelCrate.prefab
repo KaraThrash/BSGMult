@@ -290,6 +290,7 @@ GameObject:
   - component: {fileID: 114373748798484430}
   - component: {fileID: 65159676501671026}
   - component: {fileID: 54821046771304778}
+  - component: {fileID: 114617557261749986}
   m_Layer: 0
   m_Name: FuelCrate
   m_TagString: Interactable
@@ -2659,4 +2660,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   food: 0
+  fuel: 1
   quantity: 1
+  countedForFleetStats: 0
+  ammo: 0
+  itemInList: 1
+--- !u!114 &114617557261749986
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1498370325979154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 3
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 4717800959258658}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0

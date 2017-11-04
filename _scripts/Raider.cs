@@ -61,6 +61,7 @@ public class Raider : MonoBehaviour
         if (col.gameObject.tag == "Bullet")
         {
             Instantiate(explosion, transform.position, transform.rotation);
+            GameObject.Find("RoundManager").GetComponent<RoundManager>().cylonsKilledThisRound++;
             Destroy(this.gameObject);
             Debug.Log("hit");
         }

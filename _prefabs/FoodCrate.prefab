@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 114736780605436744}
   - component: {fileID: 65390302053588154}
   - component: {fileID: 54835651492213982}
+  - component: {fileID: 114093657383524952}
   m_Layer: 0
   m_Name: FoodCrate
   m_TagString: Interactable
@@ -2647,6 +2648,32 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.6430025, y: 0.5394449, z: 0.6676483}
   m_Center: {x: 0.010948658, y: 0.012377262, z: -0.067359924}
+--- !u!114 &114093657383524952
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1090021524536534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 3
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 4211235471848686}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
 --- !u!114 &114736780605436744
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2659,4 +2686,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   food: 1
+  fuel: 0
   quantity: 1
+  countedForFleetStats: 0
+  ammo: 0

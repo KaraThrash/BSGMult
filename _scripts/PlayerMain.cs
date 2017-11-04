@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 public class PlayerMain : Photon.PunBehaviour
 {
     public GameObject galactica;
+    public GameObject roundManager;
     public int spaceCoordinates;
-    public int score;
+    public float score;
     //Parent script for each player on the server
     public GameObject myCamera;
     public GameObject currentController;
@@ -15,10 +16,16 @@ public class PlayerMain : Photon.PunBehaviour
     public int currentCord;
     public GameObject jumpManager;
     public int shipGroup; //1: galactica + active fleet 2: Cylon fleet 3: space/planet/leftbehind
+    public GameObject playerHud;
+    public GameObject hpTextObj;
+    public GameObject ammoTextObj;
     // Use this for initialization
     void Start () {
         if (photonView.isMine == true)
         {
+            //playerHud = GameObject.Find("PlayerHud");
+           // hpTextObj = playerHud.transform.Find("HpText").gameObject;
+           // ammoTextObj = playerHud.transform.Find("AmmoText").gameObject;
             myCamera.active = true;
             myCamera.transform.parent = null;
             
@@ -70,17 +77,22 @@ public class PlayerMain : Photon.PunBehaviour
 
         //Application.LoadLevel(newCords.ToString());
     }
+    [PunRPC]
+    public void UpdateScore(float newScore)
+    {
+        score = newScore;
 
+    }
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.isWriting)
         {
-            // stream.SendNext(transform.rotation);
+             stream.SendNext(score);
 
         }
         else
         {
-            // transform.rotation = (Quaternion)stream.ReceiveNext();
+            score = (float)stream.ReceiveNext();
 
         }
     }

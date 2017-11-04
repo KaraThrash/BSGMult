@@ -29,7 +29,8 @@ public class SelectCharacter : Photon.PunBehaviour
             myPlayer.GetComponent<PlayerMain>().jumpManager = jumpManager;
             jumpManager.GetComponent<JumpManager>().PlayerJoin(pickedBy) ;
             myCharacter.GetComponent<HumanControls>().SetAsMyPlayer();
-            myCharacter.GetComponent<PlayerCharacter>().localPlayer = pickedBy;
+            myCharacter.GetComponent<PlayerCharacter>().SetAsMyPlayer(pickedBy);
+
             myCharacter.GetComponent<PhotonView>().ownerId = newView;
             myCharacter.GetComponent<HumanControls>().cam.GetComponent<PhotonView>().ownerId = newView;
         }

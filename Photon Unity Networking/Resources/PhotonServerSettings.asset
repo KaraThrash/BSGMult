@@ -98,4 +98,8 @@ MonoBehaviour:
   - DropCarriedObject
   - StartJump
   - UpdateTotal
+  - ChangeAmmo
+  - PickedUp
+  - Dropped
+  - UpdateScore
   DisableAutoOpenWizard: 1

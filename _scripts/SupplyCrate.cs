@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SupplyCrate : MonoBehaviour {
+public class SupplyCrate : Photon.PunBehaviour
+{
     public bool food; //or fuel
+    public bool fuel;
     public int quantity;
     public bool countedForFleetStats; //whether or not this quantity is counted in the fleet totals.
+    public bool ammo;
+
+    public int itemInList; //like the mastership list. This simplifies passing gameobjects around the server
 	// Use this for initialization
 	void Start () {
 		
@@ -18,16 +23,16 @@ public class SupplyCrate : MonoBehaviour {
     public void Interact(GameObject whoUsedMe)
     {
         
-        if (whoUsedMe.GetComponent<PlayerCharacter>().carriedObject == null)
+        if (whoUsedMe.GetComponent<PlayerCharacter>().carriedObject == -1)
         {
-            GetComponent<Rigidbody>().useGravity = true;
-            whoUsedMe.GetComponent<PlayerCharacter>().carriedObject = this.gameObject;
-            whoUsedMe.GetComponent<PhotonView>().RPC("PickedUpObject", PhotonTargets.AllBufferedViaServer);
+           // GetComponent<Rigidbody>().useGravity = true;
+            
+            whoUsedMe.GetComponent<PhotonView>().RPC("PickedUpObject", PhotonTargets.AllViaServer, itemInList);
+            GetComponent<PhotonView>().RPC("PickedUp", PhotonTargets.AllViaServer);
             if (countedForFleetStats == false) {
                 //todo change fleet totals
             }
-            this.gameObject.active = false;
-            this.transform.parent = whoUsedMe.transform;
+           
         }
         
     }
@@ -39,4 +44,14 @@ public class SupplyCrate : MonoBehaviour {
             //TODO: combine crates?
         }
     }
+
+
+    [PunRPC]
+    public void PickedUp()
+    {
+        Destroy(this.gameObject);
+       // this.gameObject.active = false;
+    }
+ 
+
 }

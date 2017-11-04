@@ -65,7 +65,7 @@ public class LandingBay : Photon.PunBehaviour
             
             nextAvailableSpot = dockingSpaces[openSpace];
             shipToDock.GetComponent<Fighter>().inHangar = true;
-
+            shipToDock.GetComponent<Fighter>().hangarSpace = nextAvailableSpot;
             if (shipToDock.GetComponent<Fighter>().pilot != null)
             { shipToDock.GetComponent<Fighter>().pilot.GetComponent<PhotonView>().RPC("GetOutShip", PhotonTargets.AllBufferedViaServer, myShipInList); }
 

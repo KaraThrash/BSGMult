@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public class PlayerCharacter : Photon.PunBehaviour
 {
     //using this for humanoid
     public int hp;
-    public GameObject hpHud;
+    public int ammo;
+    public Text hpHud;
+    public Text ammoHud;
+    public GameObject itemMasterList;
     public GameObject testObj;
     PhotonView m_PhotonView;
     public GameObject myCamera;
@@ -22,7 +25,7 @@ public class PlayerCharacter : Photon.PunBehaviour
     public GameObject spaceObject;
     public GameObject masterShipList;
     public GameObject backpack;
-    public GameObject carriedObject;
+    public int carriedObject;
     // Use this for initialization
     void Start()
     {
@@ -53,12 +56,14 @@ public class PlayerCharacter : Photon.PunBehaviour
                // GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer);
 
             }
-            if (Input.GetKey(KeyCode.T))
+            if (Input.GetKeyDown(KeyCode.T))
             {
-
-                GetComponent<PhotonView>().RPC("DropCarriedObject", PhotonTargets.AllViaServer);
+                if (carriedObject != -1)
+                {
+                    GetComponent<PhotonView>().RPC("DropCarriedObject", PhotonTargets.AllViaServer, carriedObject);
+                }
             }
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyUp(KeyCode.E))
             {
 
                 CheckForIneractableObject();
@@ -66,6 +71,15 @@ public class PlayerCharacter : Photon.PunBehaviour
         }
         
     }
+    public void SetAsMyPlayer(GameObject myNewPlayer)
+    {
+        localPlayer = myNewPlayer;
+        controlled = true;
+        ammoHud.text = ammo.ToString();
+        myNewPlayer.GetComponent<PlayerMain>().roundManager = jumpManager.GetComponent<JumpManager>().roundManager;
+        myNewPlayer.GetComponent<PlayerMain>().roundManager.GetComponent<RoundManager>().localPlayer = myNewPlayer;
+    }
+
     public void CheckForIneractableObject()
     {
         RaycastHit hit;
@@ -87,9 +101,9 @@ public class PlayerCharacter : Photon.PunBehaviour
     [PunRPC]
     public void ShootGuns()
     {
-       
-       
-        Instantiate(bullet, gun.transform.position, gun.transform.rotation);
+
+        if (ammo > 0) { Instantiate(bullet, gun.transform.position, gun.transform.rotation); ammo--; }
+        if (controlled == true) { ammoHud.text = ammo.ToString(); }
     }
     [PunRPC]
     public void GetInShip()
@@ -139,13 +153,14 @@ public class PlayerCharacter : Photon.PunBehaviour
             hp--;
             if (hp > 0 && photonView.isMine == true)
             {
-                hpHud.transform.GetChild(hp).gameObject.active = false;
+                hpHud.text.Remove(-1);
             }
             if (hp <= 0) {
+                if (localPlayer != null) { localPlayer.GetComponent<PlayerMain>().roundManager.GetComponent<RoundManager>().wasFrakked = true; }
                 transform.localPosition = Vector3.zero; hp = 3;
-                hpHud.transform.GetChild(0).gameObject.active = true;
-                hpHud.transform.GetChild(1).gameObject.active = true;
-                hpHud.transform.GetChild(2).gameObject.active = true;
+                while (hpHud.text.Length < hp)
+                { hpHud.text += "i"; }
+               
             }
         }
     }
@@ -185,30 +200,26 @@ public class PlayerCharacter : Photon.PunBehaviour
     }
 
     [PunRPC]
-    public void PickedUpObject() {
-        backpack.active = true;
-        RaycastHit hit;
-        if (Physics.Raycast(myCamera.transform.position, myCamera.transform.forward, out hit, 5.0f) && hit.transform.gameObject.GetComponent<SupplyCrate>() != null)
-        {
-            hit.transform.gameObject.SendMessage("Interact", this.gameObject);
-
-        }
-        
+    public void PickedUpObject(int itemPickedup) {
+        carriedObject = itemPickedup;
+        backpack.active = true; 
     }
     [PunRPC]
-    public void DropCarriedObject()
+    public void ChangeAmmo(int ammoChange)
+    {
+        ammo += ammoChange;
+        if (controlled == true)
+        {
+            ammoHud.text = ammo.ToString();
+        }
+    }
+    [PunRPC]
+    public void DropCarriedObject(int itemNumber)
     {
         backpack.active = false;
-        if (carriedObject != null)
-        {
-            if (transform.parent != null) { carriedObject.transform.parent = transform.parent; } else { carriedObject.transform.parent = null; }
-            
-            carriedObject.transform.position = gun.transform.position;
-            carriedObject.active = true;
-            carriedObject.GetComponent<Rigidbody>().AddForce(gun.transform.forward * 10,ForceMode.Impulse );
-            
-        }
-        carriedObject = null;
+        itemMasterList.GetComponent<ItemList>().DropCrate(itemNumber,gun);
+        
+        carriedObject = -1;
         
         //transform.parent = masterShipList.GetComponent<MasterShipList>().ParentHumanToShip(newShipParent).transform;
     }

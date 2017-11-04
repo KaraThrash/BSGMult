@@ -49,8 +49,7 @@ public class HumanControls : Photon.PunBehaviour
         wrenchModel.active = false;
         charModel.active = false;
         controlled = true;
-        GetComponent<PlayerCharacter>().controlled = true;
-        GetComponent<PlayerCharacter>().hpHud.active = true;
+        
     }
 
     // Update is called once per frame

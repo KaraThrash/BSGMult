@@ -6,8 +6,9 @@ public class DockingSpace : MonoBehaviour {
     public GameObject shipParked;
     public bool spaceOpen;
     public GameObject myHangar;
-	// Use this for initialization
-	void Start () {
+    public GameObject myLaunchBay;
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
