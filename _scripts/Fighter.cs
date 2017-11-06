@@ -35,6 +35,7 @@ public class Fighter : Photon.PunBehaviour
     public GameObject dangerText;
     public GameObject criticalFailureText;
     public float colliderTimer;
+    public GameObject dradisModel;
     // Use this for initialization
     void Start()
     {

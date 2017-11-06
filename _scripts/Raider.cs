@@ -20,6 +20,7 @@ public class Raider : MonoBehaviour
     public string patrolPointType;
     public bool canPatrol;
     public GameObject explosion;
+    public GameObject dradisModel;
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody>();

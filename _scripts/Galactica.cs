@@ -22,7 +22,7 @@ public class Galactica : Photon.PunBehaviour
     private int jumpSpotTest = 0;
     public GameObject myFtlComputer;
     public GameObject medbay;
-
+    public GameObject dradisModel;
     void Start () {
 
     }

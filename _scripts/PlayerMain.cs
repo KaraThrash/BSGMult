@@ -48,7 +48,8 @@ public class PlayerMain : Photon.PunBehaviour
     }
     void Awake()
     {
-        scoreText = GameObject.Find("Menu").GetComponent<ItemList>().supplyCrates[GetComponent<PhotonView>().ownerId].GetComponent<Text>();
+        if (GameObject.Find("Menu") != null) { scoreText = GameObject.Find("Menu").GetComponent<ItemList>().supplyCrates[GetComponent<PhotonView>().ownerId].GetComponent<Text>(); }
+        
         // SceneManager.sceneLoaded()
         Debug.Log("PlayerMain In New Scene");
         DontDestroyOnLoad(this.gameObject);

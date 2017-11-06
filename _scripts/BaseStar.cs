@@ -23,6 +23,7 @@ public class BaseStar : Photon.PunBehaviour
     public bool hasTarget; //galactica or fleet in same space
     public bool jumping;
     public Transform peopleOnBoard;
+    public GameObject dradisModel;
     // Use this for initialization
     void Start () {
         if (raiderParentObject == null)

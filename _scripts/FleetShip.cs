@@ -21,6 +21,7 @@ public class FleetShip : Photon.PunBehaviour
     public GameObject localSpaceObject;
     public Vector3 myPlaceInTheFleetFormation;
     public bool leftBehind;
+    public GameObject dradisModel;
     // Use this for initialization
     void Start () {
 		
