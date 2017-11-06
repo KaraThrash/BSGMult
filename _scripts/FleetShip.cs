@@ -65,22 +65,28 @@ public class FleetShip : Photon.PunBehaviour
         if (col.gameObject.tag == "Bullet" && hp > 0)
         {
             hp--;
-            if (hp <= 0) { GetComponent<PhotonView>().RPC("Die", PhotonTargets.AllBufferedViaServer); }
+           
+            if (hp <= 0) {
+                Die();
+                //GetComponent<PhotonView>().RPC("Die", PhotonTargets.AllBufferedViaServer);
+            }
             //Destroy(this.gameObject);
             Debug.Log("hit");
         }
     }
-    [PunRPC]
+   // [PunRPC]
     public void Die()
     {
         fleetParent.GetComponent<Fleet>().UpdateResources(-fuelHeld,-foodHeld,-1,-popHeld,-1); ;
 
         Destroy(this.gameObject);
     }
+
     public void RemoveFleetResources()
     {
         fleetParent.GetComponent<Fleet>().UpdateResources(-fuelHeld, -foodHeld, -1, -popHeld, -1);
     }
+
     public void AddFleetResources()
     {
         fleetParent.GetComponent<Fleet>().UpdateResources(+fuelHeld, +foodHeld, +1, +popHeld, +1);

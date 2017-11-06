@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public class PlayerMain : Photon.PunBehaviour
 {
@@ -19,8 +20,11 @@ public class PlayerMain : Photon.PunBehaviour
     public GameObject playerHud;
     public GameObject hpTextObj;
     public GameObject ammoTextObj;
+    public Text scoreText;
+
     // Use this for initialization
     void Start () {
+        scoreText = GameObject.Find("Menu").GetComponent<ItemList>().supplyCrates[GetComponent<PhotonView>().ownerId].GetComponent<Text>();
         if (photonView.isMine == true)
         {
             //playerHud = GameObject.Find("PlayerHud");
@@ -36,13 +40,15 @@ public class PlayerMain : Photon.PunBehaviour
 	void Update () {
         if (photonView.isMine == true)
         {
-           
-        }
 
-        if (SceneManager.GetActiveScene().name == "PlayerLobby") { PickCharacter(); }
+
+
+            if (SceneManager.GetActiveScene().name == "PlayerLobby") { PickCharacter(); }
+        }
     }
     void Awake()
     {
+        scoreText = GameObject.Find("Menu").GetComponent<ItemList>().supplyCrates[GetComponent<PhotonView>().ownerId].GetComponent<Text>();
         // SceneManager.sceneLoaded()
         Debug.Log("PlayerMain In New Scene");
         DontDestroyOnLoad(this.gameObject);
@@ -80,8 +86,9 @@ public class PlayerMain : Photon.PunBehaviour
     [PunRPC]
     public void UpdateScore(float newScore)
     {
+        
         score = newScore;
-
+        scoreText.text = score.ToString();
     }
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {

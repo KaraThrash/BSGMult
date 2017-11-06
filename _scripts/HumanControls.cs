@@ -99,7 +99,7 @@ public class HumanControls : Photon.PunBehaviour
                 GetComponent<PhotonView>().RPC("UpdateAimAnimationValues", PhotonTargets.AllViaServer, camGunAimAngle);
                 if (Input.GetMouseButtonDown(0))
                 {
-                    if (anim.GetBool("RifleOut") == true) { GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer); }
+                    if (anim.GetBool("RifleOut") == true && !Input.GetKey(KeyCode.Tab)) { GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer); }
                     else { GetComponent<PhotonView>().RPC("SwingWrench", PhotonTargets.AllViaServer); }
 
 

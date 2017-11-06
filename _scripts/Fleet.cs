@@ -91,7 +91,11 @@ public class Fleet : Photon.PunBehaviour
                     shipsInFleet[i].transform.parent = shipsLeftBehind.transform;
                     if (shipsInFleet[i].GetComponent<FleetShip>().leftBehind == false)
                     { shipsInFleet[i].GetComponent<FleetShip>().leftBehind = true; }
-                    else { GetComponent<PhotonView>().RPC("Die", PhotonTargets.AllBufferedViaServer); shipsInFleet.RemoveAt(i); }
+                    else {
+                        shipsInFleet[i].GetComponent<FleetShip>().Die();
+                        //GetComponent<PhotonView>().RPC("Die", PhotonTargets.AllBufferedViaServer);
+                        shipsInFleet.RemoveAt(i);
+                    }
                         //.RemoveFleetResources();
                     //shipsInFleet[i].active = false;
                 }

@@ -58,18 +58,28 @@ public class FTLcomputer : Photon.PunBehaviour
     // Update is called once per frame
     void Update() {
 
-        if (Input.GetKey(KeyCode.Tab)) { jumpTargetTextObject.active = true;
+        //if (Input.GetKey(KeyCode.Tab)) { jumpTargetTextObject.active = true;
 
 
-        } else { jumpTargetTextObject.active = false; }
+        //} else { jumpTargetTextObject.active = false; }
 
 
+        //TODO: in for testing reasons so I dont need to be near the computer to jump
+        
+        interactTimer += Time.deltaTime;
+        if (interactTimer >= timeCost)
+        {
+            interactTimer = 0;
+            CalculateJump();
+        }
     }
 
     public void Interact(GameObject whoUsedMe)
     {
         interactTimer += Time.deltaTime;
-        if (interactTimer >= timeCost) { interactTimer = 0; CalculateJump();
+        if (interactTimer >= timeCost) {
+            interactTimer = 0;
+            CalculateJump();
         }
 
     }

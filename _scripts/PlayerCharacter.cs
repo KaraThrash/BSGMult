@@ -19,6 +19,7 @@ public class PlayerCharacter : Photon.PunBehaviour
     public bool flying;
     public bool atComputer;
     public bool controlled;
+    
     public GameObject galactica;
     public GameObject jumpManager;
     public GameObject localPlayer;
@@ -123,8 +124,8 @@ public class PlayerCharacter : Photon.PunBehaviour
     }
     public void OnTriggerEnter(Collider col)
     {
-        if (photonView.isMine == true)
-        {
+        //if (photonView.isMine == true)
+        //{
             if (col.gameObject.tag == "Entrance")
             {
                 //if (col.GetComponent<LocationChange>().parentObjectThatUsesMe == true) { transform.parent = col.GetComponent<LocationChange>().myParent.transform; }
@@ -143,23 +144,25 @@ public class PlayerCharacter : Photon.PunBehaviour
                 transform.rotation = col.gameObject.GetComponent<LocationChange>().exit.transform.rotation;
                 
             }
-        }
+      //  }
 
     }
+
+ 
+
     public void OnCollisionEnter(Collision col2)
     {
         if (col2.gameObject.tag == "Bullet")
         {
             hp--;
-            if (hp > 0 && photonView.isMine == true)
+            if (hp > 0 && localPlayer != null)
             {
                 hpHud.text.Remove(-1);
             }
             if (hp <= 0) {
                 if (localPlayer != null) { localPlayer.GetComponent<PlayerMain>().roundManager.GetComponent<RoundManager>().wasFrakked = true; }
-                transform.localPosition = Vector3.zero; hp = 3;
-                while (hpHud.text.Length < hp)
-                { hpHud.text += "i"; }
+                galactica.GetComponent<Galactica>().medbay.GetComponent<Medbay>().PlaceInBed(this.gameObject);
+               
                
             }
         }
@@ -223,4 +226,14 @@ public class PlayerCharacter : Photon.PunBehaviour
         
         //transform.parent = masterShipList.GetComponent<MasterShipList>().ParentHumanToShip(newShipParent).transform;
     }
+
+
+
+    public void Heal(int hpChange)
+    {
+        hp += hpChange;
+        while (hpHud.text.Length < hp)
+        { hpHud.text += "i"; }
+    }
+
 }

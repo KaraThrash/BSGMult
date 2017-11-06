@@ -61,7 +61,7 @@ public class FPScamera : MonoBehaviour {
             character.localRotation = m_CharacterTargetRot;
             camera.localRotation = m_CameraTargetRot;
         }
-        playerSpine.transform.LookAt(spineLookSpot.transform.position);
+        //playerSpine.transform.LookAt(spineLookSpot.transform.position);
         UpdateCursorLock();
     }
 

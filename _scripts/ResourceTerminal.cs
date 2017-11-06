@@ -60,9 +60,9 @@ public class ResourceTerminal : Photon.PunBehaviour
         {
             if (ammoTerminal == true )
             {
-                if (whoUsedMe.GetComponent<PlayerCharacter>().ammo < 10)
+                if (whoUsedMe.GetComponent<PlayerCharacter>().ammo < 20)
                 {
-                    whoUsedMe.GetComponent<PhotonView>().RPC("ChangeAmmo", PhotonTargets.AllBufferedViaServer, 5);
+                    whoUsedMe.GetComponent<PhotonView>().RPC("ChangeAmmo", PhotonTargets.AllBufferedViaServer, 25);
                     GetComponent<PhotonView>().RPC("UpdateTotal", PhotonTargets.AllBufferedViaServer, -1);
                 }
             }

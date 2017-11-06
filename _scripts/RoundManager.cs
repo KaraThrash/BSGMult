@@ -59,11 +59,15 @@ public class RoundManager : MonoBehaviour {
     }
     public void CalculatePoints()
     {
-        pointsThisRound += (fleet.GetComponent<Fleet>().fuel - fuelAtRoundStart) * fuelBonus;
-        pointsThisRound += (fleet.GetComponent<Fleet>().food - foodAtRoundStart) * foodBonus;
+        if (fleet.GetComponent<Fleet>().fuel - fuelAtRoundStart > 0)
+        { pointsThisRound += (fleet.GetComponent<Fleet>().fuel - fuelAtRoundStart) * fuelBonus; }
+        if (fleet.GetComponent<Fleet>().food - foodAtRoundStart > 0)
+        { pointsThisRound += (fleet.GetComponent<Fleet>().food - foodAtRoundStart) * foodBonus; }
+        
         if (wasFrakked == false) { pointsThisRound += (5 * dontDieBonus); }
         pointsThisRound += (cylonsKilledThisRound * cylonKillBonus);
-        totalPoints += pointsThisRound;
+        totalPoints = localPlayer.GetComponent<PlayerMain>().score + pointsThisRound;
+        //totalPoints += pointsThisRound;
         pointTotal.text = totalPoints.ToString();
  
         localPlayer.GetComponent<PhotonView>().RPC("UpdateScore", PhotonTargets.AllViaServer, totalPoints);
