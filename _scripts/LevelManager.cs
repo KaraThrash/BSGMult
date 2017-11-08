@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour {
     public bool temp;
+    public bool turnOffForTesting;
 	// Use this for initialization
 	void Start () {
-		
+       //if (turnOffForTesting == true) { this.gameObject.active = false; }
 	}
 	
 	// Update is called once per frame

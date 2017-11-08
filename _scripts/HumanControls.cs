@@ -5,6 +5,8 @@ using UnityEngine;
 public class HumanControls : Photon.PunBehaviour
 {
     //This is the current movementyController for humanoid characters
+    public float jumpSpeed = 8.0F;
+    public float gravity = 20.0F;
     public GameObject gun;
     public int speed;
     public float coolDown;
@@ -30,7 +32,7 @@ public class HumanControls : Photon.PunBehaviour
     public float h;
     public float v;
     public float camGunAimAngle;
-    
+    public Vector3 moveDirection;
 
     void Start()
     {
@@ -55,11 +57,11 @@ public class HumanControls : Photon.PunBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-            if (jumpClock > 0) { jumpClock -= 0.3f;  }
+        CheckGround();
+        if (jumpClock > 0) { jumpClock -= 0.20f;  }
         else {
-            //jumpClock = 0;
-            CheckGround();
+            jumpClock = 0;
+           
             if (grounded == false)
             {
                 //Vector3 downDirection =  downObject.transform.position - transform.position;
@@ -191,23 +193,31 @@ public class HumanControls : Photon.PunBehaviour
 
         if (canMove == true)
         {
-            v = Input.GetAxis("Vertical");
-            h = Input.GetAxis("Horizontal");
-
-            if (Input.GetKeyDown(KeyCode.Space)) { Jump(); }
-            fwdObject.transform.localPosition = new Vector3(h, 0, v);
-
-           
-            Vector3 moveDirection = new Vector3(Input.GetAxis("Horizontal"), jumpClock, Input.GetAxis("Vertical"));
-            moveDirection = transform.TransformDirection(moveDirection);
-            
-            
             if (grounded == true)
             {
-                moveDirection *= speed;
+                v = Input.GetAxis("Vertical");
+                h = Input.GetAxis("Horizontal");
 
+
+
+
+                fwdObject.transform.localPosition = new Vector3(h, 0, v);
+
+
+                moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+                moveDirection = transform.TransformDirection(moveDirection);
+
+                moveDirection *= speed;
+                if (Input.GetKey(KeyCode.Space)) { moveDirection.y = jumpSpeed; }//Jump(); 
+                                                                                 //if (grounded == true)
+                                                                                 //{
+                                                                                 //    moveDirection *= speed;
+
+                //}
+                // else { moveDirection *= (speed * 0.5f); }
             }
-             else { moveDirection *= (speed * 0.5f); }
+                moveDirection.y -= gravity * Time.deltaTime;
+            
             GetComponent<CharacterController>().Move(moveDirection * Time.deltaTime);
             GetComponent<PhotonView>().RPC("UpdateAnimationValues", PhotonTargets.AllViaServer,h,v);
 
@@ -266,6 +276,7 @@ public class HumanControls : Photon.PunBehaviour
     {
         if (grounded == true && jumpClock <= 0)
         {
+            //rb.AddForce(transform.up * 10 * Time.deltaTime,ForceMode.Impulse);
             jumpClock = 3;
             grounded = false;
         }

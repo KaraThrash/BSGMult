@@ -36,6 +36,7 @@ public class Fighter : Photon.PunBehaviour
     public GameObject criticalFailureText;
     public float colliderTimer;
     public GameObject dradisModel;
+    //public GameObject dradisTarget; //turned off when not flying by the landing bay so it isnt picked up on dradis
     // Use this for initialization
     void Start()
     {

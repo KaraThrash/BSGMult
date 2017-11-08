@@ -6,7 +6,9 @@ public class Dradis : MonoBehaviour {
     public float tick;
     public float timer;
     public List<GameObject> dradisList = new List<GameObject>();
+    public List<GameObject> activeDradisModelList = new List<GameObject>();
     public GameObject placeHolder;
+    public GameObject displayLocation; // to have the dradis on the ship and display it elsewhere
     public GameObject emptyObject;
     public int dradisValue; //object size fighter/capital ship
     public int dradisPower; //what size object this can detect
@@ -17,12 +19,13 @@ public class Dradis : MonoBehaviour {
     public float reScale = 1;// interior dradis targets can be displayed larger
     public float radarUpdateTime;
     public bool fullScaleRadarImages;
+    public bool dontDestroyOld;
     // Use this for initialization
     void Start () {
         if (isRadar == true)
         {
-            emptyObject = Instantiate(placeHolder, transform.position, transform.rotation) as GameObject;
-            emptyObject.transform.parent = this.transform;
+            emptyObject = Instantiate(placeHolder, displayLocation.transform.position, transform.rotation) as GameObject;
+            emptyObject.transform.parent = displayLocation.transform;
         }
     }
 	
@@ -31,18 +34,28 @@ public class Dradis : MonoBehaviour {
         if (isRadar == true)
         {
             transform.eulerAngles = Vector3.zero;
+            //displayLocation.transform.localEulerAngles = transform.eulerAngles;
             timer += Time.deltaTime;
             if (timer > radarUpdateTime)
             {
-                Destroy(emptyObject);
-                emptyObject = Instantiate(placeHolder, transform.position, transform.rotation) as GameObject;
-                emptyObject.transform.parent = this.transform;
+                if (dontDestroyOld == false)
+                {
+                    Destroy(emptyObject);
+                    emptyObject = Instantiate(placeHolder, displayLocation.transform.position, displayLocation.transform.rotation) as GameObject;
+                    emptyObject.transform.parent = displayLocation.transform;
+                }
                 tick = 0.02f; timer = 0;
             }
             if (tick > 0)
             {
                 tick = 0;
-                spawnDradis();
+                if (dontDestroyOld == false)
+                {
+                    spawnDradis();
+                }
+                else {
+                    UpdateDradisLocation();
+                }
                 //tick -= Time.deltaTime;
             }
         }
@@ -71,10 +84,41 @@ public class Dradis : MonoBehaviour {
 
        }
 
+    public void UpdateDradisLocation()
+    {
+        for (var i = dradisList.Count - 1; i > -1; i--)
+        {
+            if (dradisList[i] != null)
+            {
+                activeDradisModelList[i].transform.localPosition = ((dradisList[i].transform.position - transform.position) * radarSize);
+                activeDradisModelList[i].transform.rotation = dradisList[i].transform.rotation;
+                
+                
+            }
+            else { dradisList.RemoveAt(i); activeDradisModelList.RemoveAt(i); }
+
+        }
+
+    }
+
     public void OnTriggerExit(Collider col2)
     {
         if (dradisList.Contains(col2.gameObject) == true)
-        { dradisList.Remove(col2.gameObject); }
+        {
+            if (dontDestroyOld == true)
+            {
+                int index = dradisList.IndexOf(col2.gameObject);
+
+                dradisList.Remove(col2.gameObject);
+                Destroy(activeDradisModelList[index]);
+                activeDradisModelList.RemoveAt(index);
+
+                //Destroy(emptyObject);
+                //emptyObject = Instantiate(placeHolder, displayLocation.transform.position, displayLocation.transform.rotation) as GameObject;
+                //emptyObject.transform.parent = displayLocation.transform;
+            }
+            else { dradisList.Remove(col2.gameObject); }
+        }
             
 
     }
@@ -87,9 +131,24 @@ public class Dradis : MonoBehaviour {
                 if (!dradisList.Contains(col.gameObject) && dradisValue <= dradisPower)
                 {
                     dradisList.Add(col.gameObject);
-                    //GameObject clone = Instantiate(placeHolder, ((col.transform.position - transform.position) * 0.1f), col.transform.rotation) as GameObject;
-                    //clone.transform.parent = emptyObject.transform;
-                    //clone.transform.name = col.transform.name;
+                    
+                    if (dontDestroyOld == true)
+                    {
+                        GameObject clone = null;
+                        if (fullScaleRadarImages == true)
+                        {
+                            clone = Instantiate(col.gameObject.GetComponent<Dradis>().dradisModel, Vector3.zero, col.gameObject.transform.rotation) as GameObject;
+                        }
+                        else
+                        {
+                            clone = Instantiate(col.gameObject.GetComponent<Dradis>().transparentDradisModel, Vector3.zero, col.gameObject.transform.rotation) as GameObject;
+                        }
+
+                        clone.transform.parent = emptyObject.transform;
+                        clone.transform.localScale *= reScale;
+                        clone.transform.localPosition = ((col.gameObject.transform.position - transform.position) * radarSize);
+                        activeDradisModelList.Add(clone);
+                    }
                 }
             }
         }

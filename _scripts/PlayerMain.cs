@@ -24,16 +24,17 @@ public class PlayerMain : Photon.PunBehaviour
 
     // Use this for initialization
     void Start () {
-        scoreText = GameObject.Find("Menu").GetComponent<ItemList>().supplyCrates[GetComponent<PhotonView>().ownerId].GetComponent<Text>();
+        // scoreText = GameObject.Find("Menu").GetComponent<ItemList>().supplyCrates[GetComponent<PhotonView>().ownerId].GetComponent<Text>();
         if (photonView.isMine == true)
         {
             //playerHud = GameObject.Find("PlayerHud");
-           // hpTextObj = playerHud.transform.Find("HpText").gameObject;
-           // ammoTextObj = playerHud.transform.Find("AmmoText").gameObject;
+            // hpTextObj = playerHud.transform.Find("HpText").gameObject;
+            // ammoTextObj = playerHud.transform.Find("AmmoText").gameObject;
             myCamera.active = true;
             myCamera.transform.parent = null;
-            
+
         }
+        //else { scoreText = GameObject.Find("Menu").GetComponent<ItemList>().supplyCrates[GetComponent<PhotonView>().ownerId].GetComponent<Text>(); }
 	}
 	
 	// Update is called once per frame
