@@ -32,6 +32,7 @@ public class SelectCharacter : Photon.PunBehaviour
             myPlayer.GetComponent<PlayerMain>().humanoidObject = myCharacter;
             myPlayer.GetComponent<PlayerMain>().galactica = galactica;
             myPlayer.GetComponent<PlayerMain>().jumpManager = jumpManager;
+            myPlayer.GetComponent<PlayerMain>().myCamera.active = false;
             myPlayer.GetComponent<PlayerMain>().scoreText = scoreText;
             myPlayer.GetComponent<PlayerMain>().scoreText = scoreText;
 

@@ -115,13 +115,20 @@ public class PlayerCharacter : Photon.PunBehaviour
         
     }
     [PunRPC]
-    public void GetOutShip(int shipOnList)
+    public void GetOutShip(int shipOnList, Vector3 newExit)
     {
         flying = false;
         transform.parent = masterShipList.GetComponent<MasterShipList>().ParentHumanToShip(shipOnList).transform;
+        transform.position = newExit;
         this.gameObject.active = true;
-        if (localPlayer != null) { myCamera.active = true; localPlayer.GetComponent<PlayerMain>().shipGroup = shipOnList; }
+        if (localPlayer != null) {
+            transform.position = newExit; this.gameObject.active = true;  myCamera.active = true; localPlayer.GetComponent<PlayerMain>().shipGroup = shipOnList;
+            localPlayer.GetComponent<PhotonView>().RPC("SetHumanActive",PhotonTargets.AllViaServer);
+        }
     }
+
+
+
     public void OnTriggerEnter(Collider col)
     {
         //if (photonView.isMine == true)
@@ -154,20 +161,25 @@ public class PlayerCharacter : Photon.PunBehaviour
     {
         if (col2.gameObject.tag == "Bullet")
         {
-            hp--;
-            if (hp > 0 && localPlayer != null)
-            {
-                hpHud.text.Remove(-1);
-            }
-            if (hp <= 0) {
-                if (localPlayer != null) { localPlayer.GetComponent<PlayerMain>().roundManager.GetComponent<RoundManager>().wasFrakked = true; }
-                galactica.GetComponent<Galactica>().medbay.GetComponent<Medbay>().PlaceInBed(this.gameObject);
-               
-               
-            }
+            TakeDamage(1);
         }
     }
+    public void TakeDamage(int dmg)
+    {
+        hp -= dmg;
+        if (hp > 0 && localPlayer != null)
+        {
+            hpHud.text.Remove(-1);
+        }
+        if (hp <= 0)
+        {
+            if (localPlayer != null) { localPlayer.GetComponent<PlayerMain>().roundManager.GetComponent<RoundManager>().wasFrakked = true; }
+            galactica.GetComponent<Galactica>().medbay.GetComponent<Medbay>().PlaceInBed(this.gameObject);
 
+
+        }
+
+    }
 
 
     [PunRPC]
@@ -175,7 +187,10 @@ public class PlayerCharacter : Photon.PunBehaviour
     [PunRPC]
     public void NoParent() { transform.parent = null; }
 
-    public void TakeOff() { myCamera.active = false; GetComponent<PhotonView>().RPC("GetInShip", PhotonTargets.AllBufferedViaServer); }
+    public void TakeOff() {
+        //myCamera.active = false;
+        GetComponent<PhotonView>().RPC("GetInShip", PhotonTargets.AllBufferedViaServer);
+    }
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -197,6 +212,11 @@ public class PlayerCharacter : Photon.PunBehaviour
     }
     public void JumpCameraEffects()
     {
+        if (station != null)
+        {
+            myCamera.active = true;
+            station.GetComponent<PhotonView>().RPC("MakeAvailable", PhotonTargets.AllBufferedViaServer);
+        }
         myCamera.GetComponent<CameraEffects>().StartFTLEffect();
        // localPlayer.GetComponent<PlayerMain>().spaceCoordinates = coords;
         //localPlayer.GetComponent<PlayerMain>().Jumping(coords);

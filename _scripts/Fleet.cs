@@ -10,6 +10,7 @@ public class Fleet : Photon.PunBehaviour
     public int morale;
     public int food;
     public int shipsInFleetCount;
+    public int shipsReadyToJump;
     public int shipsJumped;
     public int jumpCoordinates;
     public GameObject jumpManager;
@@ -37,14 +38,14 @@ public class Fleet : Photon.PunBehaviour
     {
         if (jumping == true)
         {
-            shipsJumpedText.text = shipsJumped.ToString() + "/" + shipsInFleetCount.ToString() + " Currently jumped away.";
+           // shipsJumpedText.text = shipsJumped.ToString() + "/" + shipsInFleetCount.ToString() + " Currently jumped away.";
             if (shipsJumped >= shipsInFleet.Count)
             {
-                jumping = false;
-                shipsJumped = 0;
-                shipsJumpedText.text = "Fleet Away";
-                // jumpManager.GetComponent<PhotonView>().RPC("UpdateLocationFleet", PhotonTargets.AllBufferedViaServer, GetComponent<FTLDrive>().currentCords);
-                //shipsInFleet[i].GetComponent<FTLDrive>().StartJump(jumpCoordinates);
+                //jumping = false;
+                //shipsJumped = 0;
+                //shipsJumpedText.text = "Fleet Away";
+
+                
             }
         }
 
@@ -54,6 +55,12 @@ public class Fleet : Photon.PunBehaviour
         if (Input.GetKeyUp(KeyCode.LeftShift))
         { resourceTextObj.active = false; }
     }
+    public void ShipReportingFTLReady()
+    {
+        shipsReadyToJump++;
+        shipsJumpedText.text = shipsReadyToJump.ToString() + " of "+ shipsInFleetCount.ToString() + " Ships Ready To Jump";
+    }
+
     [PunRPC]
     public void Jumping(int jumpCoords) {
         GetComponent<FTLDrive>().currentCords = jumpCoords;
@@ -61,6 +68,7 @@ public class Fleet : Photon.PunBehaviour
         jumpCoordinates = jumpCoords;
        // jumpDestination = GameObject.Find(jumpCoordinates.ToString());
         shipsJumped = 0;
+        shipsReadyToJump = 0;
         jumping = true;
         for (var i = shipsInFleet.Count - 1; i >= 0; i--)
         {
@@ -86,13 +94,17 @@ public class Fleet : Photon.PunBehaviour
                 if (shipsInFleet[i] != null)
                 {
                 if (shipsInFleet[i].GetComponent<FleetShip>().jumped == true)
-                { shipsInFleet[i].active = true; }
+                {
+                    shipsInFleet[i].active = true;
+                    shipsInFleet[i].GetComponent<FleetShip>().jumped = false;
+                }
                 else {
                     shipsInFleet[i].transform.parent = shipsLeftBehind.transform;
                     if (shipsInFleet[i].GetComponent<FleetShip>().leftBehind == false)
-                    { shipsInFleet[i].GetComponent<FleetShip>().leftBehind = true; }
+                    { shipsInFleet[i].GetComponent<FleetShip>().LeftBehind(); }
                     else {
-                        shipsInFleet[i].GetComponent<FleetShip>().Die();
+                        shipsInFleet[i].GetComponent<FleetShip>().FleetShipDie();
+
                         //GetComponent<PhotonView>().RPC("Die", PhotonTargets.AllBufferedViaServer);
                         shipsInFleet.RemoveAt(i);
                     }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ViperControls : Photon.PunBehaviour
 {
+   
     public GameObject pilot;
     public bool flying;
     PhotonView m_PhotonView;
@@ -29,6 +30,7 @@ public class ViperControls : Photon.PunBehaviour
     public int strafeSpeed;
     public bool controlled;
     public GameObject landingGear;
+    public List<GameObject> bulletsByOwner = new List<GameObject>();
     // Use this for initialization
     void Start () {
        
@@ -44,7 +46,7 @@ public class ViperControls : Photon.PunBehaviour
         flying = GetComponent<Fighter>().flying;
         if (flying == true)
         {
-
+            
         }
         else {  }
         if (gunCoolDown > 0) { gunCoolDown -= Time.deltaTime; }
@@ -117,10 +119,10 @@ public class ViperControls : Photon.PunBehaviour
         vert = Input.GetAxis("Vertical");
         // if (Input.GetKey(KeyCode.KeypadPlus)) { vert += Time.deltaTime; }
         //if (Input.GetKey(KeyCode.KeypadMinus)) { vert -= Time.deltaTime; }
-        if (Input.GetKey(KeyCode.Keypad7)) { roll = -rollSpeed; } else if (Input.GetKey(KeyCode.Keypad9)) { roll = rollSpeed; } else { roll = 0; }
-        if (Input.GetKey(KeyCode.Keypad4)) { mouseX = -160; } else if (Input.GetKey(KeyCode.Keypad6)) { mouseX = 160; } else { mouseX = 0; }
-        if (Input.GetKey(KeyCode.Keypad2)) { mouseY = -160; } else if (Input.GetKey(KeyCode.Keypad8)) { mouseY = 160; } else { mouseY = 0; }
-        if (Input.GetKey(KeyCode.Keypad5)) { afterBurner = 1400.0f; }
+        if (Input.GetKey(KeyCode.Keypad7) || Input.GetKey(KeyCode.U)) { roll = -rollSpeed; } else if (Input.GetKey(KeyCode.Keypad9) || Input.GetKey(KeyCode.O)) { roll = rollSpeed; } else { roll = 0; }
+        if (Input.GetKey(KeyCode.Keypad4) || Input.GetKey(KeyCode.J)) { mouseX = -160; } else if (Input.GetKey(KeyCode.Keypad6) || Input.GetKey(KeyCode.L)) { mouseX = 160; } else { mouseX = 0; }
+        if (Input.GetKey(KeyCode.Keypad2) || Input.GetKey(KeyCode.K)) { mouseY = -160; } else if (Input.GetKey(KeyCode.Keypad8) || Input.GetKey(KeyCode.I)) { mouseY = 160; } else { mouseY = 0; }
+        if (Input.GetKey(KeyCode.Keypad5) || Input.GetKey(KeyCode.P)) { afterBurner = 1400.0f; }
         if (afterBurner > 0) { afterBurner -= 4; }
 
         //GetComponent<PhotonView>().RPC("flightControls", PhotonTargets.AllViaServer, vert, hort, roll, mouseX, mouseY, exit, lift);
@@ -131,9 +133,10 @@ public class ViperControls : Photon.PunBehaviour
     {
            GameObject clone = Instantiate(bullet, gun2.transform.position, gun2.transform.rotation) as GameObject;
         clone.GetComponent<Rigidbody>().velocity += currentVelocity;
+        clone.GetComponent<Bullet>().owner = GetComponent<PhotonView>().ownerId;
         GameObject clone2 =  Instantiate(bullet, gun1.transform.position, gun1.transform.rotation) as GameObject;
         clone2.GetComponent<Rigidbody>().velocity += currentVelocity;
-
+        clone2.GetComponent<Bullet>().owner = GetComponent<PhotonView>().ownerId;
     }
     [PunRPC]
     public void DeployLandingGear(bool GearOutOrIn)

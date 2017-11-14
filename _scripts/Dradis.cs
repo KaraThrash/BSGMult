@@ -64,7 +64,7 @@ public class Dradis : MonoBehaviour {
         for (var i = dradisList.Count - 1; i > -1; i--)
         {
             if (dradisList[i] != null) {
-                if (dradisList[i].GetComponent<Dradis>() != null)
+                if (dradisList[i].GetComponent<Dradis>() != null && dradisList[i].active != false)
                 {
                     GameObject clone = null;
                     if (fullScaleRadarImages == true) {
@@ -88,14 +88,19 @@ public class Dradis : MonoBehaviour {
     {
         for (var i = dradisList.Count - 1; i > -1; i--)
         {
-            if (dradisList[i] != null)
+            if (dradisList[i] != null && dradisList[i].active != false)
             {
                 activeDradisModelList[i].transform.localPosition = ((dradisList[i].transform.position - transform.position) * radarSize);
                 activeDradisModelList[i].transform.rotation = dradisList[i].transform.rotation;
                 
                 
             }
-            else { dradisList.RemoveAt(i); activeDradisModelList.RemoveAt(i); }
+            else {
+                dradisList.RemoveAt(i);
+                Destroy(activeDradisModelList[i]);
+                activeDradisModelList.RemoveAt(i);
+
+            }
 
         }
 

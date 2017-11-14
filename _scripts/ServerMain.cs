@@ -35,12 +35,12 @@ public class ServerMain : Photon.PunBehaviour
             {
                 galactica.GetComponent<PhotonView>().RPC("SetNewCords", PhotonTargets.AllViaServer, 3);
                 
-                SceneManager.LoadScene("Game 3");
+               
             }
             if (Input.GetKeyDown(KeyCode.K))
             {
                 galactica.GetComponent<PhotonView>().RPC("SetNewCords", PhotonTargets.AllViaServer, 4);
-                SceneManager.LoadScene("Game 4");
+                
             }
         }
     }

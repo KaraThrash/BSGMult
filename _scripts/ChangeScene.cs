@@ -41,11 +41,11 @@ public class ChangeScene : Photon.PunBehaviour
     {
         dieClock = 3;
         tickClock = true;
-        if (canChangeScene == true) { Application.LoadLevel("Game 1"); }
+        if (canChangeScene == true) {  }
     }
     public void NowChangeScene()
     {
-        Application.LoadLevel("Game 1");
+       // Application.LoadLevel("Game 1");
     }
 
     void Awake()

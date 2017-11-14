@@ -19,6 +19,7 @@ public class RoundManager : MonoBehaviour {
     public int fuelAtRoundStart;
     public int foodAtRoundStart;
     public int cylonsKilledThisRound;
+    public int cylonsKilledThisRoundByLocalPlayer;
     public bool wasFrakked;
 
     public float currentPoints;
@@ -98,4 +99,11 @@ public class RoundManager : MonoBehaviour {
         }
         return newObj;
     }
+    public void CylonKilled(int type,int byWho)
+    {
+        cylonsKilledThisRound++;
+        if (byWho == localPlayer.GetComponent<PhotonView>().ownerId)
+        { cylonsKilledThisRoundByLocalPlayer++; }
+    }
+
 }

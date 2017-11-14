@@ -38,27 +38,28 @@ public class BaseStar : Photon.PunBehaviour
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (jumping == true)
+        {
+            ftlClock -= Time.deltaTime;
+            if (ftlClock < 0)
+            { jumping = false; ftlClock = 3; Jump(); }
+
+        }
         if (photonView.isMine == true)
         {
-            if (spawnClock <= 0  )
+            if (spawnClock <= 0 && jumping == false )
             {
                 if (numberOfRaiderWings >= 5)
                 {
                     //GetComponent<PhotonView>().RPC("LaunchRaiders", PhotonTargets.AllViaServer);
-                    LaunchRaiders();
-                    numberOfRaiderWings -= 5;
-                    spawnClock = 3;
+                   LaunchRaiders();
+                    
+                    spawnClock = 4;
                 }
             }
             else { spawnClock -= Time.deltaTime; }
 
-            if (jumping == true)
-            {
-                ftlClock -= Time.deltaTime;
-                if (ftlClock < 0)
-                { jumping = false;  ftlClock = 3; Jump(); }
-                
-            }
         }
     }
     void Awake()
@@ -67,7 +68,7 @@ public class BaseStar : Photon.PunBehaviour
         Debug.Log("basestar In New Scene");
        // DontDestroyOnLoad(this.gameObject);
     }
-   // [PunRPC]
+    //[PunRPC]
     void LaunchRaiders()
     {
         if (raiderParentObject == null)
@@ -75,21 +76,26 @@ public class BaseStar : Photon.PunBehaviour
             GameObject parentclone = Instantiate(raiderParentObjectPrefab, transform.position, transform.rotation) as GameObject;
             raiderParentObject = parentclone;
         }
-         GameObject clone = PhotonNetwork.InstantiateSceneObject(objectToSpawn, launchBay.transform.position, launchBay.transform.rotation, 0, null);
-        //GameObject clone = Instantiate(raider, launchBay.transform.position, launchBay.transform.rotation) as GameObject;
-        clone.GetComponent<PhotonView>().RPC("JustSpawned", PhotonTargets.All);
-        //clone.transform.parent = raiderParentObject.transform;
+         GameObject clone = PhotonNetwork.Instantiate(objectToSpawn, launchBay.transform.position, launchBay.transform.rotation, 0, null);
+        numberOfRaiderWings -= 5;
+       // GameObject clone = Instantiate(raider, launchBay.transform.position, launchBay.transform.rotation) as GameObject;
+        
+        
+        //clone.GetComponent<PhotonView>().RPC("JustSpawned", PhotonTargets.AllBufferedViaServer);
+        
+        
+        clone.transform.parent = raiderParentObject.transform;
         //clone.active = true;
         
         
 
     }
     [PunRPC]
-    void StartFTL(int coords)
+    void StartFTL()
     {
         ftlClock = 3;
         jumping = true;
-        ftlCoords = coords;
+      //  ftlCoords = coords;
        
     }
 
@@ -115,13 +121,15 @@ public class BaseStar : Photon.PunBehaviour
         }
         numberOfRaiderWings += 2;
         GetComponent<FTLDrive>().currentCords = ftlCoords;
-       // Application.LoadLevel(ftlCoords.ToString()); //this only works if the server isnt also a player
-        jumpManager.GetComponent<PhotonView>().RPC("UpdateLocationBaseStar", PhotonTargets.AllBufferedViaServer, ftlCoords);
+        // Application.LoadLevel(ftlCoords.ToString()); //this only works if the server isnt also a player
+        //jumpManager.GetComponent<PhotonView>().RPC("UpdateLocationBaseStar", PhotonTargets.AllBufferedViaServer, ftlCoords);
+
+        jumpManager.GetComponent<JumpManager>().BaseStarJump();
 
         if (Vector3.Distance(galactica.transform.position, transform.position) < 3000)
         { attackpatrolPoints.transform.position = galactica.transform.position; }
         //jumpManager.GetComponent<JumpManager>().ManageJump(0, 0, 0, 0);
-        hasTarget = jumpManager.GetComponent<JumpManager>().CheckCoordinatesBaseStarForFleetGalactica();
+        //hasTarget = jumpManager.GetComponent<JumpManager>().CheckCoordinatesBaseStarForFleetGalactica();
 
 
         ForPassengersDuringJump(ftlCoords);

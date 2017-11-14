@@ -76,7 +76,7 @@ public class ConnectAndJoinRandom : Photon.MonoBehaviour
         PhotonNetwork.automaticallySyncScene = false;
         if (firstIn == true)
         {
-            //PhotonNetwork.InstantiateSceneObject("Everything", Vector3.zero, new Quaternion(0, 0, 0, 0), 0, null);
+            PhotonNetwork.InstantiateSceneObject("Everything", Vector3.zero, new Quaternion(0, 0, 0, 0), 0, null);
 
             // PhotonNetwork.Instantiate("Server", new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0), 0, null);
             //  Application.LoadLevel("ServerStart");

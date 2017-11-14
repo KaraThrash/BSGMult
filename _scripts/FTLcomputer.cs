@@ -240,15 +240,17 @@ public class FTLcomputer : Photon.PunBehaviour
     }
 
     public void JumpTheFleet() {
-        myShip.GetComponent<Galactica>().theFleet.GetComponent<PhotonView>().RPC("Jumping", PhotonTargets.AllViaServer, jumpTargetCords);
-    
+        if (myShip.GetComponent<Galactica>().theActiveFleet.active == true)
+        {
+            myShip.GetComponent<Galactica>().theFleet.GetComponent<PhotonView>().RPC("Jumping", PhotonTargets.AllViaServer, jumpTargetCords);
+        }
     }
 
     public void JumpThisShip()
     {
         if (jumpTarget != null)
         {
-
+            JumpTheFleet();
             numberOfJumps++;
             myShip.GetComponent<PhotonView>().RPC("StartJump", PhotonTargets.AllViaServer, jumpTargetCords);
 

@@ -66,13 +66,13 @@ public class LandingBay : Photon.PunBehaviour
             nextAvailableSpot = dockingSpaces[openSpace];
             shipToDock.GetComponent<Fighter>().inHangar = true;
             shipToDock.GetComponent<Fighter>().hangarSpace = nextAvailableSpot;
-            if (shipToDock.GetComponent<Fighter>().pilot != null)
-            { shipToDock.GetComponent<Fighter>().pilot.GetComponent<PhotonView>().RPC("GetOutShip", PhotonTargets.AllBufferedViaServer, myShipInList); }
+           
 
             shipToDock.transform.position = nextAvailableSpot.transform.position;
             shipToDock.transform.rotation = nextAvailableSpot.transform.rotation;
+            if (shipToDock.GetComponent<Fighter>().pilot != null)
+            { shipToDock.GetComponent<Fighter>().pilot.GetComponent<PhotonView>().RPC("GetOutShip", PhotonTargets.AllBufferedViaServer, myShipInList, shipToDock.GetComponent<Fighter>().cockpitEntrance.transform.position); }
 
-            
             shipToDock.GetComponent<Fighter>().pilot = null;
         }
 

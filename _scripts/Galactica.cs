@@ -13,6 +13,7 @@ public class Galactica : Photon.PunBehaviour
     public GameObject localSpacePositionObject;//use this to set duplicate local position for jump position
     public GameObject theGalactica;
     public GameObject theFleet;
+    public GameObject theActiveFleet;
     public float speed;
     public bool manned;
     public GameObject myCamera;
@@ -23,6 +24,7 @@ public class Galactica : Photon.PunBehaviour
     public GameObject myFtlComputer;
     public GameObject medbay;
     public GameObject dradisModel;
+    public GameObject engineAnim;
     void Start () {
 
     }
@@ -49,9 +51,10 @@ public class Galactica : Photon.PunBehaviour
            
         }
 
-        theGalactica.transform.position = Vector3.MoveTowards(theGalactica.transform.position, fwdObject.transform.position, 1.0f);
-        theGalactica.transform.rotation = Quaternion.Slerp(theGalactica.transform.rotation, rotationObject.transform.rotation, 2.0f);
-        fwdObject.transform.position = Vector3.MoveTowards(fwdObject.transform.position, theGalactica.transform.position, 2.0f);
+        theGalactica.transform.position = Vector3.MoveTowards(theGalactica.transform.position, fwdObject.transform.position, 1.0f * Time.deltaTime);
+        theGalactica.transform.rotation = Quaternion.Slerp(theGalactica.transform.rotation, rotationObject.transform.rotation, 1.0f * Time.deltaTime);
+        fwdObject.transform.position = Vector3.MoveTowards(fwdObject.transform.position, theGalactica.transform.position, 1.0f );
+        if (Vector3.Distance(fwdObject.transform.position, theGalactica.transform.position) > 10) { engineAnim.active = true; } else { engineAnim.active = false; }
         if (manned == true)
         {
             if (Input.GetKey(KeyCode.Space))
@@ -60,12 +63,12 @@ public class Galactica : Photon.PunBehaviour
                 //transform.Translate(Vector3.right * 1);
             }
             
-            if (Input.GetKey(KeyCode.S)) { rotationObject.transform.Rotate(0.5f,0, 0); }
-            if (Input.GetKey(KeyCode.W)) { rotationObject.transform.Rotate(-0.5f,0, 0); }
-            if (Input.GetKey(KeyCode.Q)) { rotationObject.transform.Rotate(0, 0,-0.5f); }
-            if (Input.GetKey(KeyCode.E)) { rotationObject.transform.Rotate(0, 0,0.5f); }
-            if (Input.GetKey(KeyCode.D)) { rotationObject.transform.Rotate(0, 0.5f, 0); }
-            if (Input.GetKey(KeyCode.A)) { rotationObject.transform.Rotate(0, -0.5f, 0); }
+            if (Input.GetKey(KeyCode.S)) { rotationObject.transform.Rotate(0.1f,0, 0); }
+            if (Input.GetKey(KeyCode.W)) { rotationObject.transform.Rotate(-0.1f,0, 0); }
+            if (Input.GetKey(KeyCode.Q)) { rotationObject.transform.Rotate(0, 0,-0.1f); }
+            if (Input.GetKey(KeyCode.E)) { rotationObject.transform.Rotate(0, 0,0.1f); }
+            if (Input.GetKey(KeyCode.D)) { rotationObject.transform.Rotate(0, 0.1f, 0); }
+            if (Input.GetKey(KeyCode.A)) { rotationObject.transform.Rotate(0, -0.1f, 0); }
             GetComponent<PhotonView>().RPC("SetRotationObjects", PhotonTargets.Others, rotationObject.transform.rotation);
         }
     }

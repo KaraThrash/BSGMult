@@ -18,11 +18,11 @@ public class JumpManager : Photon.PunBehaviour
     public int localPlayerCords;
     public GameObject localPlayer;
     public Transform activePersistantFighters; //fighters in space when jumps are made
-
+    public GameObject activeHumanFleet;
     public GameObject fleetLeftBehind;
     public GameObject cylonFleetLeftBehind;
-    public GameObject activeCylongFleet; //currently in Galactica space space
-    public GameObject otherCylongFleet;// not currently in Galactica space space
+    public GameObject activeCylonFleet; //currently in Galactica space space
+    public GameObject otherCylonFleet;// not currently in Galactica space space
     //ShipGroup; //1: galactica + active fleet 2: Cylon fleet 3: space/planet 0:leftbehind
 
     // Use this for initialization
@@ -39,37 +39,42 @@ public class JumpManager : Photon.PunBehaviour
 
     public void ManageJump(int galacticaCord,int fleetCord,int basestarCord,int localCord)
     {
-        if (localPlayer != null)
-        {
-            if (localCord != 0) { localPlayerCords = localCord; } else
-            { localPlayerCords = localPlayer.GetComponent<PlayerMain>().spaceCoordinates; }
+        //if (localPlayer != null)
+        //{
+        //    if (localCord != 0) { localPlayerCords = localCord; } else
+        //    { localPlayerCords = localPlayer.GetComponent<PlayerMain>().spaceCoordinates; }
 
-            if (galacticaCord != 0) { galacticaCoordinates = galacticaCord; }
-            if (basestarCord != 0) { baseStarCoordinates = basestarCord; }
-            if (fleetCord != 0) { fleetCoordinates = fleetCord; }
+        //    if (galacticaCord != 0) { galacticaCoordinates = galacticaCord; }
+        //    if (basestarCord != 0) { baseStarCoordinates = basestarCord; }
+        //    if (fleetCord != 0) { fleetCoordinates = fleetCord; }
 
-            if (baseStarCoordinates == localPlayerCords) { baseStarShip.active = true; } else { baseStarShip.active = false; }
-            if (galacticaCoordinates == localPlayerCords) { galactica.active = true; } else { galactica.active = false; Debug.Log("Turn Galactica Off: " + galacticaCoordinates + localPlayerCords); }
-                //fleet.GetComponent<Fleet>().CheckAllShipsLocation(localPlayerCords);
+        //    if (baseStarCoordinates == localPlayerCords) { baseStarShip.active = true; } else { baseStarShip.active = false; }
+        //    if (galacticaCoordinates == localPlayerCords) { galactica.active = true; } else { galactica.active = false; Debug.Log("Turn Galactica Off: " + galacticaCoordinates + localPlayerCords); }
+        //        //fleet.GetComponent<Fleet>().CheckAllShipsLocation(localPlayerCords);
 
-            foreach (Transform fighter in activePersistantFighters) {
-                if (fighter.GetComponent<Fighter>().currentCords == localPlayerCords) { fighter.gameObject.active = true; }
-                else { fighter.gameObject.active = false; }
-            }
-        }
+        //    foreach (Transform fighter in activePersistantFighters) {
+        //        if (fighter.GetComponent<Fighter>().currentCords == localPlayerCords) { fighter.gameObject.active = true; }
+        //        else { fighter.gameObject.active = false; }
+        //    }
+        //}
 
     }
 
     public void GalacticaJumped(int newScene) //new round
     {
         galacticaCoordinates = newScene;
-        foreach (Transform child in activeCylongFleet.transform)
-        { child.parent = cylonFleetLeftBehind.transform; }
+        baseStar.GetComponent<PhotonView>().RPC("StartFTL", PhotonTargets.AllViaServer);
+        //TODO: all the cylons go away, and the basestar does the clean up when it jumps so there is no reason to pick and choose the cylon ship parents
+        //foreach (Transform child in activeCylongFleet.transform)
+        //{ child.parent = cylonFleetLeftBehind.transform; }
 
-        
-        
+
+
+        //note: anything 2 jumps behind is destroyed
         fleet.GetComponent<Fleet>().CheckAllShipsLocation();
+        activeHumanFleet.active = true;
         fleetLeftBehind.active = true;
+
         foreach (Transform child in activePersistantFighters.transform)
         { child.parent = fleetLeftBehind.transform; }
 
@@ -81,15 +86,17 @@ public class JumpManager : Photon.PunBehaviour
             {
                 galactica.active = true;
                 cylonFleetLeftBehind.active = false;
+                baseStarShip.active = false;
 
-                
 
+                activeCylonFleet.active = false;
                 fleetLeftBehind.active = false;
                 Application.LoadLevel(newScene.ToString());
 
             }
             else
             {
+                activeHumanFleet.active = false;
                 galactica.active = false;
                 //baseStar.active = false;
                 fleetLeftBehind.active = true;
@@ -98,6 +105,41 @@ public class JumpManager : Photon.PunBehaviour
             
         }
     }
+
+    public void BaseStarJump() //new round
+    {
+
+
+
+        baseStarShip.active = true;
+        activeCylonFleet.active = true;
+        if (localPlayer != null)
+        {
+            
+
+            if (localPlayer.GetComponent<PlayerMain>().shipGroup == 2)
+            {
+                galactica.active = true;
+                activeHumanFleet.active = true;
+                fleetLeftBehind.active = false;
+                cylonFleetLeftBehind.active = false;
+                baseStarShip.active = true;
+
+                Application.LoadLevel(galacticaCoordinates.ToString());
+
+            }
+            if (localPlayer.GetComponent<PlayerMain>().shipGroup == 3)
+            {
+                
+                activeCylonFleet.active = false;
+                baseStarShip.active = false;
+            }
+
+
+        }
+    }
+
+
 
     [PunRPC]
     public void UpdateLocationGalactica(int newGalacticaCordinates)
@@ -119,8 +161,8 @@ public class JumpManager : Photon.PunBehaviour
         baseStarCoordinates = newBaseStarCordinates;
         if (localPlayer != null) {
             //make sure to check for local player otherwise the server turns the basestar off
-            if (baseStarCoordinates == localPlayerCords) { baseStarShip.active = true; }
-            else { baseStarShip.active = false; }
+           // if (baseStarCoordinates == localPlayerCords) { baseStarShip.active = true; }
+           // else { baseStarShip.active = false; }
         }
         
     }
@@ -131,7 +173,7 @@ public class JumpManager : Photon.PunBehaviour
 
         joiningPlayer.GetComponent<PlayerMain>().Jumping(galacticaCoordinates,1);
 
-            if (baseStarCoordinates == galacticaCoordinates) { baseStarShip.active = true; } else { baseStarShip.active = false; }
+            //if (baseStarCoordinates == galacticaCoordinates) { baseStarShip.active = true; } else { baseStarShip.active = false; }
 
 
         // if (fleetCoordinates == galacticaCoordinates) { fleet.active = true; } else { fleet.active = false; }

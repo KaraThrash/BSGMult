@@ -5,6 +5,8 @@ using UnityEngine;
 public class Fighter : Photon.PunBehaviour
 {
     public int hp;
+  
+ 
     public GameObject myColliders;
     public GameObject pilot;
     public bool flying;
@@ -218,7 +220,7 @@ public class Fighter : Photon.PunBehaviour
     }
     public void OnCollisionEnter(Collision col2)
     {
-
+       
         if (col2.gameObject.tag == "LandingPad" && photonView.isMine == true)
         {
             //flying = false;
@@ -247,26 +249,28 @@ public class Fighter : Photon.PunBehaviour
     public void OutInSpace(int spaceCords) {
         transform.parent = spaceObject.transform;
         currentHangar = null;
-        //if (photonView.isMine == false)
-        //{
-        //    if (jumpManager.GetComponent<JumpManager>().CheckCoordinates(spaceCords) != true)
-        //    {
-        //        this.gameObject.active = false;
+      
+        if (inHangar == true)
+        {
+            //in case someone joins/rejoins late
+            inHangar = false;
+            landingGear.active = false;
+            GetComponent<Rigidbody>().isKinematic = false;
+            GetComponent<Rigidbody>().useGravity = false;
+            hangarSpace.GetComponent<DockingSpace>().spaceOpen = true;
+            currentHangar.GetComponent<LandingBay>().ShipLeavesHangar(this.gameObject);
 
-        //    }
-        //    else
-        //    {
-        //        this.gameObject.active = true;
+            flying = true;
 
-        //    }
-        //}
+        }
     }
     [PunRPC]
     public void ParentToShip(int shipFromMasterList,int cordsOfParent)
     {
         currentHangar = masterShipList.GetComponent<MasterShipList>().ParentFighterToShip(shipFromMasterList);
-        transform.parent = masterShipList.GetComponent<MasterShipList>().ParentFighterToShip(shipFromMasterList).transform;
-        GetComponent<FTLDrive>().currentCords = cordsOfParent;
+        // transform.parent = masterShipList.GetComponent<MasterShipList>().ParentFighterToShip(shipFromMasterList).transform;
+        transform.parent = null;
+         GetComponent<FTLDrive>().currentCords = cordsOfParent;
         currentCords = cordsOfParent;
         if (currentHangar != null)
         {
@@ -312,12 +316,14 @@ public class Fighter : Photon.PunBehaviour
 
         if (pilot != null)
         {
-            pilot.transform.parent = medbay.transform;
+            //pilot.transform.parent = medbay.transform;
             pilot.transform.position = medbay.transform.position;
             pilot.transform.rotation = medbay.transform.rotation;
 
             pilot.active = true;
-            pilot.GetComponent<PlayerCharacter>().myCamera.active = true;
+            pilot.GetComponent<PlayerCharacter>().localPlayer.GetComponent<PhotonView>().RPC("SetHumanActive", PhotonTargets.AllViaServer);
+            //pilot.GetComponent<PlayerCharacter>().myCamera.active = true;
+            pilot.GetComponent<PhotonView>().RPC("GetOutShip", PhotonTargets.AllBufferedViaServer,1, medbay.transform.position);
 
         }
         Instantiate(explosion, transform.position, transform.rotation);

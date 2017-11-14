@@ -102,4 +102,5 @@ MonoBehaviour:
   - PickedUp
   - Dropped
   - UpdateScore
+  - SetHumanActive
   DisableAutoOpenWizard: 1

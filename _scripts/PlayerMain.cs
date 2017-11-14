@@ -58,7 +58,11 @@ public class PlayerMain : Photon.PunBehaviour
        
     }
 
-
+    [PunRPC]
+    public void SetHumanActive()
+    {
+        humanoidObject.active = true;
+    }
     public void PickCharacter() {
         if (Input.GetMouseButtonDown(0))
         {
