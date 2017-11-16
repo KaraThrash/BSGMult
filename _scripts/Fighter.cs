@@ -110,9 +110,9 @@ public class Fighter : Photon.PunBehaviour
     }
 
     //[PunRPC]
-
     public void Land() //Used by players/pilots
     {
+        // GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.masterClient);
         GetComponent<Rigidbody>().isKinematic = true;
         playerControlled = false;
             myModel.active = true;
@@ -122,7 +122,7 @@ public class Fighter : Photon.PunBehaviour
         flying = false;
         if (currentHangar != null)
         {
-            
+            //GetComponent<Rigidbody>().isKinematic = true;
             GetComponent<PhotonView>().RPC("ParentToShip", PhotonTargets.AllBufferedViaServer, currentHangar.GetComponent<LandingBay>().myShipInList, currentHangar.GetComponent<LandingBay>().myShip.GetComponent<FTLDrive>().currentCords);
 
             // currentHangar.GetComponent<LandingBay>().AddThisShip(this.gameObject);
@@ -131,21 +131,23 @@ public class Fighter : Photon.PunBehaviour
         }
         else
         {
-            GetComponent<Rigidbody>().isKinematic = false;
             if (pilot != null)
             {
                 pilot.transform.position = cockpitEntrance.transform.position;
+                pilot.transform.rotation = cockpitEntrance.transform.rotation;
                 pilot.active = true;
                 pilot.GetComponent<PlayerCharacter>().myCamera.active = true;
             }
             pilot = null;
+            GetComponent<Rigidbody>().isKinematic = false;
+           
         }
-            
-            
-               
-            
-            
-        GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.masterClient);
+
+       
+
+
+
+
 
     }
     public void OnTriggerEnter(Collider col3)
@@ -258,8 +260,10 @@ public class Fighter : Photon.PunBehaviour
             GetComponent<Rigidbody>().isKinematic = false;
             GetComponent<Rigidbody>().useGravity = false;
             hangarSpace.GetComponent<DockingSpace>().spaceOpen = true;
-            currentHangar.GetComponent<LandingBay>().ShipLeavesHangar(this.gameObject);
-
+            if (currentHangar != null)
+            {
+                currentHangar.GetComponent<LandingBay>().ShipLeavesHangar(this.gameObject);
+            }
             flying = true;
 
         }
@@ -267,21 +271,31 @@ public class Fighter : Photon.PunBehaviour
     [PunRPC]
     public void ParentToShip(int shipFromMasterList,int cordsOfParent)
     {
+        flying = false;
         currentHangar = masterShipList.GetComponent<MasterShipList>().ParentFighterToShip(shipFromMasterList);
-        // transform.parent = masterShipList.GetComponent<MasterShipList>().ParentFighterToShip(shipFromMasterList).transform;
-        transform.parent = null;
+         //transform.parent = masterShipList.GetComponent<MasterShipList>().ParentFighterToShip(shipFromMasterList).transform;
+        //transform.parent = null;
          GetComponent<FTLDrive>().currentCords = cordsOfParent;
         currentCords = cordsOfParent;
+        
         if (currentHangar != null)
         {
             currentHangar.GetComponent<LandingBay>().AddThisShip(this.gameObject);
+            // currentHangar.GetComponent<LandingBay>().AddThisShip(this.gameObject);
 
-        
-           // GetComponent<Rigidbody>().isKinematic = true;
-          //  transform.parent = currentHangar.transform;
+
+            // GetComponent<Rigidbody>().isKinematic = true;
+            //  transform.parent = currentHangar.transform;
 
         }
-
+        if (pilot != null)
+        {
+            pilot.transform.position = cockpitEntrance.transform.position;
+            pilot.transform.rotation = cockpitEntrance.transform.rotation;
+            pilot.active = true;
+            pilot.GetComponent<PlayerCharacter>().myCamera.active = true;
+        }
+        pilot = null;
     }
     [PunRPC]
     public void NoParent() { transform.parent = null; currentHangar = null; }

@@ -15,8 +15,9 @@ public class Computer : Photon.PunBehaviour
     public float timeCost; //How long it needs to be interacted with
     public bool spawnObject;
     public string objectToSpawn;
+    public GameObject objectToSpawnPrefab;
     public GameObject whereToSpawn;
-
+    public GameObject loadingObject;
     //TODO: types of computers
     //>> spawns, builds, actively use >> guns,dradis,communications
     // Use this for initialization
@@ -37,14 +38,23 @@ public class Computer : Photon.PunBehaviour
     public void ToggleOnOff() {
         myStat++;
         //TODO: in use or not in use
-        if (on == true) {
+        if (spawnObject == true)
+        {
+           // GameObject clone = PhotonNetwork.InstantiateSceneObject(objectToSpawn, whereToSpawn.transform.position, whereToSpawn.transform.rotation, 0, null);
+           // clone.transform.parent = whereToSpawn.transform;
+            //PhotonNetwork.Instantiate(objectToSpawn, whereToSpawn.transform.position, whereToSpawn.transform.rotation, 0, null);
+           // Instantiate(objectToSpawnPrefab, whereToSpawn.transform.position, whereToSpawn.transform.rotation);
+        }
+        else
+        {
+            if (on == true)
+            {
             on = false; onOffObject.active = false;
-        } else { on = true; onOffObject.active = true;
+            } else
+            { 
             //statTracker.GetComponent<NetStatTracker>().stat++;
-            if (spawnObject == true) {
-                PhotonNetwork.InstantiateSceneObject(objectToSpawn, whereToSpawn.transform.position, whereToSpawn.transform.rotation, 0, null);
-            } else {
-               
+           
+                on = true; onOffObject.active = true;
                 //foodtext.text = food.ToString();
             }
             
@@ -74,8 +84,9 @@ public class Computer : Photon.PunBehaviour
     }
     public void Interact(GameObject whoUsedMe)
     {
+        loadingObject.active = true;
         interactTimer += Time.deltaTime;
-        if (interactTimer >= timeCost) { interactTimer = 0; GetComponent<PhotonView>().RPC("ToggleOnOff", PhotonTargets.AllBufferedViaServer); }
+        if (interactTimer >= timeCost) { interactTimer = 0; PhotonNetwork.Instantiate(objectToSpawn, whereToSpawn.transform.position, whereToSpawn.transform.rotation, 0, null); GetComponent<PhotonView>().RPC("ToggleOnOff", PhotonTargets.AllBufferedViaServer); }
         
     }
 }

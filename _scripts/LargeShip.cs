@@ -14,6 +14,7 @@ public class LargeShip : Photon.PunBehaviour
     public GameObject fwdObject;
     public GameObject rotationObject;
     public GameObject engineAnim;
+    public float rotSpeed = 0.5f;
     // Use this for initialization
     void Start()
     {
@@ -23,9 +24,9 @@ public class LargeShip : Photon.PunBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, fwdObject.transform.position, 1.0f);
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotationObject.transform.rotation, 2.0f * Time.deltaTime);
-        fwdObject.transform.position = Vector3.MoveTowards(fwdObject.transform.position, transform.position, 2.0f);
+        transform.position = Vector3.MoveTowards(transform.position, fwdObject.transform.position, speed);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotationObject.transform.rotation, 1.0f * Time.deltaTime);
+        fwdObject.transform.position = Vector3.MoveTowards(fwdObject.transform.position, transform.position, 1.0f);
         if (Vector3.Distance(fwdObject.transform.position, transform.position) > 10) { engineAnim.active = true; } else { engineAnim.active = false; }
         if (manned == true)
         {
@@ -42,22 +43,36 @@ public class LargeShip : Photon.PunBehaviour
             //transform.Translate(Vector3.right * 1);
         }
 
-        if (Input.GetKey(KeyCode.S)) { rotationObject.transform.Rotate(0.5f, 0, 0); }
-        if (Input.GetKey(KeyCode.W)) { rotationObject.transform.Rotate(-0.5f, 0, 0); }
-        if (Input.GetKey(KeyCode.Q)) { rotationObject.transform.Rotate(0, 0, -0.5f); }
-        if (Input.GetKey(KeyCode.E)) { rotationObject.transform.Rotate(0, 0, 0.5f); }
-        if (Input.GetKey(KeyCode.D)) { rotationObject.transform.Rotate(0, 0.5f, 0); }
-        if (Input.GetKey(KeyCode.A)) { rotationObject.transform.Rotate(0, -0.5f, 0); }
-        GetComponent<PhotonView>().RPC("SetRotationObjects", PhotonTargets.Others, rotationObject.transform.rotation);
+        if (Input.GetKey(KeyCode.S)) { rotationObject.transform.Rotate(rotSpeed, 0, 0); }
+        if (Input.GetKey(KeyCode.W)) { rotationObject.transform.Rotate(-rotSpeed, 0, 0); }
+        if (Input.GetKey(KeyCode.Q)) { rotationObject.transform.Rotate(0, 0, -rotSpeed); }
+        if (Input.GetKey(KeyCode.E)) { rotationObject.transform.Rotate(0, 0, rotSpeed); }
+        if (Input.GetKey(KeyCode.D)) { rotationObject.transform.Rotate(0, rotSpeed, 0); }
+        if (Input.GetKey(KeyCode.A)) { rotationObject.transform.Rotate(0, -rotSpeed, 0); }
+        GetComponent<PhotonView>().RPC("SetRotationObjects", PhotonTargets.AllViaServer, rotationObject.transform.rotation);
     }
 
     [PunRPC]
     public void SetRotationObjects(Quaternion rot) { rotationObject.transform.rotation = rot; }
     [PunRPC]
-    public void SetForwardObject() { fwdObject.transform.localPosition = new Vector3(0, 0, -1000.0f); }
+    public void SetForwardObject() {
+        if (fwdObject.transform.localPosition.z > -1000)
+        {
+            fwdObject.transform.localPosition = new Vector3(0, 0, fwdObject.transform.localPosition.z - 5);
+        }
+    }
 
-    public void Manned() { rotationObject.transform.rotation = transform.rotation; manned = true; myCamera.active = true; }
-    public void NotManned() { manned = false; myCamera.active = false; rotationObject.transform.rotation = transform.rotation; }
+    public void Manned() {
+        rotationObject.transform.rotation = transform.rotation;
+        manned = true;
+        myCamera.GetComponent<RPGCamera>().Target = this.transform;
+        myCamera.active = true;
+    }
+    public void NotManned() {
+        manned = false;
+        myCamera.active = false;
+        rotationObject.transform.rotation = transform.rotation;
+    }
 
     public void TakeDamage()
     {
@@ -93,5 +108,19 @@ public class LargeShip : Photon.PunBehaviour
             }
         
     }
-
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            stream.SendNext(transform.rotation);
+            stream.SendNext(transform.position);
+        
+        }
+        else
+        {
+             transform.rotation = (Quaternion)stream.ReceiveNext();
+             transform.position = (Vector3)stream.ReceiveNext();
+ 
+        }
+    }
 }

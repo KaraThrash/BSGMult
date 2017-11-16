@@ -64,7 +64,7 @@ public class PlayerCharacter : Photon.PunBehaviour
                     GetComponent<PhotonView>().RPC("DropCarriedObject", PhotonTargets.AllViaServer, carriedObject);
                 }
             }
-            if (Input.GetKeyUp(KeyCode.E))
+            if (Input.GetKey(KeyCode.E))
             {
 
                 CheckForIneractableObject();
@@ -122,7 +122,10 @@ public class PlayerCharacter : Photon.PunBehaviour
         transform.position = newExit;
         this.gameObject.active = true;
         if (localPlayer != null) {
-            transform.position = newExit; this.gameObject.active = true;  myCamera.active = true; localPlayer.GetComponent<PlayerMain>().shipGroup = shipOnList;
+            transform.position = newExit;
+            this.gameObject.active = true;
+            myCamera.active = true;
+            localPlayer.GetComponent<PlayerMain>().shipGroup = shipOnList;
             localPlayer.GetComponent<PhotonView>().RPC("SetHumanActive",PhotonTargets.AllViaServer);
         }
     }
@@ -173,9 +176,14 @@ public class PlayerCharacter : Photon.PunBehaviour
         }
         if (hp <= 0)
         {
-            if (localPlayer != null) { localPlayer.GetComponent<PlayerMain>().roundManager.GetComponent<RoundManager>().wasFrakked = true; }
+            if (station != null)
+            {
+                
+                station.GetComponent<PhotonView>().RPC("MakeAvailable", PhotonTargets.AllBufferedViaServer);
+            }
+            if (localPlayer != null) { myCamera.active = true; localPlayer.GetComponent<PlayerMain>().roundManager.GetComponent<RoundManager>().wasFrakked = true; }
             galactica.GetComponent<Galactica>().medbay.GetComponent<Medbay>().PlaceInBed(this.gameObject);
-
+            hp = 0;
 
         }
 
@@ -252,8 +260,11 @@ public class PlayerCharacter : Photon.PunBehaviour
     public void Heal(int hpChange)
     {
         hp += hpChange;
-        while (hpHud.text.Length < hp)
-        { hpHud.text += "i"; }
+        if (controlled == true)
+        {
+            while (hpHud.text.Length < hp)
+            { hpHud.text += "i"; }
+        }
     }
 
 }

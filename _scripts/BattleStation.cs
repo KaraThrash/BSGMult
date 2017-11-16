@@ -81,6 +81,7 @@ public class BattleStation : Photon.PunBehaviour
         on = false;
         onOffObject.active = false;
         user = null;
-        myStation.SendMessage("NotManned");
+        if (myStation != null) { myStation.SendMessage("NotManned"); }
+        
     }
 }

@@ -16,6 +16,8 @@ public class Dradis : MonoBehaviour {
     public GameObject dradisModel;
     public GameObject transparentDradisModel;
     public float radarSize = 0.01f; // for scaling the relative distance between the radar and what it hits
+    public float zoom = 0;
+
     public float reScale = 1;// interior dradis targets can be displayed larger
     public float radarUpdateTime;
     public bool fullScaleRadarImages;
@@ -58,9 +60,23 @@ public class Dradis : MonoBehaviour {
                 }
                 //tick -= Time.deltaTime;
             }
+
+            if (Input.GetKeyDown(KeyCode.LeftControl))
+            { ChangeZoom(); }
         }
 	}
+
+    public void ChangeZoom()
+    {
+        Destroy(emptyObject);
+        emptyObject = Instantiate(placeHolder, displayLocation.transform.position, displayLocation.transform.rotation) as GameObject;
+        emptyObject.transform.parent = displayLocation.transform;
+        if (zoom == 0.03f) { zoom = 0; } else { zoom += 0.01f; }
+        GetComponent<SphereCollider>().radius = 1000 - (10000 * zoom);
+    }
+
     public void spawnDradis() {
+
         for (var i = dradisList.Count - 1; i > -1; i--)
         {
             if (dradisList[i] != null) {
@@ -74,8 +90,8 @@ public class Dradis : MonoBehaviour {
                     }
                      
                     clone.transform.parent = emptyObject.transform;
-                    clone.transform.localScale *= reScale;
-                    clone.transform.localPosition = ((dradisList[i].transform.position - transform.position) * radarSize);
+                    clone.transform.localScale *= (reScale + (10 * zoom));
+                    clone.transform.localPosition = ((dradisList[i].transform.position - transform.position) * (radarSize + zoom));
                     //clone.transform.name = dradisList[i].transform.name + "dradis";
                 }
             } else { dradisList.RemoveAt(i); }

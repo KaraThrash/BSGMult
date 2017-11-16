@@ -19,11 +19,11 @@ public class RPGCamera : MonoBehaviour
     public bool canNotRotateTarget;
     void Start()
     {
-        m_CameraTransform = transform.GetChild( 0 );
+        m_CameraTransform = transform.GetChild(0);
         m_LocalForwardVector = m_CameraTransform.forward;
 
         m_Distance = -m_CameraTransform.localPosition.z / m_CameraTransform.forward.z;
-        m_Distance = Mathf.Clamp( m_Distance, MinimumDistance, MaximumDistance );
+        m_Distance = Mathf.Clamp(m_Distance, MinimumDistance, MaximumDistance);
         m_LookAtPoint = m_CameraTransform.localPosition + m_LocalForwardVector * m_Distance;
     }
 
@@ -34,7 +34,7 @@ public class RPGCamera : MonoBehaviour
         {
             UpdateDistance();
             UpdateZoom();
-            
+
             UpdateRotation();
         }
         else {
@@ -44,7 +44,7 @@ public class RPGCamera : MonoBehaviour
 
     void UpdateDistance()
     {
-        m_Distance = Mathf.Clamp( m_Distance - Input.GetAxis( "Mouse ScrollWheel" ) * ScrollModifier, MinimumDistance, MaximumDistance );
+        m_Distance = Mathf.Clamp(m_Distance - Input.GetAxis("Mouse ScrollWheel") * ScrollModifier, MinimumDistance, MaximumDistance);
     }
 
     void UpdateZoom()
@@ -54,7 +54,7 @@ public class RPGCamera : MonoBehaviour
 
     void UpdatePosition()
     {
-        if( Target == null )
+        if (Target == null)
         {
             return;
         }
@@ -64,21 +64,28 @@ public class RPGCamera : MonoBehaviour
 
     void UpdateRotation()
     {
-        if( Input.GetMouseButton( 0 ) == true || Input.GetMouseButton( 1 ) == true || Input.GetButton("Fire1") || Input.GetButton("Fire2"))
+        if (Input.GetMouseButton(0) == true || Input.GetMouseButton(1) == true || Input.GetButton("Fire1") || Input.GetButton("Fire2"))
         {
             //transform.Rotate(Input.GetAxis("Mouse Y") * TurnModifier, Input.GetAxis( "Mouse X" ) * TurnModifier, 0 );
             transform.localEulerAngles = new Vector3((transform.localEulerAngles.x - Input.GetAxis("Mouse Y")), (transform.localEulerAngles.y + Input.GetAxis("Mouse X")), 0);
         }
 
-        if((Input.GetMouseButton( 1 ) || Input.GetButton("Fire2")) && Target != null )
+        if ((Input.GetMouseButton(1) || Input.GetButton("Fire2")) && Target != null)
         {
             //TODO: 
             if (canNotRotateTarget == false) {
-                
+
                 Target.rotation = Quaternion.Euler(Target.parent.eulerAngles.x, transform.localEulerAngles.y, 0);
-                
+
             }
-           
+
         }
     }
+
+    public void SetLookTarget(Transform newTarget)
+    {
+        Target = newTarget;
+    }
+
+
 }

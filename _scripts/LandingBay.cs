@@ -66,8 +66,8 @@ public class LandingBay : Photon.PunBehaviour
             nextAvailableSpot = dockingSpaces[openSpace];
             shipToDock.GetComponent<Fighter>().inHangar = true;
             shipToDock.GetComponent<Fighter>().hangarSpace = nextAvailableSpot;
-           
 
+            shipToDock.transform.parent = nextAvailableSpot.transform;
             shipToDock.transform.position = nextAvailableSpot.transform.position;
             shipToDock.transform.rotation = nextAvailableSpot.transform.rotation;
             if (shipToDock.GetComponent<Fighter>().pilot != null)
@@ -93,27 +93,12 @@ public class LandingBay : Photon.PunBehaviour
                 dockedShips[i].GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.masterClient);
 
 
-                //if (shipsDocked > hangarSpots)
-                // {
-                //if (dockedShips[i].GetComponent<Fighter>().currentHangar == this.gameObject && dockedShips[i].GetComponent<Fighter>().flying == false)
-                //{
-                        
-                //    dockedShips[i].GetComponent<Rigidbody>().isKinematic = true;
-                //   // dockedShips[i].GetComponent<Fighter>().currentHangar = this.gameObject;
-                        
-                //        //dockedShips[i].transform.parent = this.transform;
-                //    dockedShips[i].transform.position = shipSpots[shipsCurrentlyInHangar].transform.position; 
-                //    dockedShips[i].transform.rotation = shipSpots[shipsCurrentlyInHangar].transform.rotation;
-                //    dockedShips[i].GetComponent<PhotonView>().RPC("LandOnDockingBay", PhotonTargets.AllViaServer, myShip.GetComponent<FTLDrive>().currentCords, shipsCurrentlyInHangar, myShipInList);
-                    
-                //}
                 shipsCurrentlyInHangar--;
-               // }
-           // else { break; }
+
             }
             else { dockedShips.Remove(dockedShips[i]); shipsDocked--; }
         }
-        //if (dockingSpaces[dockedShips.Count] != null) { nextAvailableSpot = dockedShips[dockedShips.Count]; }
+
 
 
     }

@@ -103,4 +103,6 @@ MonoBehaviour:
   - Dropped
   - UpdateScore
   - SetHumanActive
+  - StartGame
+  - NewChat
   DisableAutoOpenWizard: 1

@@ -9,6 +9,7 @@ public class Menu : MonoBehaviour {
     public GameObject objectiveObj;
     public GameObject resourceObj;
     public GameObject jumpObj;
+    public GameObject chatObj;
     // Use this for initialization
     void Start () {
 		
@@ -17,18 +18,21 @@ public class Menu : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
-                menuButtons.active = true;
+            if (menuButtons.active == true)
+            {
+                scoreObj.active = false;
+                objectiveObj.active = false;
+                resourceObj.active = false;
+                jumpObj.active = false;
+                menuButtons.active = false;
+                chatObj.active = false;
+            }
+            else { menuButtons.active = true; }
+               
         }
-        if (Input.GetKeyUp(KeyCode.Tab))
-        {
-            scoreObj.active = false;
-            objectiveObj.active = false;
-            resourceObj.active = false;
-            jumpObj.active = false;
-            menuButtons.active = false;
-        }
+ 
     }
     public void MenuSelect(int menutab)
     {
@@ -37,6 +41,7 @@ public class Menu : MonoBehaviour {
         objectiveObj.active = false;
         resourceObj.active = false;
         jumpObj.active = false;
+        chatObj.active = false;
         switch (menutab)
         {
             case 1:
@@ -48,7 +53,9 @@ public class Menu : MonoBehaviour {
             case 3:
                 jumpObj.active = true;
                 break;
-
+            case 4:
+                chatObj.active = true;
+                break;
             default:
                 objectiveObj.active = true;
                 break;

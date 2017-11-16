@@ -106,6 +106,7 @@ public class ViperControls : Photon.PunBehaviour
     
             if (Input.GetKeyUp(KeyCode.T))
         {
+            //GetComponent<PhotonView>().RPC("Land", PhotonTargets.AllViaServer);
             GetComponent<Fighter>().Land();
             //  if (GetComponent<Fighter>().currentHangar != null)
             //   {

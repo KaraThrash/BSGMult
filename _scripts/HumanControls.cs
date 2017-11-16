@@ -73,10 +73,10 @@ public class HumanControls : Photon.PunBehaviour
         if (controlled == true)
         {
 
-
+            Move();
             if (canMove == true)
             {
-                Move();
+                
                 if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0) {  }
 
                 
@@ -191,9 +191,10 @@ public class HumanControls : Photon.PunBehaviour
     public void Move()
     {
 
-        if (canMove == true)
+
+        if (grounded == true)
         {
-            if (grounded == true)
+            if (canMove == true)
             {
                 v = Input.GetAxis("Vertical");
                 h = Input.GetAxis("Horizontal");
@@ -216,6 +217,9 @@ public class HumanControls : Photon.PunBehaviour
                 //}
                 // else { moveDirection *= (speed * 0.5f); }
             }
+            else { h = 0; v = 0; moveDirection.x = 0; moveDirection.z = 0; }
+
+        }
                 moveDirection.y -= gravity * Time.deltaTime;
             
             GetComponent<CharacterController>().Move(moveDirection * Time.deltaTime);
@@ -223,7 +227,7 @@ public class HumanControls : Photon.PunBehaviour
 
 
 
-        }
+        
     }
     public void CheckGround()
     {

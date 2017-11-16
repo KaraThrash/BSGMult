@@ -10,6 +10,7 @@ public class SelectCharacter : Photon.PunBehaviour
     public GameObject galactica;
     public GameObject jumpManager;
     public GameObject scoreTextObj;
+    public GameObject chatManager;
     public Text nameText;
     public Text scoreText;
     public string name;
@@ -39,7 +40,8 @@ public class SelectCharacter : Photon.PunBehaviour
             jumpManager.GetComponent<JumpManager>().PlayerJoin(pickedBy) ;
             myCharacter.GetComponent<HumanControls>().SetAsMyPlayer();
             myCharacter.GetComponent<PlayerCharacter>().SetAsMyPlayer(pickedBy);
-
+            chatManager.GetComponent<ChatManager>().localPlayer = myPlayer;
+            chatManager.GetComponent<ChatManager>().localPlayerName = myCharacter.transform.name;
             myCharacter.GetComponent<PhotonView>().ownerId = newView;
             myCharacter.GetComponent<HumanControls>().cam.GetComponent<PhotonView>().ownerId = newView;
             GetComponent<PhotonView>().RPC("Selected", PhotonTargets.AllBufferedViaServer, name, newView);

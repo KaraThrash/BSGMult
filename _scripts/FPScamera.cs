@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FPScamera : MonoBehaviour {
+    public GameObject menu;
     public GameObject player;
     public float XSensitivity = 2f;
     public float YSensitivity = 2f;
@@ -26,12 +27,14 @@ public class FPScamera : MonoBehaviour {
     }
 
     public void Update() {
-        if (Input.GetKey(KeyCode.Tab) || lockCursor == false) {
+        if (Input.GetKey(KeyCode.Tab) || lockCursor == false || menu.active == true ) {
+            if (transform.parent.gameObject.GetComponent<HumanControls>().canMove == true) { transform.parent.gameObject.GetComponent<HumanControls>().canMove = false; }
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
             
         }
         else {
+            transform.parent.gameObject.GetComponent<HumanControls>().canMove = true;
             Cursor.lockState = CursorLockMode.Locked;
             LookRotation(player.transform, this.transform);
         }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Raider : MonoBehaviour
 {
     public int myNumber; //in wing for destroying
+    public GameObject fwdObject;
     public int speed;
     public int rotForce = 6;
     public GameObject myPlaceInWing;
@@ -22,9 +23,12 @@ public class Raider : MonoBehaviour
     public GameObject explosion;
     public GameObject dradisModel;
     public float avoidCollisionClock;
+    public bool canShoot;
+    public GameObject myWing;
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody>();
+        myWing = transform.parent.gameObject;
         if (Random.Range(0, 2) == 1) { strafeDirection = 1; } else { strafeDirection = -1; }
         
     }
@@ -32,38 +36,56 @@ public class Raider : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
         CheckForward();
-        shipTarget = transform.parent.GetComponent<FighterWing>().shipTarget;
+
+
+
         if (avoidCollisionClock <= 0f)
         {
-            if (Vector3.Distance(myPlaceInWing.transform.position, transform.position) > 200) {
+
+
+
+            shipTarget = myWing.GetComponent<FighterWing>().shipTarget;
+            if (Vector3.Distance(myPlaceInWing.transform.position, transform.position) > 500 )
+            {
                 //deactivate
-                transform.position = Vector3.MoveTowards(transform.position, myPlaceInWing.transform.position, speed * Time.deltaTime);
+                Patrol();
+                
             }
             else
             {
                 if (shipTarget == null) { Patrol(); }
-                if (shipTarget != null) { Attack(); if (Vector3.Distance(transform.position, shipTarget.transform.position) > 3000) { shipTarget = null; } }
+                if (shipTarget != null) { Attack(); }
             }
 
         }
         else { AvoidCollision(); }
-
+        
 	}
     public void CheckForward()
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 50.0f) && hit.transform.gameObject != shipTarget)
-        { if (avoidCollisionClock < 0) { avoidCollisionClock = 0.4f; }
-            else { if (avoidCollisionClock < 3) { avoidCollisionClock += Time.deltaTime; }  }
-            
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 110.0f) )
+        {
+            if (hit.transform.gameObject == shipTarget)
+            {
+                canShoot = true;
+            }
+            else
+            {
+                canShoot = false;
+                if (avoidCollisionClock < 0) { avoidCollisionClock = 0.4f; }
+                else { if (avoidCollisionClock < 3) { avoidCollisionClock += Time.deltaTime; } }
+            }
 
         }
-        else { avoidCollisionClock -= 0.1f; }
+        else { avoidCollisionClock -= 0.1f; canShoot = true; }
     }
     public void AvoidCollision()
     {
-        rb.AddForce(transform.forward * speed * Time.deltaTime,ForceMode.Impulse);
+        transform.position = Vector3.MoveTowards(transform.position, fwdObject.transform.position, speed * Time.deltaTime);
+       // transform.position += (transform.forward * Time.deltaTime * speed);
+        
         transform.Rotate(Vector3.right * rotForce * avoidCollisionClock * strafeDirection * Time.deltaTime);
     }
     public void OnCollisionEnter(Collision col)
@@ -95,43 +117,33 @@ public class Raider : MonoBehaviour
 
     public void Attack()
     {
+        transform.parent = null;
         gunCooldown -= Time.deltaTime;
         targetRotation = Quaternion.LookRotation(shipTarget.transform.position - transform.position);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotForce * Time.deltaTime);
-        //float newangle = Quaternion.Angle(transform.rotation, shipTarget.transform.rotation);
-        //Debug.Log(newangle);
-        //if (newangle < 240 && newangle > 80)
-        
-        //{ rb.AddTorque((transform.position - shipTarget.transform.position) * rotForce * Time.deltaTime); }
-     
 
-        if (Vector3.Distance(shipTarget.transform.position, transform.position) > 70)
-        {
-            rb.AddForce(transform.forward * speed * 250 * Time.deltaTime);
-            // transform.position = Vector3.MoveTowards(transform.position, shipTarget.transform.position, speed * Time.deltaTime);
+        Debug.Log("In the if " + Vector3.Distance(transform.position, shipTarget.transform.position));
+        if (Vector3.Distance( transform.position, shipTarget.transform.position) > 100 || Vector3.Distance(transform.position, shipTarget.transform.position) < 20)
+        { transform.position = Vector3.MoveTowards(transform.position, fwdObject.transform.position, speed * Time.deltaTime); }
+        Debug.Log("Not In the if " + Vector3.Distance(transform.position, shipTarget.transform.position));
+        // transform.position += (transform.forward * Time.deltaTime * speed);
+        transform.position += (transform.right * speed * strafeDirection * Time.deltaTime);
 
-        }
-        else
-        {
-            //TODO: make AI vipers do what the pegasus vipers do in the fight vs galactica. the rigid hard diretion forward than turn
-
-            rb.AddForce(transform.forward * speed  * Time.deltaTime);
-            rb.AddForce(transform.right * speed * 150 * strafeDirection * Time.deltaTime);
-
-            if ( gunCooldown <= 0)
+            if ( gunCooldown <= 0 && canShoot == true)
             {
                 FireGuns(); gunCooldown = 0.5f;
 
             }
-        }
+        
     }
     public void Patrol()
     {
         
-        
-
-        transform.rotation = Quaternion.Lerp(transform.rotation, myPlaceInWing.transform.rotation, 1 * Time.deltaTime);
-        transform.position = Vector3.MoveTowards(transform.position, myPlaceInWing.transform.position, 1 * Time.deltaTime);
+       // if (Vector3.Distance(myPlaceInWing.transform.position, transform.position) > 10)
+        //{ transform.position = Vector3.MoveTowards(transform.position, myPlaceInWing.transform.position, speed * Time.deltaTime); }
+        transform.position = Vector3.MoveTowards(transform.position, myPlaceInWing.transform.position, speed * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, myPlaceInWing.transform.rotation, speed * Time.deltaTime);
+        //transform.position = Vector3.MoveTowards(transform.position, myPlaceInWing.transform.position, speed * Time.deltaTime);
         
     }
 
@@ -139,7 +151,7 @@ public class Raider : MonoBehaviour
     public void Die()
     {
         //GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer);
-        transform.parent.GetComponent<PhotonView>().RPC("ShipDestroyed", PhotonTargets.AllBufferedViaServer, myNumber);
+        myWing.GetComponent<PhotonView>().RPC("ShipDestroyed", PhotonTargets.AllViaServer, myNumber);
         //Destroy(this.gameObject);
     }
 

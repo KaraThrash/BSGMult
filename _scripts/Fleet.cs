@@ -123,7 +123,10 @@ public class Fleet : Photon.PunBehaviour
 
 
     public void UpdateResources(int foodChange, int fuelChange, int moraleChange, int popChange, int shipsChange )
-    { food += foodChange; fuel += fuelChange; pop += popChange; morale += moraleChange;shipsInFleetCount += shipsChange;}
+    { food += foodChange; fuel += fuelChange; pop += popChange; morale += moraleChange;shipsInFleetCount += shipsChange;
+        foodText.text = food.ToString(); fuelText.text = fuel.ToString();
+        moraleText.text = morale.ToString(); popText.text = pop.ToString();
+    }
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {

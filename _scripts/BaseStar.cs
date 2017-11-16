@@ -32,8 +32,8 @@ public class BaseStar : Photon.PunBehaviour
             raiderParentObject = parentclone;
         }
         // galactica = GameObject.Find("Galactica(Clone)");
-        if (Vector3.Distance(galactica.transform.position, transform.position) < 3000)
-        { attackpatrolPoints.transform.position = galactica.transform.position;  }
+        if (Vector3.Distance(galactica.transform.position, transform.position) < 13000)
+        { attackpatrolPoints.transform.position = galactica.transform.Find("GalacticaShip").position; }
     }
 	
 	// Update is called once per frame
@@ -64,7 +64,8 @@ public class BaseStar : Photon.PunBehaviour
     }
     void Awake()
     {
-
+        if (Vector3.Distance(galactica.transform.position, transform.position) < 13000)
+        { attackpatrolPoints.transform.position = galactica.transform.Find("GalacticaShip").position; }
         Debug.Log("basestar In New Scene");
        // DontDestroyOnLoad(this.gameObject);
     }

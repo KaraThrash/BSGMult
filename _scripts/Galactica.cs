@@ -51,9 +51,9 @@ public class Galactica : Photon.PunBehaviour
            
         }
 
-        theGalactica.transform.position = Vector3.MoveTowards(theGalactica.transform.position, fwdObject.transform.position, 1.0f * Time.deltaTime);
+        theGalactica.transform.position = Vector3.MoveTowards(theGalactica.transform.position, fwdObject.transform.position, 3.0f * Time.deltaTime);
         theGalactica.transform.rotation = Quaternion.Slerp(theGalactica.transform.rotation, rotationObject.transform.rotation, 1.0f * Time.deltaTime);
-        fwdObject.transform.position = Vector3.MoveTowards(fwdObject.transform.position, theGalactica.transform.position, 1.0f );
+        fwdObject.transform.position = Vector3.MoveTowards(fwdObject.transform.position, theGalactica.transform.position, 3.0f );
         if (Vector3.Distance(fwdObject.transform.position, theGalactica.transform.position) > 10) { engineAnim.active = true; } else { engineAnim.active = false; }
         if (manned == true)
         {
@@ -63,12 +63,12 @@ public class Galactica : Photon.PunBehaviour
                 //transform.Translate(Vector3.right * 1);
             }
             
-            if (Input.GetKey(KeyCode.S)) { rotationObject.transform.Rotate(0.1f,0, 0); }
-            if (Input.GetKey(KeyCode.W)) { rotationObject.transform.Rotate(-0.1f,0, 0); }
-            if (Input.GetKey(KeyCode.Q)) { rotationObject.transform.Rotate(0, 0,-0.1f); }
-            if (Input.GetKey(KeyCode.E)) { rotationObject.transform.Rotate(0, 0,0.1f); }
-            if (Input.GetKey(KeyCode.D)) { rotationObject.transform.Rotate(0, 0.1f, 0); }
-            if (Input.GetKey(KeyCode.A)) { rotationObject.transform.Rotate(0, -0.1f, 0); }
+            if (Input.GetKey(KeyCode.S)) { rotationObject.transform.Rotate(0.5f,0, 0); }
+            if (Input.GetKey(KeyCode.W)) { rotationObject.transform.Rotate(-0.5f,0, 0); }
+            if (Input.GetKey(KeyCode.Q)) { rotationObject.transform.Rotate(0, 0,-0.5f); }
+            if (Input.GetKey(KeyCode.E)) { rotationObject.transform.Rotate(0, 0,0.5f); }
+            if (Input.GetKey(KeyCode.D)) { rotationObject.transform.Rotate(0, 0.5f, 0); }
+            if (Input.GetKey(KeyCode.A)) { rotationObject.transform.Rotate(0, -0.5f, 0); }
             GetComponent<PhotonView>().RPC("SetRotationObjects", PhotonTargets.Others, rotationObject.transform.rotation);
         }
     }
@@ -82,7 +82,7 @@ public class Galactica : Photon.PunBehaviour
     [PunRPC]
     public void SetForwardObject() { fwdObject.transform.localPosition = new Vector3( 0, 0, -1000.0f); }
 
-    public void Manned() { rotationObject.transform.rotation = theGalactica.transform.rotation; manned = true; myCamera.active = true; }
+    public void Manned() { rotationObject.transform.rotation = theGalactica.transform.rotation; manned = true; myCamera.GetComponent<RPGCamera>().Target = theGalactica.transform; myCamera.active = true; }
     public void NotManned() { manned = false; myCamera.active = false; rotationObject.transform.rotation = theGalactica.transform.rotation; }
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

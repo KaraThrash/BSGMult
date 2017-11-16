@@ -38,7 +38,7 @@ public class FighterWing : Photon.PunBehaviour
     void Update() {
         
             if (shipTarget == null) { Patrol(); }
-            if (shipTarget != null) { Attack(); if (Vector3.Distance(transform.position, shipTarget.transform.position) > 3000) { shipTarget = null; } }
+            if (shipTarget != null) { Attack(); if (Vector3.Distance(transform.position, shipTarget.transform.position) > 6000) { shipTarget = null; } }
         
     }
 
@@ -65,31 +65,34 @@ public class FighterWing : Photon.PunBehaviour
     public void Attack()
     {
 
-        
+        transform.position = Vector3.MoveTowards(transform.position, shipTarget.transform.position, speed * Time.deltaTime);
 
-        if (Vector3.Distance(shipTarget.transform.position, transform.position) > 600)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, shipTarget.transform.position, speed * Time.deltaTime);
-           // targetRotation = Quaternion.LookRotation(shipTarget.transform.position - transform.position);
+        //if (Vector3.Distance(shipTarget.transform.position, transform.position) > 600)
+        //{
+        //    transform.position = Vector3.MoveTowards(transform.position, shipTarget.transform.position, speed * Time.deltaTime);
+        //   // targetRotation = Quaternion.LookRotation(shipTarget.transform.position - transform.position);
 
-           // transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 6 * Time.deltaTime);
+        //   // transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 6 * Time.deltaTime);
 
-        }
-        else
-        {
-            //TODO: make AI vipers do what the pegasus vipers do in the fight vs galactica. the rigid hard diretion turn then forward
-            transform.position = Vector3.MoveTowards(transform.position, shipTarget.transform.position, 5 * Time.deltaTime);
+        //}
+        //else
+        //{
+        //    //TODO: make AI vipers do what the pegasus vipers do in the fight vs galactica. the rigid hard diretion turn then forward
+        //    transform.position = Vector3.MoveTowards(transform.position, shipTarget.transform.position, 5 * Time.deltaTime);
             
-        }
+        //}
     }
     public void Patrol()
     {
         canPatrol = true;
-        targetRotation = Quaternion.LookRotation(patrolTarget.transform.position - transform.position);
+        if (patrolTarget != null)
+        {
+            targetRotation = Quaternion.LookRotation(patrolTarget.transform.position - transform.position);
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 3 * Time.deltaTime);
-        transform.position = Vector3.MoveTowards(transform.position, patrolTarget.transform.position, speed * Time.deltaTime);
-        if (Vector3.Distance(patrolTarget.transform.position, transform.position) < 1) { GotoNextPoint(); }
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 3 * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, patrolTarget.transform.position, speed * Time.deltaTime);
+            if (Vector3.Distance(patrolTarget.transform.position, transform.position) < 10) { GotoNextPoint(); }
+        }
     }
     void GotoNextPoint()
     {
