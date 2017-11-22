@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class PlayerCharacter : Photon.PunBehaviour
 {
     //using this for humanoid
+    public int myCharacterOnList; //who they are in the character masterList
     public int hp;
     public int ammo;
     public Text hpHud;
@@ -25,6 +26,7 @@ public class PlayerCharacter : Photon.PunBehaviour
     public GameObject localPlayer;
     public GameObject spaceObject;
     public GameObject masterShipList;
+    public GameObject masterCharacterList;
     public GameObject backpack;
     public int carriedObject;
     // Use this for initialization
@@ -64,7 +66,7 @@ public class PlayerCharacter : Photon.PunBehaviour
                     GetComponent<PhotonView>().RPC("DropCarriedObject", PhotonTargets.AllViaServer, carriedObject);
                 }
             }
-            if (Input.GetKey(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E))
             {
 
                 CheckForIneractableObject();
@@ -117,9 +119,13 @@ public class PlayerCharacter : Photon.PunBehaviour
     [PunRPC]
     public void GetOutShip(int shipOnList, Vector3 newExit)
     {
+
+        masterCharacterList.GetComponent<PhotonView>().RPC("EnableCharacter", PhotonTargets.AllViaServer,myCharacterOnList);
         flying = false;
         transform.parent = masterShipList.GetComponent<MasterShipList>().ParentHumanToShip(shipOnList).transform;
+        GetComponent<HumanControls>().grounded = false;
         transform.position = newExit;
+        
         this.gameObject.active = true;
         if (localPlayer != null) {
             transform.position = newExit;
@@ -170,9 +176,10 @@ public class PlayerCharacter : Photon.PunBehaviour
     public void TakeDamage(int dmg)
     {
         hp -= dmg;
-        if (hp > 0 && localPlayer != null)
+        if (hpHud.text.Length > 1 && localPlayer != null)
         {
-            hpHud.text.Remove(-1);
+            hpHud.text = hpHud.text.Remove(hpHud.text.Length - 1);
+           // hpHud.text.Remove(-1);
         }
         if (hp <= 0)
         {
@@ -181,7 +188,10 @@ public class PlayerCharacter : Photon.PunBehaviour
                 
                 station.GetComponent<PhotonView>().RPC("MakeAvailable", PhotonTargets.AllBufferedViaServer);
             }
-            if (localPlayer != null) { myCamera.active = true; localPlayer.GetComponent<PlayerMain>().roundManager.GetComponent<RoundManager>().wasFrakked = true; }
+            if (localPlayer != null) {
+                hpHud.text = "";
+                myCamera.active = true; localPlayer.GetComponent<PlayerMain>().roundManager.GetComponent<RoundManager>().wasFrakked = true;
+            }
             galactica.GetComponent<Galactica>().medbay.GetComponent<Medbay>().PlaceInBed(this.gameObject);
             hp = 0;
 
@@ -260,7 +270,7 @@ public class PlayerCharacter : Photon.PunBehaviour
     public void Heal(int hpChange)
     {
         hp += hpChange;
-        if (controlled == true)
+        if (controlled == true && hp > 0)
         {
             while (hpHud.text.Length < hp)
             { hpHud.text += "i"; }

@@ -17,6 +17,7 @@ public class LandingBay : Photon.PunBehaviour
     public GameObject nextAvailableSpot;
     public GameObject shipToDock;
     public GameObject forPeopleObject;
+    
     // Use this for initialization
     void Start() {
         
@@ -62,7 +63,7 @@ public class LandingBay : Photon.PunBehaviour
             }
         int openSpace = FindAvailableSpace();
         if (openSpace >= 0) {
-            
+
             nextAvailableSpot = dockingSpaces[openSpace];
             shipToDock.GetComponent<Fighter>().inHangar = true;
             shipToDock.GetComponent<Fighter>().hangarSpace = nextAvailableSpot;
@@ -75,6 +76,7 @@ public class LandingBay : Photon.PunBehaviour
 
             shipToDock.GetComponent<Fighter>().pilot = null;
         }
+        if (openSpace - 1 <= 0) { GetComponent<Collider>().enabled = false; }
 
     }
     
@@ -129,7 +131,7 @@ public class LandingBay : Photon.PunBehaviour
         {
 
            dockedShips.Remove(leavingShip);
-
+            GetComponent<Collider>().enabled = true;
         }
     }
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

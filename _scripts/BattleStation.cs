@@ -11,6 +11,7 @@ public class BattleStation : Photon.PunBehaviour
     public GameObject myStation;
     public GameObject cameraLocation;
     public GameObject user;
+    public bool dontChangeCamera;
     //TODO: types of computers
     //>> spawns, builds, actively use >> guns,dradis,communications
     // Use this for initialization
@@ -66,12 +67,17 @@ public class BattleStation : Photon.PunBehaviour
     public void Interact(GameObject whoUsedMe)
     {
         if (on == false) {
-            GetComponent<PhotonView>().RPC("ToggleOnOff", PhotonTargets.AllViaServer);
-            user = whoUsedMe;
-            whoUsedMe.GetComponent<PlayerCharacter>().myCamera.active = false;
-            myStation.SendMessage("Manned");
+            
             whoUsedMe.GetComponent<HumanControls>().canMove = false;
             whoUsedMe.GetComponent<PlayerCharacter>().station = this.gameObject;
+            GetComponent<PhotonView>().RPC("ToggleOnOff", PhotonTargets.AllViaServer);
+            user = whoUsedMe;
+            if (dontChangeCamera == false)
+            {
+                whoUsedMe.GetComponent<PlayerCharacter>().myCamera.active = false;
+            }
+            myStation.SendMessage("Manned");
+         
         }
         
 

@@ -57,22 +57,23 @@ public class HumanControls : Photon.PunBehaviour
     // Update is called once per frame
     void Update()
     {
-        CheckGround();
-        if (jumpClock > 0) { jumpClock -= 0.20f;  }
-        else {
-            jumpClock = 0;
-           
-            if (grounded == false)
-            {
-                //Vector3 downDirection =  downObject.transform.position - transform.position;
-                //downDirection *= speed;
-               // GetComponent<CharacterController>().Move(downDirection * Time.deltaTime);
-                //transform.position = Vector3.MoveTowards(transform.position, downObject.transform.position, 3 * (airTime + 0.1f) * Time.deltaTime);
-            }
-        }
+        
         if (controlled == true)
         {
+            CheckGround();
+            if (jumpClock > 0) { jumpClock -= 0.20f; }
+            else
+            {
+                jumpClock = 0;
 
+                if (grounded == false)
+                {
+                    //Vector3 downDirection =  downObject.transform.position - transform.position;
+                    //downDirection *= speed;
+                    // GetComponent<CharacterController>().Move(downDirection * Time.deltaTime);
+                    //transform.position = Vector3.MoveTowards(transform.position, downObject.transform.position, 3 * (airTime + 0.1f) * Time.deltaTime);
+                }
+            }
             Move();
             if (canMove == true)
             {
@@ -110,16 +111,16 @@ public class HumanControls : Photon.PunBehaviour
 
 
             }
-            if (Input.GetKey(KeyCode.Backspace))
+            if (Input.GetKeyDown(KeyCode.Backspace))
             {
                 canMove = true;
             }
 
+            if (moveDirection != Vector3.zero) { GetComponent<CharacterController>().Move(moveDirection * Time.deltaTime); }
            
 
 
 
-           
         }
        // anim.SetFloat("CamAngle", camGunAimAngle);
     }
@@ -223,12 +224,21 @@ public class HumanControls : Photon.PunBehaviour
                 moveDirection.y -= gravity * Time.deltaTime;
             
             GetComponent<CharacterController>().Move(moveDirection * Time.deltaTime);
-            GetComponent<PhotonView>().RPC("UpdateAnimationValues", PhotonTargets.AllViaServer,h,v);
+       // GetComponent<PhotonView>().RPC("SyncMoveAcrossServer", PhotonTargets.AllViaServer, moveDirection);
+        GetComponent<PhotonView>().RPC("UpdateAnimationValues", PhotonTargets.AllViaServer,h,v);
 
 
 
         
     }
+    //[PunRPC]
+    //public void SyncMoveAcrossServer(Vector3 moveDir)
+    //{
+
+    //    moveDirection = moveDir;
+        
+    //}
+
     public void CheckGround()
     {
         Vector3 fwd = transform.TransformDirection(Vector3.down);
@@ -289,13 +299,13 @@ public class HumanControls : Photon.PunBehaviour
     {
         if (stream.isWriting)
         {
-            stream.SendNext(transform.rotation);
-            stream.SendNext(transform.position);
+          //  stream.SendNext(transform.rotation);
+           // stream.SendNext(transform.position);
         }
         else
         {
-            transform.rotation = (Quaternion)stream.ReceiveNext();
-            transform.position = (Vector3)stream.ReceiveNext();
+           // transform.rotation = (Quaternion)stream.ReceiveNext();
+           // transform.position = (Vector3)stream.ReceiveNext();
         }
     }
 

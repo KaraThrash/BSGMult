@@ -61,7 +61,10 @@ public class PlayerMain : Photon.PunBehaviour
     [PunRPC]
     public void SetHumanActive()
     {
-        if (humanoidObject != null) { humanoidObject.active = true; }
+        if (humanoidObject != null) {
+
+            humanoidObject.active = true;
+        }
        
     }
     public void PickCharacter() {

@@ -89,4 +89,5 @@ public class Computer : Photon.PunBehaviour
         if (interactTimer >= timeCost) { interactTimer = 0; PhotonNetwork.Instantiate(objectToSpawn, whereToSpawn.transform.position, whereToSpawn.transform.rotation, 0, null); GetComponent<PhotonView>().RPC("ToggleOnOff", PhotonTargets.AllBufferedViaServer); }
         
     }
+
 }

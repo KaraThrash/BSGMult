@@ -2690,3 +2690,4 @@ MonoBehaviour:
   quantity: 1
   countedForFleetStats: 0
   ammo: 0
+  itemInList: 0

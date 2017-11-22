@@ -4,10 +4,20 @@ using UnityEngine;
 
 public class GameManager : Photon.PunBehaviour
 {
+    //Has Access to all other objects to make it easier to manage
+
     public List<GameObject> onjectsToEnable = new List<GameObject>();
     public GameObject startGameButton;
-	// Use this for initialization
-	void Start () {
+
+    public GameObject roundManager;
+    public GameObject resourceManager; //fleet
+    public GameObject shipList;
+    
+    public GameObject itemList;
+    public GameObject characterList;
+    public GameObject cylonManager;
+    // Use this for initialization
+    void Start () {
 		
 	}
 	

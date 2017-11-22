@@ -46,13 +46,15 @@ public class ViperControls : Photon.PunBehaviour
         flying = GetComponent<Fighter>().flying;
         if (flying == true)
         {
-            
+            //Secondary check to make sure the ship isnt active when docked
+            if (transform.position.y < -500) { flying = false; }
         }
         else {  }
         if (gunCoolDown > 0) { gunCoolDown -= Time.deltaTime; }
 
         if (m_PhotonView.isMine == true && flying == true)
         {
+
             if (xwing == true) { MouseFlightControls(); } else { KeyboardFlightControls(); }
 
             //if (Input.GetKeyDown(KeyCode.T))
@@ -133,10 +135,10 @@ public class ViperControls : Photon.PunBehaviour
     public void ShootGuns(Vector3 currentVelocity)
     {
            GameObject clone = Instantiate(bullet, gun2.transform.position, gun2.transform.rotation) as GameObject;
-        clone.GetComponent<Rigidbody>().velocity += currentVelocity;
+       // clone.GetComponent<Rigidbody>().velocity += currentVelocity;
         clone.GetComponent<Bullet>().owner = GetComponent<PhotonView>().ownerId;
         GameObject clone2 =  Instantiate(bullet, gun1.transform.position, gun1.transform.rotation) as GameObject;
-        clone2.GetComponent<Rigidbody>().velocity += currentVelocity;
+        //clone2.GetComponent<Rigidbody>().velocity += currentVelocity;
         clone2.GetComponent<Bullet>().owner = GetComponent<PhotonView>().ownerId;
     }
     [PunRPC]

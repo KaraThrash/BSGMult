@@ -56,6 +56,13 @@ public class Fighter : Photon.PunBehaviour
         if (colliderTimer <= 0 && myColliders != null) { myColliders.active = true; }
         if (destroyed == true)
         {
+            if (dieClock > 0)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, transform.position * 10.5f, 25.0f * Time.deltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation, myModel.transform.rotation, 4.0f * Time.deltaTime);
+            }
+                
+
             dieClock -= Time.deltaTime;
             if (dieClock <= 0) { Die(); }
         }
@@ -275,7 +282,7 @@ public class Fighter : Photon.PunBehaviour
         currentHangar = masterShipList.GetComponent<MasterShipList>().ParentFighterToShip(shipFromMasterList);
          //transform.parent = masterShipList.GetComponent<MasterShipList>().ParentFighterToShip(shipFromMasterList).transform;
         //transform.parent = null;
-         GetComponent<FTLDrive>().currentCords = cordsOfParent;
+       //  GetComponent<FTLDrive>().currentCords = cordsOfParent;
         currentCords = cordsOfParent;
         
         if (currentHangar != null)
@@ -308,7 +315,7 @@ public class Fighter : Photon.PunBehaviour
             if (hp <= 0 )
             {
                 destroyed = true;
-                dieClock = 4;
+                dieClock = 5;
                 if (pilot != null)
                 {
                     dangerText.active = false;
@@ -327,10 +334,11 @@ public class Fighter : Photon.PunBehaviour
 
     public void Die()
     {
-
+        GetComponent<Rigidbody>().isKinematic = true;
         if (pilot != null)
         {
             //pilot.transform.parent = medbay.transform;
+            pilot.GetComponent<Rigidbody>().velocity = Vector3.zero;
             pilot.transform.position = medbay.transform.position;
             pilot.transform.rotation = medbay.transform.rotation;
 

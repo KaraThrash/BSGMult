@@ -117,12 +117,18 @@ public class FighterWing : Photon.PunBehaviour
         {
             shipsDestroyed++;
             //Destroy(ships[shipNumber]);
-            ships[shipNumber].active = false;
-           // ships.RemoveAt(shipNumber);
+            if (ships[shipNumber] != null && ships[shipNumber].active == true)
+            {
+                ships[shipNumber].active = false;
+                if (shipsDestroyed >= ships.Count) { Destroy(this.gameObject); }
+
+            }
+            //shipCount--;
+           
+            // ships.RemoveAt(shipNumber);
         }
         
-        shipCount--;
-        if (shipsDestroyed >= ships.Count) { Destroy(this.gameObject); }
+        
     }
 
     [PunRPC]

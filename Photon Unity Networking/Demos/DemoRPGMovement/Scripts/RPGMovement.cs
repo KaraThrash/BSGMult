@@ -32,7 +32,7 @@ public class RPGMovement : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Backspace) && m_PhotonView.isMine == true) { canMove = true; }
+        if (Input.GetKeyDown(KeyCode.Backspace) && m_PhotonView.isMine == true) { canMove = true; }
         if ( m_PhotonView.isMine == true && canMove == true)
         {
             

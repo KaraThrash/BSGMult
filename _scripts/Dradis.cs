@@ -13,6 +13,7 @@ public class Dradis : MonoBehaviour {
     public int dradisValue; //object size fighter/capital ship
     public int dradisPower; //what size object this can detect
     public bool isRadar; //or target 
+    public bool canZoom; 
     public GameObject dradisModel;
     public GameObject transparentDradisModel;
     public float radarSize = 0.01f; // for scaling the relative distance between the radar and what it hits
@@ -61,18 +62,20 @@ public class Dradis : MonoBehaviour {
                 //tick -= Time.deltaTime;
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftControl))
+            if (Input.GetKeyDown(KeyCode.LeftControl) && canZoom == true)
             { ChangeZoom(); }
         }
 	}
 
     public void ChangeZoom()
     {
+        timer = 0;
         Destroy(emptyObject);
         emptyObject = Instantiate(placeHolder, displayLocation.transform.position, displayLocation.transform.rotation) as GameObject;
         emptyObject.transform.parent = displayLocation.transform;
         if (zoom == 0.03f) { zoom = 0; } else { zoom += 0.01f; }
-        GetComponent<SphereCollider>().radius = 1000 - (10000 * zoom);
+        GetComponent<SphereCollider>().radius = 1000 - (30000 * zoom);
+        spawnDradis();
     }
 
     public void spawnDradis() {
@@ -90,7 +93,7 @@ public class Dradis : MonoBehaviour {
                     }
                      
                     clone.transform.parent = emptyObject.transform;
-                    clone.transform.localScale *= (reScale + (10 * zoom));
+                    clone.transform.localScale *= (reScale + (30 * zoom));
                     clone.transform.localPosition = ((dradisList[i].transform.position - transform.position) * (radarSize + zoom));
                     //clone.transform.name = dradisList[i].transform.name + "dradis";
                 }
