@@ -3208,7 +3208,7 @@ GameObject:
   - component: {fileID: 64542886143803620}
   m_Layer: 15
   m_Name: RaiderModel
-  m_TagString: Untagged
+  m_TagString: Raider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7364,7 +7364,7 @@ GameObject:
   - component: {fileID: 64129824352739700}
   m_Layer: 15
   m_Name: RaiderModel
-  m_TagString: Untagged
+  m_TagString: Raider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9176,7 +9176,7 @@ GameObject:
   - component: {fileID: 64615180389650762}
   m_Layer: 15
   m_Name: RaiderModel
-  m_TagString: Untagged
+  m_TagString: Raider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15935,7 +15935,7 @@ GameObject:
   - component: {fileID: 64753742710484894}
   m_Layer: 15
   m_Name: RaiderModel
-  m_TagString: Untagged
+  m_TagString: Raider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24788,7 +24788,7 @@ GameObject:
   - component: {fileID: 64534651607967798}
   m_Layer: 15
   m_Name: RaiderModel
-  m_TagString: Untagged
+  m_TagString: Raider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -102656,6 +102656,7 @@ MonoBehaviour:
     type: 2}
   avoidCollisionClock: 0
   canShoot: 0
+  myWing: {fileID: 0}
 --- !u!114 &114089607163495324
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -102684,6 +102685,7 @@ MonoBehaviour:
     type: 2}
   avoidCollisionClock: 0
   canShoot: 0
+  myWing: {fileID: 0}
 --- !u!114 &114201895504869038
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -102705,11 +102707,13 @@ MonoBehaviour:
   dradisValue: 0
   dradisPower: 0
   isRadar: 0
+  canZoom: 0
   dradisModel: {fileID: 1036090707846474, guid: 4c987770db5f377479f1da68ad25498d,
     type: 2}
   transparentDradisModel: {fileID: 1881242082918602, guid: 2a4d89bf205e9f644bdf80c7d5d767fd,
     type: 2}
   radarSize: 0.01
+  zoom: 0
   reScale: 0
   radarUpdateTime: 0
   fullScaleRadarImages: 0
@@ -102748,6 +102752,7 @@ MonoBehaviour:
   patrolPointType: PatrolPoints
   canPatrol: 0
   dradisModel: {fileID: 0}
+  roundManager: {fileID: 0}
 --- !u!114 &114302135505731154
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -102776,6 +102781,7 @@ MonoBehaviour:
     type: 2}
   avoidCollisionClock: 0
   canShoot: 0
+  myWing: {fileID: 0}
 --- !u!114 &114366099087844436
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -102797,11 +102803,13 @@ MonoBehaviour:
   dradisValue: 0
   dradisPower: 0
   isRadar: 0
+  canZoom: 0
   dradisModel: {fileID: 1835817890774368, guid: 642fc1b7cd4c8fe499cee88b91bb9756,
     type: 2}
   transparentDradisModel: {fileID: 1254566529567834, guid: 26c1e37ff2497fb40b0f60282edcc05c,
     type: 2}
   radarSize: 0.01
+  zoom: 0
   reScale: 0
   radarUpdateTime: 0
   fullScaleRadarImages: 0
@@ -102827,11 +102835,13 @@ MonoBehaviour:
   dradisValue: 0
   dradisPower: 0
   isRadar: 0
+  canZoom: 0
   dradisModel: {fileID: 1835817890774368, guid: 642fc1b7cd4c8fe499cee88b91bb9756,
     type: 2}
   transparentDradisModel: {fileID: 1254566529567834, guid: 26c1e37ff2497fb40b0f60282edcc05c,
     type: 2}
   radarSize: 0.01
+  zoom: 0
   reScale: 0
   radarUpdateTime: 0
   fullScaleRadarImages: 0
@@ -102857,11 +102867,13 @@ MonoBehaviour:
   dradisValue: 0
   dradisPower: 0
   isRadar: 0
+  canZoom: 0
   dradisModel: {fileID: 1036090707846474, guid: 4c987770db5f377479f1da68ad25498d,
     type: 2}
   transparentDradisModel: {fileID: 1881242082918602, guid: 2a4d89bf205e9f644bdf80c7d5d767fd,
     type: 2}
   radarSize: 0.01
+  zoom: 0
   reScale: 0
   radarUpdateTime: 0
   fullScaleRadarImages: 0
@@ -102894,6 +102906,7 @@ MonoBehaviour:
     type: 2}
   avoidCollisionClock: 0
   canShoot: 0
+  myWing: {fileID: 0}
 --- !u!114 &114426226181304098
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -102948,6 +102961,7 @@ MonoBehaviour:
     type: 2}
   avoidCollisionClock: 0
   canShoot: 0
+  myWing: {fileID: 0}
 --- !u!114 &114557706395007518
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -102976,6 +102990,7 @@ MonoBehaviour:
     type: 2}
   avoidCollisionClock: 0
   canShoot: 0
+  myWing: {fileID: 0}
 --- !u!114 &114579102522832242
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -102997,11 +103012,13 @@ MonoBehaviour:
   dradisValue: 0
   dradisPower: 0
   isRadar: 0
+  canZoom: 0
   dradisModel: {fileID: 1036090707846474, guid: 4c987770db5f377479f1da68ad25498d,
     type: 2}
   transparentDradisModel: {fileID: 1881242082918602, guid: 2a4d89bf205e9f644bdf80c7d5d767fd,
     type: 2}
   radarSize: 0.01
+  zoom: 0
   reScale: 0
   radarUpdateTime: 0
   fullScaleRadarImages: 0
@@ -103034,6 +103051,7 @@ MonoBehaviour:
     type: 2}
   avoidCollisionClock: 0
   canShoot: 0
+  myWing: {fileID: 0}
 --- !u!114 &114876285919637834
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -103055,11 +103073,13 @@ MonoBehaviour:
   dradisValue: 0
   dradisPower: 0
   isRadar: 0
+  canZoom: 0
   dradisModel: {fileID: 1036090707846474, guid: 4c987770db5f377479f1da68ad25498d,
     type: 2}
   transparentDradisModel: {fileID: 1881242082918602, guid: 2a4d89bf205e9f644bdf80c7d5d767fd,
     type: 2}
   radarSize: 0.01
+  zoom: 0
   reScale: 0
   radarUpdateTime: 0
   fullScaleRadarImages: 0
@@ -103085,11 +103105,13 @@ MonoBehaviour:
   dradisValue: 0
   dradisPower: 0
   isRadar: 0
+  canZoom: 0
   dradisModel: {fileID: 1036090707846474, guid: 4c987770db5f377479f1da68ad25498d,
     type: 2}
   transparentDradisModel: {fileID: 1881242082918602, guid: 2a4d89bf205e9f644bdf80c7d5d767fd,
     type: 2}
   radarSize: 0.01
+  zoom: 0
   reScale: 0
   radarUpdateTime: 0
   fullScaleRadarImages: 0

@@ -30,7 +30,7 @@ public class Computer : Photon.PunBehaviour
     }
         // Update is called once per frame
         void Update () {
-        if (Input.GetKeyDown(KeyCode.Y) && spawnObject == true){ PhotonNetwork.InstantiateSceneObject(objectToSpawn, whereToSpawn.transform.position, whereToSpawn.transform.rotation, 0, null); }
+        //if (Input.GetKeyDown(KeyCode.Y) && spawnObject == true){ PhotonNetwork.InstantiateSceneObject(objectToSpawn, whereToSpawn.transform.position, whereToSpawn.transform.rotation, 0, null); }
         if (interactTimer >= 0) { interactTimer -= (Time.deltaTime * 0.5f);   }
         if (on == true) { onOffObject.active = true; } else { onOffObject.active = false; }
 	}
@@ -72,14 +72,14 @@ public class Computer : Photon.PunBehaviour
     {
         if (stream.isWriting)
         {
-            stream.SendNext(myStat);
+          
             stream.SendNext(on);
         }
         else
         {
-            myStat = (int)stream.ReceiveNext();
+          
             on = (bool)stream.ReceiveNext();
-            //foodtext.text = food.ToString();
+          
         }
     }
     public void Interact(GameObject whoUsedMe)
@@ -88,6 +88,16 @@ public class Computer : Photon.PunBehaviour
         interactTimer += Time.deltaTime;
         if (interactTimer >= timeCost) { interactTimer = 0; PhotonNetwork.Instantiate(objectToSpawn, whereToSpawn.transform.position, whereToSpawn.transform.rotation, 0, null); GetComponent<PhotonView>().RPC("ToggleOnOff", PhotonTargets.AllBufferedViaServer); }
         
+    }
+
+    public void Repair(GameObject whoUsedMe)
+    {
+
+    }
+
+    public void Sabotage(GameObject whoUsedMe)
+    {
+        interactTimer--;
     }
 
 }

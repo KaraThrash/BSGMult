@@ -93,9 +93,9 @@ public class Raider : MonoBehaviour
         if (col.gameObject.tag == "Bullet")
         {
             Instantiate(explosion, transform.position, transform.rotation);
-            GameObject.Find("RoundManager").GetComponent<RoundManager>().CylonKilled(1, col.gameObject.GetComponent<Bullet>().owner);
+           // GameObject.Find("RoundManager").GetComponent<RoundManager>().CylonKilled(1, col.gameObject.GetComponent<Bullet>().owner);
             //Destroy(this.gameObject);
-            Die();
+            Die(col.gameObject.GetComponent<Bullet>().owner);
             Debug.Log("hit");
         }
     }
@@ -117,7 +117,7 @@ public class Raider : MonoBehaviour
 
     public void Attack()
     {
-        transform.parent = null;
+        //transform.parent = null;
         gunCooldown -= Time.deltaTime;
         targetRotation = Quaternion.LookRotation(shipTarget.transform.position - transform.position);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotForce * Time.deltaTime);
@@ -148,8 +148,9 @@ public class Raider : MonoBehaviour
     }
 
     // [PunRPC]
-    public void Die()
+    public void Die(int byWho)
     {
+        myWing.GetComponent<FighterWing>().roundManager.GetComponent<RoundManager>().CylonKilled(1, byWho);
         //GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer);
         myWing.GetComponent<PhotonView>().RPC("ShipDestroyed", PhotonTargets.AllViaServer, myNumber);
         //Destroy(this.gameObject);

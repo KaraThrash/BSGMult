@@ -49,14 +49,14 @@ public class LargeShip : Photon.PunBehaviour
         if (Input.GetKey(KeyCode.E)) { rotationObject.transform.Rotate(0, 0, rotSpeed); }
         if (Input.GetKey(KeyCode.D)) { rotationObject.transform.Rotate(0, rotSpeed, 0); }
         if (Input.GetKey(KeyCode.A)) { rotationObject.transform.Rotate(0, -rotSpeed, 0); }
-        GetComponent<PhotonView>().RPC("SetRotationObjects", PhotonTargets.AllViaServer, rotationObject.transform.rotation);
+        GetComponent<PhotonView>().RPC("SetRotationObjects", PhotonTargets.Others, rotationObject.transform.rotation);
     }
 
     [PunRPC]
     public void SetRotationObjects(Quaternion rot) { rotationObject.transform.rotation = rot; }
     [PunRPC]
     public void SetForwardObject() {
-        if (fwdObject.transform.localPosition.z > -1000)
+        if (fwdObject.transform.localPosition.z > -50)
         {
             fwdObject.transform.localPosition = new Vector3(0, 0, fwdObject.transform.localPosition.z - 5);
         }
@@ -108,18 +108,31 @@ public class LargeShip : Photon.PunBehaviour
             }
         
     }
+
+    public void Repair(GameObject whoUsedMe)
+    {
+      
+
+    }
+
+    public void Sabotage(GameObject whoUsedMe)
+    {
+       
+
+    }
+
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.isWriting)
         {
-            stream.SendNext(transform.rotation);
-            stream.SendNext(transform.position);
+           // stream.SendNext(transform.rotation);
+           // stream.SendNext(transform.position);
         
         }
         else
         {
-             transform.rotation = (Quaternion)stream.ReceiveNext();
-             transform.position = (Vector3)stream.ReceiveNext();
+            // transform.rotation = (Quaternion)stream.ReceiveNext();
+             //transform.position = (Vector3)stream.ReceiveNext();
  
         }
     }

@@ -12,6 +12,8 @@ public class BattleStation : Photon.PunBehaviour
     public GameObject cameraLocation;
     public GameObject user;
     public bool dontChangeCamera;
+    public bool canRepair;
+    public bool canSabotage;
     //TODO: types of computers
     //>> spawns, builds, actively use >> guns,dradis,communications
     // Use this for initialization
@@ -82,6 +84,21 @@ public class BattleStation : Photon.PunBehaviour
         
 
     }
+    public void Repair(GameObject whoUsedMe)
+    {
+        if (canRepair == true)
+        { myStation.SendMessage("Repair"); }
+        
+    }
+
+    public void Sabotage(GameObject whoUsedMe)
+    {
+        if (canSabotage == true)
+        { myStation.SendMessage("Sabotage"); }
+       
+    }
+
+
     [PunRPC]
     public void MakeAvailable() {
         on = false;

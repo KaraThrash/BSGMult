@@ -44,4 +44,17 @@ public class ProductionMachine : MonoBehaviour {
         activated = false;
         
     }
+    public void Repair()
+    {
+
+    }
+
+    public void Sabotage()
+    {
+        if (interactTimer > -10)
+        {
+            interactTimer--;
+        }
+    }
+
 }

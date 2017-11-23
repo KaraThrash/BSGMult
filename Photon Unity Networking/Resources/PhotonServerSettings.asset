@@ -107,4 +107,6 @@ MonoBehaviour:
   - NewChat
   - EnableCharacter
   - SyncMoveAcrossServer
+  - Repair
+  - UseHeldSecondary
   DisableAutoOpenWizard: 1

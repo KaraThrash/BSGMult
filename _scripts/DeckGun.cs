@@ -27,6 +27,8 @@ public class DeckGun : MonoBehaviour {
     public Vector3 rotateTo;
     public int rotateDirection;
     public bool leftSide;
+    public int hp;
+    public int maxHp;
     //private Rigidbody rb;
     // Use this for initialization
     void Start () {
@@ -36,7 +38,8 @@ public class DeckGun : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (activated == true)
+        if(hp > 0) { 
+        if (activated == true )
         {
             turretHead.transform.position = Vector3.MoveTowards(turretHead.transform.position, mannedPosition.transform.position, 5.0f * Time.deltaTime);
            // targetRotation = Quaternion.LookRotation(readyPosition.transform.localPosition - turretHead.transform.localPosition);
@@ -48,26 +51,28 @@ public class DeckGun : MonoBehaviour {
             turretHead.transform.position = Vector3.MoveTowards(turretHead.transform.position, unmannedPosition.transform.position, 1.0f * Time.deltaTime);
             turretHead.transform.rotation = Quaternion.Lerp(turretHead.transform.rotation, new Quaternion(0,0,0,0), 1.0f * Time.deltaTime);
         }
-        //if (targetRotation != turretHead.transform.rotation) { turretHead.transform.rotation = Quaternion.Lerp(turretHead.transform.rotation, targetRotation, 5.0f); }
-        if (manned == true) {
-            gunCoolDown -= Time.deltaTime;
-            if (Input.GetMouseButton(0))
+            //if (targetRotation != turretHead.transform.rotation) { turretHead.transform.rotation = Quaternion.Lerp(turretHead.transform.rotation, targetRotation, 5.0f); }
+            if (manned == true)
             {
-                if (gunCoolDown <= 0)
+                gunCoolDown -= Time.deltaTime;
+                if (Input.GetMouseButton(0))
                 {
-                    GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer);
-                    gunCoolDown = 0.6f;
-                }
-                
-            }
+                    if (gunCoolDown <= 0)
+                    {
+                        GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer);
+                        gunCoolDown = 0.6f;
+                    }
 
-            // mouseX = Input.GetAxis("Horizontal");
-            // mouseY = Input.GetAxis("Vertical");
-           
-           // readyPosition.transform.Translate(Vector3.left * Time.deltaTime);
-          //  readyPosition.transform.localPosition = Vector3.MoveTowards(readyPosition.transform.localPosition, new Vector3(focusPointX,mouseY, mouseX), 10.0f);
-           // transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(mouseY, mouseX, 0), 0.1f  * Time.deltaTime);
-            AimGun();
+                }
+
+                // mouseX = Input.GetAxis("Horizontal");
+                // mouseY = Input.GetAxis("Vertical");
+
+                // readyPosition.transform.Translate(Vector3.left * Time.deltaTime);
+                //  readyPosition.transform.localPosition = Vector3.MoveTowards(readyPosition.transform.localPosition, new Vector3(focusPointX,mouseY, mouseX), 10.0f);
+                // transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, new Vector3(mouseY, mouseX, 0), 0.1f  * Time.deltaTime);
+                AimGun();
+            }
             if (Input.GetKey(KeyCode.Backspace)) { manned = false; myCamera.active = false;  }
         }
 	}
@@ -96,9 +101,12 @@ public class DeckGun : MonoBehaviour {
         GetComponent<PhotonView>().RPC("SyncAimTarget", PhotonTargets.AllViaServer,hortTarget,vertTarget);
     }
     public void Manned() {
-        myCamera.active = true;
-        manned = true;
-        GetComponent<PhotonView>().RPC("ActivateOnServer", PhotonTargets.AllBufferedViaServer);
+        if (hp > 0)
+        {
+            myCamera.active = true;
+            manned = true;
+            GetComponent<PhotonView>().RPC("ActivateOnServer", PhotonTargets.AllBufferedViaServer);
+        }
     }
     [PunRPC]
     public void SyncAimTarget(float newH,float newV) { activated = true; }
@@ -107,7 +115,41 @@ public class DeckGun : MonoBehaviour {
     [PunRPC]
     public void ActivateOnServer() { activated = true; }
 
+  
+    public void TakeDamage()
+    {
+        if (hp > 0)
+        {
+            hp--;
 
+            if (hp <= 0 )
+            {
+                hp = 0;
+               
+            }
+          
+            Debug.Log("hit");
+        }
+    }
+
+
+    public void Repair()
+    {
+        if (hp < maxHp)
+        {
+            hp++;
+
+        }
+    }
+
+    public void Sabotage()
+    {
+        if (hp > 0)
+        {
+            hp--;
+
+        }
+    }
     public void NotManned()
     {
         myCamera.active = false;

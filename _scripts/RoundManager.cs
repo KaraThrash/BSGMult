@@ -48,6 +48,7 @@ public class RoundManager : MonoBehaviour {
         foodAtRoundStart = fleet.GetComponent<Fleet>().food;
         wasFrakked = false;
         cylonsKilledThisRound = 0;
+        cylonsKilledThisRoundByLocalPlayer = 0;
         objectiveTextObj.active = true;
         cylonKillBonus = 1.0f;
         fuelBonus = 1.0f;

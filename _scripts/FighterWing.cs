@@ -19,12 +19,14 @@ public class FighterWing : Photon.PunBehaviour
     public string patrolPointType;
     public bool canPatrol;
     public GameObject dradisModel;
-
+    public GameObject roundManager;
     //TODO: create formation types for different type of ships/targets
 
     // Use this for initialization
     void Start()
     {
+
+        GameObject roundManager = GameObject.Find("RoundManager");
         GameObject raiderParent = GameObject.Find("ActiveCylonFleet");
         if (raiderParent != null)
         {

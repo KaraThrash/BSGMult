@@ -5,7 +5,7 @@ using UnityEngine;
 public class Fighter : Photon.PunBehaviour
 {
     public int hp;
-  
+    public GameObject testObj; //to display when somethingHappens
  
     public GameObject myColliders;
     public GameObject pilot;
@@ -38,11 +38,14 @@ public class Fighter : Photon.PunBehaviour
     public GameObject criticalFailureText;
     public float colliderTimer;
     public GameObject dradisModel;
+    public int faction; //0 neutral 1 human 2 cylon
+    public int maxHp;
+
     //public GameObject dradisTarget; //turned off when not flying by the landing bay so it isnt picked up on dradis
     // Use this for initialization
     void Start()
     {
-
+        maxHp = 10;
         medbay = GameObject.Find(medbayName);
         rb = GetComponent<Rigidbody>();
         m_PhotonView = GetComponent<PhotonView>();
@@ -391,4 +394,18 @@ public class Fighter : Photon.PunBehaviour
            // GetComponent<PhotonView>().RPC("TakeOff", PhotonTargets.AllBufferedViaServer);
         GetComponent<PhotonView>().RPC("TakeOff", PhotonTargets.AllViaServer, whoUsedMe.GetComponent<PhotonView>().owner.ID);
     }
+
+    public void Repair(GameObject whoUsedMe)
+    {
+        if (hp < maxHp)
+        { hp++; Instantiate(testObj, new Vector3(transform.position.x + 2,transform.position.y + 2, transform.position.z), transform.rotation); }
+    }
+
+    public void Sabotage(GameObject whoUsedMe)
+    {
+        if (hp > 0)
+        { hp--; Instantiate(testObj, new Vector3(transform.position.x + 2, transform.position.y + 2, transform.position.z), transform.rotation); }
+        
+    }
+
 }

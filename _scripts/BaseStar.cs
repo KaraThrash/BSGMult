@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BaseStar : Photon.PunBehaviour
 {
+    public GameObject gameManager;
     public GameObject myShip;
     public int myShipGroup; //1: galactica + active fleet 2: Cylon fleet 3: space/planet/leftbehind
     public GameObject myHangar;
@@ -78,6 +79,7 @@ public class BaseStar : Photon.PunBehaviour
             raiderParentObject = parentclone;
         }
          GameObject clone = PhotonNetwork.Instantiate(objectToSpawn, launchBay.transform.position, launchBay.transform.rotation, 0, null);
+        clone.GetComponent<FighterWing>().roundManager = gameManager.GetComponent<GameManager>().roundManager;
         numberOfRaiderWings -= 5;
        // GameObject clone = Instantiate(raider, launchBay.transform.position, launchBay.transform.rotation) as GameObject;
         

@@ -17,7 +17,8 @@ public class PartOfShip : MonoBehaviour {
     {
         if (col.gameObject.tag == "Bullet")
         {
-            myShip.SendMessage("TakeDamage");
+           // myShip.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer);
+           myShip.SendMessage("TakeDamage");
             Debug.Log("hit");
         }
     }

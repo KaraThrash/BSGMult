@@ -104,10 +104,18 @@ public class PlayerCharacter : Photon.PunBehaviour
     [PunRPC]
     public void ShootGuns()
     {
-
-        if (ammo > 0) { Instantiate(bullet, gun.transform.position, gun.transform.rotation); ammo--; }
-        if (controlled == true) { ammoHud.text = ammo.ToString(); }
+        GetComponent<HumanControls>().heldItem.GetComponent<HeldItem>().UsePrimary();
+        //if (ammo > 0) { Instantiate(bullet, gun.transform.position, gun.transform.rotation); ammo--; }
+        if (controlled == true) { ammoHud.text = GetComponent<HumanControls>().heldItem.GetComponent<HeldItem>().ammo.ToString(); }
     }
+    [PunRPC]
+    public void UseHeldSecondary()
+    {
+        GetComponent<HumanControls>().heldItem.GetComponent<HeldItem>().UseSecondary();
+        //if (ammo > 0) { Instantiate(bullet, gun.transform.position, gun.transform.rotation); ammo--; }
+        if (controlled == true) { ammoHud.text = GetComponent<HumanControls>().heldItem.GetComponent<HeldItem>().ammo.ToString(); }
+    }
+
     [PunRPC]
     public void GetInShip()
     {
@@ -215,12 +223,13 @@ public class PlayerCharacter : Photon.PunBehaviour
         if (stream.isWriting)
         {
 
-            stream.SendNext(flying);
+              stream.SendNext(transform.rotation);
+             stream.SendNext(transform.position);
         }
         else
         {
-
-            flying = (bool)stream.ReceiveNext();
+             transform.rotation = (Quaternion)stream.ReceiveNext();
+             transform.position = (Vector3)stream.ReceiveNext();
         }
     }
     public void JumpEffects(int coords,int newShipGroup) {
@@ -248,10 +257,11 @@ public class PlayerCharacter : Photon.PunBehaviour
     [PunRPC]
     public void ChangeAmmo(int ammoChange)
     {
-        ammo += ammoChange;
+        GetComponent<HumanControls>().heldItem.GetComponent<HeldItem>().ammo += ammoChange;
+       // ammo += ammoChange;
         if (controlled == true)
         {
-            ammoHud.text = ammo.ToString();
+            ammoHud.text = GetComponent<HumanControls>().heldItem.GetComponent<HeldItem>().ammo.ToString();
         }
     }
     [PunRPC]

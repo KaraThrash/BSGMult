@@ -5,6 +5,7 @@ using UnityEngine;
 public class HumanControls : Photon.PunBehaviour
 {
     //This is the current movementyController for humanoid characters
+    public GameObject heldItem;
     public float jumpSpeed = 8.0F;
     public float gravity = 20.0F;
     public GameObject gun;
@@ -66,13 +67,6 @@ public class HumanControls : Photon.PunBehaviour
             {
                 jumpClock = 0;
 
-                if (grounded == false)
-                {
-                    //Vector3 downDirection =  downObject.transform.position - transform.position;
-                    //downDirection *= speed;
-                    // GetComponent<CharacterController>().Move(downDirection * Time.deltaTime);
-                    //transform.position = Vector3.MoveTowards(transform.position, downObject.transform.position, 3 * (airTime + 0.1f) * Time.deltaTime);
-                }
             }
             Move();
             if (canMove == true)
@@ -100,15 +94,31 @@ public class HumanControls : Photon.PunBehaviour
 
                 }
                 GetComponent<PhotonView>().RPC("UpdateAimAnimationValues", PhotonTargets.AllViaServer, camGunAimAngle);
-                if (Input.GetMouseButtonDown(0))
+                if (!Input.GetKey(KeyCode.Tab) && heldItem.GetComponent<HeldItem>().coolDown <= 0)
                 {
-                    if (anim.GetBool("RifleOut") == true && !Input.GetKey(KeyCode.Tab)) { GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer); }
-                    else { GetComponent<PhotonView>().RPC("SwingWrench", PhotonTargets.AllViaServer); }
+                    if (Input.GetMouseButton(0))
+                    {
+                        GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer);
+                        if (anim.GetBool("RifleOut") == true && !Input.GetKey(KeyCode.Tab))
+                        {
+                            //GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer);
+                        }
+                        else { GetComponent<PhotonView>().RPC("SwingWrench", PhotonTargets.AllViaServer); }
 
 
+                    }
+                    if (Input.GetMouseButton(1))
+                    {
+                        GetComponent<PhotonView>().RPC("UseHeldSecondary", PhotonTargets.AllViaServer);
+                        if (anim.GetBool("RifleOut") == true && !Input.GetKey(KeyCode.Tab))
+                        {
+                            //GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer);
+                        }
+                        else { GetComponent<PhotonView>().RPC("SwingWrench", PhotonTargets.AllViaServer); }
+
+
+                    }
                 }
-
-
 
             }
             if (Input.GetKeyDown(KeyCode.Backspace))
@@ -133,12 +143,14 @@ public class HumanControls : Photon.PunBehaviour
         {
             if (camWrenchModel.active == true)
             {
+                heldItem.GetComponent<HeldItem>().ChangeType(1);
                 anim.SetBool("RifleOut", true);
                 camWrenchModel.active = false;
                 camGunModel.active = true;
             }
             else
             {
+                heldItem.GetComponent<HeldItem>().ChangeType(2);
                 anim.SetBool("RifleOut", false);
                 camWrenchModel.active = true;
                 camGunModel.active = false;
@@ -150,12 +162,14 @@ public class HumanControls : Photon.PunBehaviour
             camGunModel.active = false;
             if (wrenchModel.active == true)
             {
+                heldItem.GetComponent<HeldItem>().ChangeType(1);
                 GetComponent<Animator>().SetBool("RifleOut", true);
                 wrenchModel.active = false; gunModel.active = true;
 
             }
             else
             {
+                heldItem.GetComponent<HeldItem>().ChangeType(2);
                 GetComponent<Animator>().SetBool("RifleOut", false);
                 gunModel.active = false; wrenchModel.active = true;
 
@@ -170,7 +184,7 @@ public class HumanControls : Photon.PunBehaviour
     [PunRPC]
     public void SwingWrench()
     {
-        GetComponent<Animator>().SetTrigger("SwingWrench");
+        GetComponent<Animator>().Play("SwingSword");
     }
     [PunRPC]
     public void UpdateAnimationValues(float newH, float newV)
