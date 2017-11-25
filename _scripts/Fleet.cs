@@ -49,11 +49,11 @@ public class Fleet : Photon.PunBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.LeftShift)) { foodText.text = food.ToString(); fuelText.text = fuel.ToString();
-            moraleText.text = morale.ToString(); popText.text = pop.ToString(); resourceTextObj.active = true;
-        }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        { resourceTextObj.active = false; }
+        //if (Input.GetKey(KeyCode.LeftShift)) { foodText.text = food.ToString(); fuelText.text = fuel.ToString();
+        //    moraleText.text = morale.ToString(); popText.text = pop.ToString(); resourceTextObj.active = true;
+        //}
+        //if (Input.GetKeyUp(KeyCode.LeftShift))
+        //{ resourceTextObj.active = false; }
     }
     public void ShipReportingFTLReady()
     {

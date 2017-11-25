@@ -44,8 +44,8 @@ public class DeckGun : MonoBehaviour {
             turretHead.transform.position = Vector3.MoveTowards(turretHead.transform.position, mannedPosition.transform.position, 5.0f * Time.deltaTime);
            // targetRotation = Quaternion.LookRotation(readyPosition.transform.localPosition - turretHead.transform.localPosition);
             // turretHead.transform.localRotation = Quaternion.Lerp(turretHead.transform.localRotation, targetRotation, 1.0f * Time.deltaTime);
-           // turretHead.transform.localEulerAngles = Vector3.Lerp(turretHead.transform.localEulerAngles, new Vector3(hortTarget,vertTarget,0), 1.0f * Time.deltaTime);
-            turretHead.transform.localEulerAngles = new Vector3(hortTarget, vertTarget, 0);
+           turretHead.transform.localEulerAngles = Vector3.Lerp(turretHead.transform.localEulerAngles, new Vector3(hortTarget,vertTarget,0), 5.0f * Time.deltaTime);
+           // turretHead.transform.localEulerAngles = new Vector3(hortTarget, vertTarget, 0);
         }
         else {
             turretHead.transform.position = Vector3.MoveTowards(turretHead.transform.position, unmannedPosition.transform.position, 1.0f * Time.deltaTime);
@@ -86,30 +86,36 @@ public class DeckGun : MonoBehaviour {
     public void AimGun() {
         if (leftSide == true)
         {
-            if (Input.GetKey(KeyCode.W) && hortTarget < upLimit) { hortTarget += 1; }
-            if (Input.GetKey(KeyCode.S) && hortTarget > downLimit) { hortTarget -= 1; }
-            if (Input.GetKey(KeyCode.D) && vertTarget < rightLimit) { vertTarget += 1; }
-            if (Input.GetKey(KeyCode.A) && vertTarget > leftLimit) { vertTarget -= 1; }
+            if (Input.GetKey(KeyCode.W) && hortTarget < upLimit) { hortTarget += 0.1f; }
+            if (Input.GetKey(KeyCode.S) && hortTarget > downLimit) { hortTarget -= 0.1f; }
+            if (Input.GetKey(KeyCode.D) && vertTarget < rightLimit) { vertTarget += 0.1f; }
+            if (Input.GetKey(KeyCode.A) && vertTarget > leftLimit) { vertTarget -= 0.1f; }
         }
         else
         {
-            if (Input.GetKey(KeyCode.W) && hortTarget > upLimit) { hortTarget -= 1; }
-            if (Input.GetKey(KeyCode.S) && hortTarget < downLimit) { hortTarget += 1; }
-            if (Input.GetKey(KeyCode.D) && vertTarget < rightLimit) { vertTarget += 1; }
-            if (Input.GetKey(KeyCode.A) && vertTarget > leftLimit) { vertTarget -= 1; }
+            if (Input.GetKey(KeyCode.W) && hortTarget > upLimit) { hortTarget -= 0.1f; }
+            if (Input.GetKey(KeyCode.S) && hortTarget < downLimit) { hortTarget += 0.1f; }
+            if (Input.GetKey(KeyCode.D) && vertTarget < rightLimit) { vertTarget += 0.1f; }
+            if (Input.GetKey(KeyCode.A) && vertTarget > leftLimit) { vertTarget -= 0.1f; }
         }
-        GetComponent<PhotonView>().RPC("SyncAimTarget", PhotonTargets.AllViaServer,hortTarget,vertTarget);
+        GetComponent<PhotonView>().RPC("SyncAimTarget", PhotonTargets.Others,hortTarget,vertTarget);
     }
     public void Manned() {
         if (hp > 0)
         {
             myCamera.active = true;
             manned = true;
+            activated = true;
             GetComponent<PhotonView>().RPC("ActivateOnServer", PhotonTargets.AllBufferedViaServer);
         }
     }
     [PunRPC]
-    public void SyncAimTarget(float newH,float newV) { activated = true; }
+    public void SyncAimTarget(float newH,float newV) {
+        vertTarget = newV;
+        hortTarget = newH;
+
+        //activated = true;
+    }
 
 
     [PunRPC]

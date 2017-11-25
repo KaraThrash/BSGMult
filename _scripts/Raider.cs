@@ -25,6 +25,9 @@ public class Raider : MonoBehaviour
     public float avoidCollisionClock;
     public bool canShoot;
     public GameObject myWing;
+
+    public int accuracy; //difference of angle that the raider can start firing 0 being perfect
+    public float gunCost; //what to set the cooldown to after firing
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody>();
@@ -35,7 +38,7 @@ public class Raider : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-        CheckForward();
+       // CheckForward();
 
 
 
@@ -43,8 +46,10 @@ public class Raider : MonoBehaviour
         {
 
 
-
-            shipTarget = myWing.GetComponent<FighterWing>().shipTarget;
+            if (myWing.GetComponent<FighterWing>().shipTarget != null)
+            { shipTarget = myWing.GetComponent<FighterWing>().shipTarget; }
+            else { shipTarget = null; }
+            
             if (Vector3.Distance(myPlaceInWing.transform.position, transform.position) > 500 )
             {
                 //deactivate
@@ -53,8 +58,7 @@ public class Raider : MonoBehaviour
             }
             else
             {
-                if (shipTarget == null) { Patrol(); }
-                if (shipTarget != null) { Attack(); }
+                if (shipTarget != null) { Attack(); } else { Patrol(); }
             }
 
         }
@@ -63,6 +67,7 @@ public class Raider : MonoBehaviour
 	}
     public void CheckForward()
     {
+        // possible issue with dradis detection
         RaycastHit hit;
 
         if (Physics.Raycast(transform.position, transform.forward, out hit, 110.0f) )
@@ -121,6 +126,9 @@ public class Raider : MonoBehaviour
         gunCooldown -= Time.deltaTime;
         targetRotation = Quaternion.LookRotation(shipTarget.transform.position - transform.position);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotForce * Time.deltaTime);
+        float angle = Vector3.Angle(shipTarget.transform.position - transform.position, transform.forward);
+        if (angle <= accuracy) { canShoot = true; } else { canShoot = false; }
+
 
         Debug.Log("In the if " + Vector3.Distance(transform.position, shipTarget.transform.position));
         if (Vector3.Distance( transform.position, shipTarget.transform.position) > 100 || Vector3.Distance(transform.position, shipTarget.transform.position) < 20)
@@ -131,17 +139,21 @@ public class Raider : MonoBehaviour
 
             if ( gunCooldown <= 0 && canShoot == true)
             {
-                FireGuns(); gunCooldown = 0.5f;
+                FireGuns(); gunCooldown = gunCost + Random.Range(0,3.0f);
 
             }
         
     }
     public void Patrol()
     {
-        
-       // if (Vector3.Distance(myPlaceInWing.transform.position, transform.position) > 10)
+
+        // if (Vector3.Distance(myPlaceInWing.transform.position, transform.position) > 10)
         //{ transform.position = Vector3.MoveTowards(transform.position, myPlaceInWing.transform.position, speed * Time.deltaTime); }
-        transform.position = Vector3.MoveTowards(transform.position, myPlaceInWing.transform.position, speed * Time.deltaTime);
+
+        if (Vector3.Distance(transform.position, myPlaceInWing.transform.position) > 5)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, myPlaceInWing.transform.position, speed * Time.deltaTime);
+        }
         transform.rotation = Quaternion.Lerp(transform.rotation, myPlaceInWing.transform.rotation, speed * Time.deltaTime);
         //transform.position = Vector3.MoveTowards(transform.position, myPlaceInWing.transform.position, speed * Time.deltaTime);
         
@@ -152,8 +164,10 @@ public class Raider : MonoBehaviour
     {
         myWing.GetComponent<FighterWing>().roundManager.GetComponent<RoundManager>().CylonKilled(1, byWho);
         //GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer);
-        myWing.GetComponent<PhotonView>().RPC("ShipDestroyed", PhotonTargets.AllViaServer, myNumber);
-        //Destroy(this.gameObject);
+        // myWing.GetComponent<PhotonView>().RPC("ShipDestroyed", PhotonTargets.AllViaServer, myNumber);
+        myWing.GetComponent<FighterWing>().ShipDestroyed(myNumber);
+        Destroy(myPlaceInWing);
+        Destroy(this.gameObject);
     }
 
 

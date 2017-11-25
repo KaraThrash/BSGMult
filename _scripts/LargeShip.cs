@@ -15,6 +15,8 @@ public class LargeShip : Photon.PunBehaviour
     public GameObject rotationObject;
     public GameObject engineAnim;
     public float rotSpeed = 0.5f;
+
+    public GameObject explosion;
     // Use this for initialization
     void Start()
     {
@@ -24,10 +26,12 @@ public class LargeShip : Photon.PunBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, fwdObject.transform.position, speed);
+        
         transform.rotation = Quaternion.Slerp(transform.rotation, rotationObject.transform.rotation, 1.0f * Time.deltaTime);
         fwdObject.transform.position = Vector3.MoveTowards(fwdObject.transform.position, transform.position, 1.0f);
-        if (Vector3.Distance(fwdObject.transform.position, transform.position) > 10) { engineAnim.active = true; } else { engineAnim.active = false; }
+        if (Vector3.Distance(fwdObject.transform.position, transform.position) > 10) {
+            transform.position = Vector3.MoveTowards(transform.position, fwdObject.transform.position, speed);
+            engineAnim.active = true; } else { engineAnim.active = false; }
         if (manned == true)
         {
             BeingFlown();
@@ -43,12 +47,12 @@ public class LargeShip : Photon.PunBehaviour
             //transform.Translate(Vector3.right * 1);
         }
 
-        if (Input.GetKey(KeyCode.S)) { rotationObject.transform.Rotate(rotSpeed, 0, 0); }
-        if (Input.GetKey(KeyCode.W)) { rotationObject.transform.Rotate(-rotSpeed, 0, 0); }
-        if (Input.GetKey(KeyCode.Q)) { rotationObject.transform.Rotate(0, 0, -rotSpeed); }
-        if (Input.GetKey(KeyCode.E)) { rotationObject.transform.Rotate(0, 0, rotSpeed); }
-        if (Input.GetKey(KeyCode.D)) { rotationObject.transform.Rotate(0, rotSpeed, 0); }
-        if (Input.GetKey(KeyCode.A)) { rotationObject.transform.Rotate(0, -rotSpeed, 0); }
+        if (Input.GetKey(KeyCode.S)) { rotationObject.transform.Rotate(0.5f, 0, 0); }
+        if (Input.GetKey(KeyCode.W)) { rotationObject.transform.Rotate(-0.5f, 0, 0); }
+        if (Input.GetKey(KeyCode.Q)) { rotationObject.transform.Rotate(0, 0, -0.5f); }
+        if (Input.GetKey(KeyCode.E)) { rotationObject.transform.Rotate(0, 0, 0.5f); }
+        if (Input.GetKey(KeyCode.D)) { rotationObject.transform.Rotate(0, 0.5f, 0); }
+        if (Input.GetKey(KeyCode.A)) { rotationObject.transform.Rotate(0, -0.5f, 0); }
         GetComponent<PhotonView>().RPC("SetRotationObjects", PhotonTargets.Others, rotationObject.transform.rotation);
     }
 
@@ -85,7 +89,7 @@ public class LargeShip : Photon.PunBehaviour
                 //Die();
                 ForPassengersAfterDestroyed();
                 this.GetComponent<FleetShip>().FleetShipDie();
-
+                Instantiate(explosion,transform.position,transform.rotation);
                 //GetComponent<PhotonView>().RPC("Die", PhotonTargets.AllBufferedViaServer);
             }
             //Destroy(this.gameObject);
@@ -125,14 +129,14 @@ public class LargeShip : Photon.PunBehaviour
     {
         if (stream.isWriting)
         {
-           // stream.SendNext(transform.rotation);
-           // stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+            stream.SendNext(transform.position);
         
         }
         else
         {
-            // transform.rotation = (Quaternion)stream.ReceiveNext();
-             //transform.position = (Vector3)stream.ReceiveNext();
+             transform.rotation = (Quaternion)stream.ReceiveNext();
+             transform.position = (Vector3)stream.ReceiveNext();
  
         }
     }

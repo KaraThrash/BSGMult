@@ -5,6 +5,10 @@ using UnityEngine;
 public class FighterWing : Photon.PunBehaviour
 {
     public List<GameObject> ships = new List<GameObject>();
+    public int faction;
+    public int targetMaxSize; //compared against dradis object size. Can it target capital ships of fleet ships
+
+
     public string raiderParentType = "ActiveCylonFleet"; //to be able to spawn at scoutable locations
     public int shipsDestroyed;
     public int shipCount;
@@ -26,20 +30,23 @@ public class FighterWing : Photon.PunBehaviour
     void Start()
     {
 
-        GameObject roundManager = GameObject.Find("RoundManager");
-        GameObject raiderParent = GameObject.Find("ActiveCylonFleet");
-        if (raiderParent != null)
-        {
-            transform.parent = raiderParent.transform;
-        }
+         roundManager = GameObject.Find("RoundManager");
+        //GameObject raiderParent = GameObject.Find("ActiveCylonFleet");
+        //if (raiderParent != null)
+        //{
+        //    transform.parent = raiderParent.transform;
+        //}
         AssignPatrol();
         shipCount = ships.Count;
     }
 
     // Update is called once per frame
     void Update() {
-        
-            if (shipTarget == null) { Patrol(); }
+        if (roundManager == null)
+        {
+            roundManager = GameObject.Find("RoundManager");
+        }
+        if (shipTarget == null) { Patrol(); }
             if (shipTarget != null) { Attack(); if (Vector3.Distance(transform.position, shipTarget.transform.position) > 6000) { shipTarget = null; } }
         
     }
@@ -104,25 +111,37 @@ public class FighterWing : Photon.PunBehaviour
         patrolTarget = points[currentPoint];
 
     }
-    public void OnTriggerEnter(Collider other)
+    public void OnTriggerStay(Collider other)
     {
         // Debug.Log(other.transform.name);
         //TODO: fix border to just be an actual border instead of full sphere
-        if (other.tag == "Viper") { if (shipTarget == null && other.transform.parent.gameObject.GetComponent<Fighter>().flying == true) { shipTarget = other.transform.parent.gameObject; } }
-        if (other.tag == "Fleetship") { if (shipTarget == null) { shipTarget = other.transform.parent.gameObject; } }
+        if (shipTarget == null)
+        {
+            if (other.GetComponent<Dradis>() != null)
+            {
+                if (other.GetComponent<Dradis>().dradisValue <= targetMaxSize && other.GetComponent<Dradis>().faction != faction)
+                { shipTarget = other.GetComponent<Dradis>().myShip; }
+            }
+            
+           
+           // if (other.tag == "Viper") { if (shipTarget == null && other.transform.parent.gameObject.GetComponent<Fighter>().flying == true) { shipTarget = other.transform.parent.gameObject; } }
+           // if (other.tag == "Fleetship") { if (shipTarget == null) { shipTarget = other.transform.parent.gameObject; } }
+
+        }
+        
     }
 
-    [PunRPC]
+   // [PunRPC]
     public void ShipDestroyed(int shipNumber)
     {
         if (ships.Count >= shipNumber )
         {
             shipsDestroyed++;
             //Destroy(ships[shipNumber]);
-            if (ships[shipNumber] != null && ships[shipNumber].active == true)
+            if (ships[shipNumber] != null )
             {
                 ships[shipNumber].active = false;
-                if (shipsDestroyed >= ships.Count) { Destroy(this.gameObject); }
+               // if (shipsDestroyed >= ships.Count) { Destroy(this.gameObject); }
 
             }
             //shipCount--;

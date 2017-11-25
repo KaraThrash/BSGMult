@@ -126,7 +126,9 @@ public class HumanControls : Photon.PunBehaviour
                 canMove = true;
             }
 
-            if (moveDirection != Vector3.zero) { GetComponent<CharacterController>().Move(moveDirection * Time.deltaTime); }
+            if (moveDirection != Vector3.zero) {
+               // GetComponent<CharacterController>().Move(moveDirection * Time.deltaTime);
+            }
            
 
 
@@ -187,7 +189,7 @@ public class HumanControls : Photon.PunBehaviour
         GetComponent<Animator>().Play("SwingSword");
     }
     [PunRPC]
-    public void UpdateAnimationValues(float newH, float newV)
+    public void UpdateAnimationValues(Vector3 newMoveDir,float newH, float newV)
     {
 
         fwdObject.transform.localPosition = new Vector3(newH, 0, newV);
@@ -196,6 +198,7 @@ public class HumanControls : Photon.PunBehaviour
             anim.SetFloat("h", newH);
             anim.SetFloat("v", newV);
         }
+        if (moveDirection != Vector3.zero) { GetComponent<CharacterController>().Move(moveDirection * Time.deltaTime); }
     }
 
     void ApplySynchronizedValues()
@@ -239,7 +242,7 @@ public class HumanControls : Photon.PunBehaviour
             
             GetComponent<CharacterController>().Move(moveDirection * Time.deltaTime);
        // GetComponent<PhotonView>().RPC("SyncMoveAcrossServer", PhotonTargets.AllViaServer, moveDirection);
-        GetComponent<PhotonView>().RPC("UpdateAnimationValues", PhotonTargets.AllViaServer,h,v);
+        GetComponent<PhotonView>().RPC("UpdateAnimationValues", PhotonTargets.AllViaServer, moveDirection, h,v);
 
 
 

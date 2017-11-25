@@ -125,7 +125,7 @@ public class PlayerCharacter : Photon.PunBehaviour
         
     }
     [PunRPC]
-    public void GetOutShip(int shipOnList, Vector3 newExit)
+    public void GetOutShip(int shipOnList, Vector3 newExit,int newShipGroup)
     {
 
         masterCharacterList.GetComponent<PhotonView>().RPC("EnableCharacter", PhotonTargets.AllViaServer,myCharacterOnList);
@@ -139,7 +139,7 @@ public class PlayerCharacter : Photon.PunBehaviour
             transform.position = newExit;
             this.gameObject.active = true;
             myCamera.active = true;
-            localPlayer.GetComponent<PlayerMain>().shipGroup = shipOnList;
+            localPlayer.GetComponent<PlayerMain>().shipGroup = newShipGroup;
             localPlayer.GetComponent<PhotonView>().RPC("SetHumanActive",PhotonTargets.AllViaServer);
         }
     }
@@ -220,17 +220,17 @@ public class PlayerCharacter : Photon.PunBehaviour
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        if (stream.isWriting)
-        {
+        //if (stream.isWriting)
+        //{
 
-              stream.SendNext(transform.rotation);
-             stream.SendNext(transform.position);
-        }
-        else
-        {
-             transform.rotation = (Quaternion)stream.ReceiveNext();
-             transform.position = (Vector3)stream.ReceiveNext();
-        }
+        //      stream.SendNext(transform.rotation);
+        //     stream.SendNext(transform.position);
+        //}
+        //else
+        //{
+        //     transform.rotation = (Quaternion)stream.ReceiveNext();
+        //     transform.position = (Vector3)stream.ReceiveNext();
+        //}
     }
     public void JumpEffects(int coords,int newShipGroup) {
        // myCamera.GetComponent<CameraEffects>().StartFTLEffect();

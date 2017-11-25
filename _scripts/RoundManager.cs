@@ -8,6 +8,7 @@ public class RoundManager : MonoBehaviour {
     public GameObject fleet;
     public GameObject localPlayer;
 
+    
     public int currentRound;
     public GameObject objectiveTextObj;
     public Text playerObjective;
@@ -58,6 +59,8 @@ public class RoundManager : MonoBehaviour {
         playerObjective.text = ObjectiveList();
         teamObjective.text = ObjectiveList();
         currentRound++;
+        //transform.parent.gameObject.GetComponent<GameManager>().crisisManager.GetComponent<PhotonView>().RPC("AttackingBaseStar", PhotonTargets.AllViaServer);
+
     }
     public void CalculatePoints()
     {

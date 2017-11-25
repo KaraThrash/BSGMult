@@ -96,7 +96,10 @@ public class PlayerMain : Photon.PunBehaviour
     [PunRPC]
     public void UpdateScore(float newScore)
     {
-        
+        if (scoreText == null)
+        {
+            if (GameObject.Find("Menu") != null) { scoreText = GameObject.Find("Menu").GetComponent<ItemList>().supplyCrates[GetComponent<PhotonView>().ownerId].GetComponent<Text>(); }
+        }
         score = newScore;
         scoreText.text = score.ToString();
     }

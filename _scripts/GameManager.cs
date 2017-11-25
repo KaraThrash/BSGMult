@@ -10,12 +10,14 @@ public class GameManager : Photon.PunBehaviour
     public GameObject startGameButton;
 
     public GameObject roundManager;
+    public GameObject crisisManager;
     public GameObject resourceManager; //fleet
     public GameObject shipList;
     
     public GameObject itemList;
     public GameObject characterList;
     public GameObject cylonManager;
+    public bool firstScene;
     // Use this for initialization
     void Start () {
 		
@@ -23,7 +25,7 @@ public class GameManager : Photon.PunBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-		
+        if (Input.GetKeyDown(KeyCode.Space) && firstScene == true) { ButtonStartGame(); }
 	}
     [PunRPC]
     public void StartGame()
@@ -34,8 +36,34 @@ public class GameManager : Photon.PunBehaviour
             onjectsToEnable[i].active = true;
         }
     }
+    [PunRPC]
+    public void MasterClientStart()
+    {
+        PhotonNetwork.Instantiate("Everything", Vector3.zero, new Quaternion(0, 0, 0, 0), 0, null);
+        GameObject.Find("GameManager").GetComponent<PhotonView>().RPC("StartGame", PhotonTargets.AllBufferedViaServer);
+    }
+
+    public void NewRound()
+    {
+        roundManager.GetComponent<RoundManager>().NewRound();
+
+        crisisManager.GetComponent<CrisisManager>().AttackingBaseStar();
+    }
+
     public void ButtonStartGame()
     {
-        GetComponent<PhotonView>().RPC("StartGame", PhotonTargets.AllBufferedViaServer);
+
+        GetComponent<PhotonView>().RPC("MasterClientStart", PhotonTargets.MasterClient);
+        // Application.LoadLevel("PlayerLobby");
+
+        // GetComponent<PhotonView>().RequestOwnership();
+        // PhotonNetwork.Instantiate("Everything", Vector3.zero, new Quaternion(0, 0, 0, 0), 0, null);
+
+        //GameObject.Find("GameManager").GetComponent<PhotonView>().RPC("MasterClientStart", PhotonTargets.MasterClient);
+       
+       // GetComponent<PhotonView>().RPC("StartGame", PhotonTargets.AllBufferedViaServer);
     }
+
+  
+
 }

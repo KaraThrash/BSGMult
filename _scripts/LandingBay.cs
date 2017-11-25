@@ -5,6 +5,8 @@ using UnityEngine;
 public class LandingBay : Photon.PunBehaviour
 {
     public int myShipInList; //uses masterShipList 1:galactica 2:fleet 3:basestar 4:space
+    public int shipGroup;
+
     public GameObject myShip;
     public GameObject spaceExit;
     public List<GameObject> dockedShips = new List<GameObject>();
@@ -72,7 +74,9 @@ public class LandingBay : Photon.PunBehaviour
             shipToDock.transform.position = nextAvailableSpot.transform.position;
             shipToDock.transform.rotation = nextAvailableSpot.transform.rotation;
             if (shipToDock.GetComponent<Fighter>().pilot != null)
-            { shipToDock.GetComponent<Fighter>().pilot.GetComponent<PhotonView>().RPC("GetOutShip", PhotonTargets.AllBufferedViaServer, myShipInList, shipToDock.GetComponent<Fighter>().cockpitEntrance.transform.position); }
+            {
+                shipToDock.GetComponent<Fighter>().pilot.GetComponent<PhotonView>().RPC("GetOutShip", PhotonTargets.AllBufferedViaServer, myShipInList, shipToDock.GetComponent<Fighter>().cockpitEntrance.transform.position,shipGroup);
+            }
 
             shipToDock.GetComponent<Fighter>().pilot = null;
         }

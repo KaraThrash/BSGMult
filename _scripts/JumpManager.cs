@@ -5,6 +5,7 @@ using UnityEngine;
 public class JumpManager : Photon.PunBehaviour
 {
     public GameObject roundManager;
+    public GameObject gameManager;
     public List<GameObject> Humanoids = new List<GameObject>();
     public List<GameObject> CapitalShips = new List<GameObject>();
     public List<GameObject> jumpableGameObjects = new List<GameObject>();
@@ -78,8 +79,11 @@ public class JumpManager : Photon.PunBehaviour
         foreach (Transform child in activePersistantFighters.transform)
         { child.parent = fleetLeftBehind.transform; }
 
+      //  if (photonView.isMine == true)
+      //  { gameManager.GetComponent<RoundManager>().NewRound(); }
 
-        roundManager.GetComponent<RoundManager>().NewRound();
+        gameManager.GetComponent<GameManager>().NewRound();
+        //roundManager.GetComponent<RoundManager>().NewRound();
         if (localPlayer != null)
         {
             if (localPlayer.GetComponent<PlayerMain>().shipGroup == 1)

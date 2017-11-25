@@ -109,4 +109,6 @@ MonoBehaviour:
   - SyncMoveAcrossServer
   - Repair
   - UseHeldSecondary
+  - AttackingBaseStar
+  - MasterClientStart
   DisableAutoOpenWizard: 1

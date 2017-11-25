@@ -16,6 +16,12 @@ public class Dradis : MonoBehaviour {
     public bool canZoom; 
     public GameObject dradisModel;
     public GameObject transparentDradisModel;
+
+    //for ship to ship targets/locking on
+    public GameObject myShip;
+    public int faction;
+    public bool isTargetable;
+
     public float radarSize = 0.01f; // for scaling the relative distance between the radar and what it hits
     public float zoom = 0;
 

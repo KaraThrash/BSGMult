@@ -100,6 +100,7 @@ public class FleetShip : Photon.PunBehaviour
     public void LeftBehind()
     {
         currentStatus.text = "Left Behind";
+
         myMenuButton.GetComponent<Button>().enabled = false;
         myMenuButton.GetComponent<Image>().color = Color.black;
 

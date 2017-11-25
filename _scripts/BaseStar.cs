@@ -34,7 +34,7 @@ public class BaseStar : Photon.PunBehaviour
         }
         // galactica = GameObject.Find("Galactica(Clone)");
         if (Vector3.Distance(galactica.transform.position, transform.position) < 13000)
-        { attackpatrolPoints.transform.position = galactica.transform.Find("GalacticaShip").position; }
+        { attackpatrolPoints.transform.position = galactica.transform.position; }
     }
 	
 	// Update is called once per frame
@@ -65,8 +65,8 @@ public class BaseStar : Photon.PunBehaviour
     }
     void Awake()
     {
-        if (Vector3.Distance(galactica.transform.position, transform.position) < 13000)
-        { attackpatrolPoints.transform.position = galactica.transform.Find("GalacticaShip").position; }
+        if (Vector3.Distance(galactica.transform.position, transform.position) < 3000)
+        { attackpatrolPoints.transform.position = galactica.transform.position; }
         Debug.Log("basestar In New Scene");
        // DontDestroyOnLoad(this.gameObject);
     }
@@ -78,17 +78,14 @@ public class BaseStar : Photon.PunBehaviour
             GameObject parentclone = Instantiate(raiderParentObjectPrefab, transform.position, transform.rotation) as GameObject;
             raiderParentObject = parentclone;
         }
-         GameObject clone = PhotonNetwork.Instantiate(objectToSpawn, launchBay.transform.position, launchBay.transform.rotation, 0, null);
+         GameObject clone = PhotonNetwork.InstantiateSceneObject(objectToSpawn, launchBay.transform.position, launchBay.transform.rotation, 0, null);
         clone.GetComponent<FighterWing>().roundManager = gameManager.GetComponent<GameManager>().roundManager;
         numberOfRaiderWings -= 5;
-       // GameObject clone = Instantiate(raider, launchBay.transform.position, launchBay.transform.rotation) as GameObject;
+
         
         
-        //clone.GetComponent<PhotonView>().RPC("JustSpawned", PhotonTargets.AllBufferedViaServer);
-        
-        
-        clone.transform.parent = raiderParentObject.transform;
-        //clone.active = true;
+      //  clone.transform.parent = raiderParentObject.transform;
+    
         
         
 
@@ -109,20 +106,21 @@ public class BaseStar : Photon.PunBehaviour
         jumping = false;
         ftlClock = 3;
         //Using the parent object was only deleteing on the server
-        if (raiderParentObject != null)
-        {
-            foreach (Transform child in raiderParentObject.transform)
-            {
-                if (child.childCount > 0) { numberOfRaiderWings += child.childCount; }
-                PhotonNetwork.Destroy(child.gameObject);
-                // Destroy(child.gameObject);
+        //if (raiderParentObject != null && photonView.isMine == true)
+        //{
+        //    foreach (Transform child in raiderParentObject.transform)
+        //    {
+        //        if(child.GetComponent<FighterWing>() != null) {
+        //            if (child.childCount > 0 ) { numberOfRaiderWings += child.childCount; }
+        //            PhotonNetwork.Destroy(child.gameObject);
+        //            // Destroy(child.gameObject);
+        //        }
+        //    }
 
-            }
 
-
-            // Destroy(raiderParentObject);
-        }
-        numberOfRaiderWings += 2;
+        //    // Destroy(raiderParentObject);
+        //}
+        numberOfRaiderWings += 12;
         GetComponent<FTLDrive>().currentCords = ftlCoords;
         // Application.LoadLevel(ftlCoords.ToString()); //this only works if the server isnt also a player
         //jumpManager.GetComponent<PhotonView>().RPC("UpdateLocationBaseStar", PhotonTargets.AllBufferedViaServer, ftlCoords);
