@@ -8,8 +8,9 @@ public class Bullet : MonoBehaviour {
     public float lifeTime;
     public GameObject ownerObject;
     public int owner;
-	// Use this for initialization
-	void Start () {
+    public GameObject explosion;
+    // Use this for initialization
+    void Start () {
         rb = GetComponent<Rigidbody>();
         
         rb.AddForce(transform.forward * (speed), ForceMode.Impulse);
@@ -29,8 +30,22 @@ public class Bullet : MonoBehaviour {
         {
 
         }
+        if (explosion != null)
+        {
+            Instantiate(explosion, transform.position, transform.rotation);
+        }
+     
         Die();
         
     }
-    public void Die() { Destroy(this.gameObject); }
+    public void Die() {
+
+        //if (explosion != null)
+        //{
+           
+        //}
+        
+        Destroy(this.gameObject);
+
+    }
 }

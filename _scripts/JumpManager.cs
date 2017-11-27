@@ -24,7 +24,7 @@ public class JumpManager : Photon.PunBehaviour
     public GameObject cylonFleetLeftBehind;
     public GameObject activeCylonFleet; //currently in Galactica space space
     public GameObject otherCylonFleet;// not currently in Galactica space space
-    //ShipGroup; //1: galactica + active fleet 2: Cylon fleet 3: space/planet 0:leftbehind
+    //ShipGroup; 0:space/planet //1: galactica + active fleet 2: Cylon fleet 3:  leftbehind
 
     // Use this for initialization
     void Start () {
@@ -77,7 +77,10 @@ public class JumpManager : Photon.PunBehaviour
         fleetLeftBehind.active = true;
 
         foreach (Transform child in activePersistantFighters.transform)
-        { child.parent = fleetLeftBehind.transform; }
+        {
+            child.parent = fleetLeftBehind.transform;
+            child.GetComponent<Fighter>().myShipGroup = 3;
+        }
 
       //  if (photonView.isMine == true)
       //  { gameManager.GetComponent<RoundManager>().NewRound(); }

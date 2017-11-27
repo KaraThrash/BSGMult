@@ -50,16 +50,9 @@ public class Raider : MonoBehaviour
             { shipTarget = myWing.GetComponent<FighterWing>().shipTarget; }
             else { shipTarget = null; }
             
-            if (Vector3.Distance(myPlaceInWing.transform.position, transform.position) > 500 )
-            {
-                //deactivate
-                Patrol();
-                
-            }
-            else
-            {
+           
                 if (shipTarget != null) { Attack(); } else { Patrol(); }
-            }
+            
 
         }
         else { AvoidCollision(); }
@@ -147,15 +140,13 @@ public class Raider : MonoBehaviour
     public void Patrol()
     {
 
-        // if (Vector3.Distance(myPlaceInWing.transform.position, transform.position) > 10)
-        //{ transform.position = Vector3.MoveTowards(transform.position, myPlaceInWing.transform.position, speed * Time.deltaTime); }
 
-        if (Vector3.Distance(transform.position, myPlaceInWing.transform.position) > 5)
+        if (Vector3.Distance(transform.position, myPlaceInWing.transform.position) > 55)
         {
             transform.position = Vector3.MoveTowards(transform.position, myPlaceInWing.transform.position, speed * Time.deltaTime);
+            transform.rotation = Quaternion.Lerp(transform.rotation, myPlaceInWing.transform.rotation, speed * Time.deltaTime);
         }
-        transform.rotation = Quaternion.Lerp(transform.rotation, myPlaceInWing.transform.rotation, speed * Time.deltaTime);
-        //transform.position = Vector3.MoveTowards(transform.position, myPlaceInWing.transform.position, speed * Time.deltaTime);
+  
         
     }
 

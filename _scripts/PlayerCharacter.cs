@@ -6,6 +6,7 @@ public class PlayerCharacter : Photon.PunBehaviour
 {
     //using this for humanoid
     public int myCharacterOnList; //who they are in the character masterList
+    public int shipGroup;
     public int hp;
     public int ammo;
     public Text hpHud;
@@ -116,11 +117,12 @@ public class PlayerCharacter : Photon.PunBehaviour
         if (controlled == true) { ammoHud.text = GetComponent<HumanControls>().heldItem.GetComponent<HeldItem>().ammo.ToString(); }
     }
 
-    [PunRPC]
+   // [PunRPC]
     public void GetInShip()
     {
         if (localPlayer != null) { localPlayer.GetComponent<PlayerMain>().shipGroup = 3; }
         flying = true;
+        
         this.gameObject.active = false;
         
     }
@@ -133,13 +135,15 @@ public class PlayerCharacter : Photon.PunBehaviour
         transform.parent = masterShipList.GetComponent<MasterShipList>().ParentHumanToShip(shipOnList).transform;
         GetComponent<HumanControls>().grounded = false;
         transform.position = newExit;
-        
+        shipGroup = newShipGroup;
         this.gameObject.active = true;
         if (localPlayer != null) {
+            ammoHud.text  = GetComponent<HumanControls>().heldItem.GetComponent<HeldItem>().ammo.ToString();
             transform.position = newExit;
             this.gameObject.active = true;
             myCamera.active = true;
             localPlayer.GetComponent<PlayerMain>().shipGroup = newShipGroup;
+
             localPlayer.GetComponent<PhotonView>().RPC("SetHumanActive",PhotonTargets.AllViaServer);
         }
     }
@@ -152,19 +156,19 @@ public class PlayerCharacter : Photon.PunBehaviour
         //{
             if (col.gameObject.tag == "Entrance")
             {
-                //if (col.GetComponent<LocationChange>().parentObjectThatUsesMe == true) { transform.parent = col.GetComponent<LocationChange>().myParent.transform; }
+            
                 if (col.GetComponent<LocationChange>().parentObjectThatUsesMe == true)
                 {
-                    GetComponent<PhotonView>().RPC("ParentToShip", PhotonTargets.AllBufferedViaServer, col.GetComponent<LocationChange>().shipOnList);
+                   //debug commented out to use teleporters : GetComponent<PhotonView>().RPC("ParentToShip", PhotonTargets.AllBufferedViaServer, col.GetComponent<LocationChange>().shipOnList);
                 }
 
                 else
                 {
-                    //transform.parent = null;
-                    //TODO: right now the only way a player leaves a ship is in a fighter so if they are on the hangar or the bridge they should still jump
-                    GetComponent<PhotonView>().RPC("NoParent", PhotonTargets.AllBufferedViaServer);
-                }
-                transform.position = col.gameObject.GetComponent<LocationChange>().exit.transform.position;
+
+                //TODO: right now the only way a player leaves a ship is in a fighter so if they are on the hangar or the bridge they should still jump
+                //debug commented out to use teleporters :  GetComponent<PhotonView>().RPC("NoParent", PhotonTargets.AllBufferedViaServer);
+            }
+            transform.position = col.gameObject.GetComponent<LocationChange>().exit.transform.position;
                 transform.rotation = col.gameObject.GetComponent<LocationChange>().exit.transform.rotation;
                 
             }

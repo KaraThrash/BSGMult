@@ -106,6 +106,17 @@ public class ResourceTerminal : Photon.PunBehaviour
         }
 
     }
+    public void Repair(GameObject whoUsedMe)
+    {
+       
+
+    }
+
+    public void Sabotage(GameObject whoUsedMe)
+    {
+     
+
+    }
     [PunRPC]
     public void UpdateTotal(int change)
     {

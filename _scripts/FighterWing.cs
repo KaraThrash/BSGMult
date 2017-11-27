@@ -47,7 +47,7 @@ public class FighterWing : Photon.PunBehaviour
             roundManager = GameObject.Find("RoundManager");
         }
         if (shipTarget == null) { Patrol(); }
-            if (shipTarget != null) { Attack(); if (Vector3.Distance(transform.position, shipTarget.transform.position) > 6000) { shipTarget = null; } }
+            if (shipTarget != null) { Attack(); if (Vector3.Distance(transform.position, shipTarget.transform.position) > 4000) { shipTarget = null; } }
         
     }
 
@@ -76,20 +76,9 @@ public class FighterWing : Photon.PunBehaviour
 
         transform.position = Vector3.MoveTowards(transform.position, shipTarget.transform.position, speed * Time.deltaTime);
 
-        //if (Vector3.Distance(shipTarget.transform.position, transform.position) > 600)
-        //{
-        //    transform.position = Vector3.MoveTowards(transform.position, shipTarget.transform.position, speed * Time.deltaTime);
-        //   // targetRotation = Quaternion.LookRotation(shipTarget.transform.position - transform.position);
-
-        //   // transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 6 * Time.deltaTime);
-
-        //}
-        //else
-        //{
+        
         //    //TODO: make AI vipers do what the pegasus vipers do in the fight vs galactica. the rigid hard diretion turn then forward
-        //    transform.position = Vector3.MoveTowards(transform.position, shipTarget.transform.position, 5 * Time.deltaTime);
-            
-        //}
+       
     }
     public void Patrol()
     {

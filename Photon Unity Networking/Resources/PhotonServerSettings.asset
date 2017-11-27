@@ -111,4 +111,7 @@ MonoBehaviour:
   - UseHeldSecondary
   - AttackingBaseStar
   - MasterClientStart
+  - SetShipGroup
+  - SetPilot
+  - SyncVelocity
   DisableAutoOpenWizard: 1

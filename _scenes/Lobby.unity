@@ -7914,6 +7914,16 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114557252307479354, guid: d5cd1ee9c16958e48ba764c035ed2e76,
+        type: 2}
+      propertyPath: viewIdField
+      value: 135
+      objectReference: {fileID: 0}
+    - target: {fileID: 114557252307479354, guid: d5cd1ee9c16958e48ba764c035ed2e76,
+        type: 2}
+      propertyPath: instantiationId
+      value: 135
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d5cd1ee9c16958e48ba764c035ed2e76, type: 2}
   m_IsPrefabParent: 0
@@ -14552,6 +14562,7 @@ MonoBehaviour:
   characterList: {fileID: 0}
   cylonManager: {fileID: 0}
   firstScene: 1
+  currentScene: 0
 --- !u!114 &1606763073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26073,6 +26084,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myCharacterOnList: 0
+  shipGroup: 0
   hp: 0
   ammo: 0
   hpHud: {fileID: 0}

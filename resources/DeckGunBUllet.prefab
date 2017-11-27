@@ -187,6 +187,7 @@ MonoBehaviour:
   lifeTime: 3
   ownerObject: {fileID: 0}
   owner: 0
+  explosion: {fileID: 1426337292301710, guid: 72384c6d09431fa48924aced66822ca7, type: 2}
 --- !u!135 &135818238306471474
 SphereCollider:
   m_ObjectHideFlags: 1

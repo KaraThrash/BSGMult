@@ -123,7 +123,7 @@ public class FleetShip : Photon.PunBehaviour
         myMenuButton.GetComponent<Image>().color = Color.black;
         myMenuButton.GetComponent<Button>().enabled = false;
         currentStatus.text = "Destroyed";
-        Destroy(this.gameObject);
+        //Destroy(this.gameObject);
     }
 
     public void RemoveFleetResources()

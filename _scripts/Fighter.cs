@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Fighter : Photon.PunBehaviour
 {
     public int hp;
@@ -22,6 +22,7 @@ public class Fighter : Photon.PunBehaviour
     public string medbayName;
     public bool xwing;
     public int currentCords;
+    public GameObject gameManager;
     public GameObject jumpManager;
     public GameObject spaceObject;
     public GameObject masterShipList;
@@ -30,7 +31,7 @@ public class Fighter : Photon.PunBehaviour
     public GameObject explosion;
     public bool destroyed;
     public float dieClock;
-    public int myShipGroup; //1: galactica + active fleet 2: Cylon fleet 3: space/planet/leftbehind
+    public int myShipGroup;// 0:space/planet //1: galactica + active fleet 2: Cylon fleet 3:  leftbehind
     public bool inHangar;
     public GameObject hangarSpace;
 
@@ -40,11 +41,12 @@ public class Fighter : Photon.PunBehaviour
     public GameObject dradisModel;
     public int faction; //0 neutral 1 human 2 cylon
     public int maxHp;
-
+    public Text hpHud;
     //public GameObject dradisTarget; //turned off when not flying by the landing bay so it isnt picked up on dradis
     // Use this for initialization
     void Start()
     {
+        gameManager = GameObject.Find("GameManager");
         maxHp = 10;
         medbay = GameObject.Find(medbayName);
         rb = GetComponent<Rigidbody>();
@@ -86,6 +88,7 @@ public class Fighter : Photon.PunBehaviour
     [PunRPC]
     public void TakeOff(int photonPlayerNumber)
     {
+        if (myShipGroup != 3) { myShipGroup = 0; }
         landingGear.active = false;
         GetComponent<Rigidbody>().isKinematic = false;
         GetComponent<Rigidbody>().useGravity = false;
@@ -317,6 +320,7 @@ public class Fighter : Photon.PunBehaviour
             hp--;
             if (hp <= 0 )
             {
+               
                 destroyed = true;
                 dieClock = 5;
                 if (pilot != null)
@@ -327,7 +331,18 @@ public class Fighter : Photon.PunBehaviour
 
 
             }
-            else { dangerText.active = true; }
+            else {
+               
+                dangerText.active = true;
+
+            }
+            if (m_PhotonView.isMine == true)
+            {
+                if (hp > 8) { hpHud.text = "Good"; }
+                else if (hp < 9 && hp > 3) { hpHud.text = "Damaged"; }
+                else if (hp < 4 && hp > 0) { hpHud.text = "Critical"; }
+                else { hpHud.text = ""; }
+            }
         }
     }
     public void DieOnServer() {
@@ -346,9 +361,9 @@ public class Fighter : Photon.PunBehaviour
             pilot.transform.rotation = medbay.transform.rotation;
 
             pilot.active = true;
-            pilot.GetComponent<PlayerCharacter>().localPlayer.GetComponent<PhotonView>().RPC("SetHumanActive", PhotonTargets.AllViaServer);
+            //pilot.GetComponent<PlayerCharacter>().localPlayer.GetComponent<PhotonView>().RPC("SetHumanActive", PhotonTargets.AllViaServer);
             //pilot.GetComponent<PlayerCharacter>().myCamera.active = true;
-            pilot.GetComponent<PhotonView>().RPC("GetOutShip", PhotonTargets.AllBufferedViaServer,1, medbay.transform.position);
+            pilot.GetComponent<PhotonView>().RPC("GetOutShip", PhotonTargets.AllBufferedViaServer,1, medbay.transform.position,1);
 
         }
         Instantiate(explosion, transform.position, transform.rotation);
@@ -384,17 +399,25 @@ public class Fighter : Photon.PunBehaviour
             }
 
             playerControlled = true;
-            pilot = whoUsedMe;
-
-            whoUsedMe.active = false;
+        GetComponent<PhotonView>().RPC("SetPilot", PhotonTargets.AllBufferedViaServer, whoUsedMe.GetComponent<PlayerCharacter>().myCharacterOnList);
+         whoUsedMe.GetComponent<PlayerCharacter>().ammoHud.text = "-";
+        hpHud = whoUsedMe.GetComponent<PlayerCharacter>().hpHud;
+        hpHud.text = hp.ToString();
+        whoUsedMe.active = false;
             myCam.active = true;
             myModel.active = false;
 
-            pilot.GetComponent<PhotonView>().RPC("GetInShip", PhotonTargets.AllBufferedViaServer);
+            //pilot.GetComponent<PhotonView>().RPC("GetInShip", PhotonTargets.AllBufferedViaServer);
            // GetComponent<PhotonView>().RPC("TakeOff", PhotonTargets.AllBufferedViaServer);
         GetComponent<PhotonView>().RPC("TakeOff", PhotonTargets.AllViaServer, whoUsedMe.GetComponent<PhotonView>().owner.ID);
     }
-
+    [PunRPC]
+    public void SetPilot(int newPilot)
+    {
+        if (gameManager == null) { gameManager = GameObject.Find("GameManager"); }
+        pilot = gameManager.GetComponent<GameManager>().characterList.GetComponent<CharacterList>().characters[newPilot];
+        pilot.GetComponent<PlayerCharacter>().GetInShip();
+    }
     public void Repair(GameObject whoUsedMe)
     {
         if (hp < maxHp)

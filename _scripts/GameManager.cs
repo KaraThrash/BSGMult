@@ -18,6 +18,8 @@ public class GameManager : Photon.PunBehaviour
     public GameObject characterList;
     public GameObject cylonManager;
     public bool firstScene;
+
+    public int currentScene; //space coordinates
     // Use this for initialization
     void Start () {
 		
@@ -39,7 +41,7 @@ public class GameManager : Photon.PunBehaviour
     [PunRPC]
     public void MasterClientStart()
     {
-        PhotonNetwork.Instantiate("Everything", Vector3.zero, new Quaternion(0, 0, 0, 0), 0, null);
+       // PhotonNetwork.Instantiate("Everything", Vector3.zero, new Quaternion(0, 0, 0, 0), 0, null);
         GameObject.Find("GameManager").GetComponent<PhotonView>().RPC("StartGame", PhotonTargets.AllBufferedViaServer);
     }
 

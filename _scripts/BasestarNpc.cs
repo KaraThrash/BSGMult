@@ -13,6 +13,7 @@ public class BasestarNpc : MonoBehaviour
     public int maxSpawn;
     public int hp;
     public int currentSpawn;
+    public GameObject explosion;
     // Use this for initialization
     void Start()
     {
@@ -59,6 +60,7 @@ public class BasestarNpc : MonoBehaviour
 
             if (hp <= 0)
             {
+                Instantiate(explosion, transform.position, transform.rotation);
                 Destroy(this.gameObject);
 
             }

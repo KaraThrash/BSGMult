@@ -8,7 +8,7 @@ public class LargeShip : Photon.PunBehaviour
     public bool fleetShip;
     public bool manned;
     public float speed;
-
+    public int size; //galactica and basestars being the largest
     public int hp;
     public GameObject myCamera;
     public GameObject fwdObject;
@@ -17,27 +17,57 @@ public class LargeShip : Photon.PunBehaviour
     public float rotSpeed = 0.5f;
 
     public GameObject explosion;
+
+    public float impactTimer;
+    public Vector3 lastImpact;
+    public Quaternion impactRotation;
+    public bool destroyed;
+    public float dieClock;
     // Use this for initialization
     void Start()
     {
-
+        lastImpact = transform.position * 1.1f;
+        impactRotation = transform.rotation ;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        transform.rotation = Quaternion.Slerp(transform.rotation, rotationObject.transform.rotation, 1.0f * Time.deltaTime);
-        fwdObject.transform.position = Vector3.MoveTowards(fwdObject.transform.position, transform.position, 1.0f);
-        if (Vector3.Distance(fwdObject.transform.position, transform.position) > 10) {
-            transform.position = Vector3.MoveTowards(transform.position, fwdObject.transform.position, speed);
-            engineAnim.active = true; } else { engineAnim.active = false; }
-        if (manned == true)
+        if (destroyed == true)
         {
-            BeingFlown();
+            transform.position = Vector3.MoveTowards(transform.position, lastImpact, -0.1f);
+            transform.rotation = Quaternion.Lerp(transform.rotation, impactRotation, 0.5f * Time.deltaTime);
+
+            dieClock -= Time.deltaTime;
+            if (dieClock <= 0)
+            { Die(); }
+
         }
 
+        if (impactTimer > 0)
+        {
+            impactTimer -= Time.deltaTime;
+            transform.position = Vector3.MoveTowards(transform.position, lastImpact, -1.0f);
+            transform.rotation = Quaternion.Lerp(transform.rotation, impactRotation, 0.5f * Time.deltaTime);
 
+            rotationObject.transform.rotation = transform.rotation;
+        }
+        else
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotationObject.transform.rotation, 1.0f * Time.deltaTime);
+            
+            if (Vector3.Distance(fwdObject.transform.position, transform.position) > 10)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, fwdObject.transform.position, speed);
+                engineAnim.active = true;
+            }
+            else { engineAnim.active = false; }
+            if (manned == true)
+            {
+                BeingFlown();
+            }
+        }
+        fwdObject.transform.position = Vector3.MoveTowards(fwdObject.transform.position, transform.position, 1.0f);
     }
     public void BeingFlown()
     {
@@ -78,24 +108,39 @@ public class LargeShip : Photon.PunBehaviour
         rotationObject.transform.rotation = transform.rotation;
     }
 
-    public void TakeDamage()
+    public void TakeDamage(int dmgTaken)
     {
         if (hp > 0)
         {
-            hp--;
+            hp -= dmgTaken;
 
-            if (hp <= 0 && fleetShip == true)
+            if (hp <= 0 && destroyed == false)
             {
-                //Die();
-                ForPassengersAfterDestroyed();
-                this.GetComponent<FleetShip>().FleetShipDie();
-                Instantiate(explosion,transform.position,transform.rotation);
-                //GetComponent<PhotonView>().RPC("Die", PhotonTargets.AllBufferedViaServer);
+                Instantiate(explosion, transform.position, transform.rotation);
+                dieClock = 5.0f;
+                destroyed = true;
+                
+              
             }
             //Destroy(this.gameObject);
             Debug.Log("hit");
         }
     }
+    public void Die()
+    {
+        if (fleetShip == true)
+        {
+            //Die();
+            
+            this.GetComponent<FleetShip>().FleetShipDie();
+            
+            //GetComponent<PhotonView>().RPC("Die", PhotonTargets.AllBufferedViaServer);
+        }
+        ForPassengersAfterDestroyed();
+      
+        Destroy(this.gameObject);
+    }
+
     public void ForPassengersAfterDestroyed()
     {
         
@@ -125,6 +170,25 @@ public class LargeShip : Photon.PunBehaviour
 
     }
 
+    public void Impact(Vector3 pointOfImpact)
+    {
+        lastImpact = pointOfImpact;
+       
+
+        impactRotation = Quaternion.LookRotation(pointOfImpact - transform.position);
+      
+    
+
+        impactTimer = 3; 
+        
+    }
+    public void ExitImpact()
+    {
+        if (impactTimer > 0.5f)
+        { impactTimer = 0.5f; }
+       
+
+    }
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.isWriting)

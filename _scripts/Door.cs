@@ -30,5 +30,15 @@ public class Door : MonoBehaviour {
         }
 
     }
+    public void Repair(GameObject whoUsedMe)
+    {
+      
 
+    }
+
+    public void Sabotage(GameObject whoUsedMe)
+    {
+     
+
+    }
 }

@@ -16,7 +16,7 @@ public class PlayerMain : Photon.PunBehaviour
     public bool atBattleStation;
     public int currentCord;
     public GameObject jumpManager;
-    public int shipGroup; //1: galactica + active fleet 2: Cylon fleet 3: space/planet/leftbehind
+    public int shipGroup;  //0:space/planet //1: galactica + active fleet 2: Cylon fleet 3:  leftbehind
     public GameObject playerHud;
     public GameObject hpTextObj;
     public GameObject ammoTextObj;
@@ -57,7 +57,12 @@ public class PlayerMain : Photon.PunBehaviour
       //  if (galactica != null) { if (currentCord == galactica.GetComponent<Galactica>().currentCord) { galactica.active = true; } }
        
     }
+    [PunRPC]
+    public void SetShipGroup(int newGroup)
+    {
+        shipGroup = newGroup;
 
+    }
     [PunRPC]
     public void SetHumanActive()
     {

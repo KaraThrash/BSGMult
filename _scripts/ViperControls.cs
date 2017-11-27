@@ -24,6 +24,7 @@ public class ViperControls : Photon.PunBehaviour
     public bool playerControlled;
     public float afterBurner;
     private Vector3 holdPosValue;
+    public int turnSpeed;
     public int rollSpeed;
     public int flySpeed;
     public int liftSpeed;
@@ -31,6 +32,7 @@ public class ViperControls : Photon.PunBehaviour
     public bool controlled;
     public GameObject landingGear;
     public List<GameObject> bulletsByOwner = new List<GameObject>();
+    public GameObject gunAnimation;
     // Use this for initialization
     void Start () {
        
@@ -70,8 +72,10 @@ public class ViperControls : Photon.PunBehaviour
         {
             if (gunCoolDown <= 0 && rb.velocity.magnitude < 150)
             {
+               // gunAnimation.active = false;
+              //  gunAnimation.active = true;
                 GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer, GetComponent<Rigidbody>().velocity);
-                gunCoolDown = 0.2f;
+                gunCoolDown = 0.3f;
             }
             gunCoolDown = gunCoolDown - Time.deltaTime;
         }
@@ -91,7 +95,7 @@ public class ViperControls : Photon.PunBehaviour
         if (Input.GetKey(KeyCode.Q)) { roll = -rollSpeed; } else if (Input.GetKey(KeyCode.E)) { roll = rollSpeed; } else { roll = 0; }
         if (Input.mousePosition.x < 600) { mouseX = Input.mousePosition.x - 600; } else if (Input.mousePosition.x > 700) { mouseX = Input.mousePosition.x - 700; } else { mouseX = 0; }
         if (Input.mousePosition.y < 325) { mouseY = Input.mousePosition.y - 325; } else if (Input.mousePosition.y > 475) { mouseY = Input.mousePosition.y - 475; } else { mouseY = 0; }
-        //GetComponent<PhotonView>().RPC("flightControls", PhotonTargets.AllViaServer, vert, hort, roll, (mouseX * 0.5f), (-mouseY * 0.5f), exit, lift);
+       // GetComponent<PhotonView>().RPC("flightControls", PhotonTargets.AllViaServer, vert, hort, roll, (mouseX * 0.5f), (-mouseY * 0.5f), exit, lift);
         flightControls(vert, hort, roll, mouseX, -mouseY, exit, lift);
     }
     
@@ -100,8 +104,9 @@ public class ViperControls : Photon.PunBehaviour
         if (Input.GetKey(KeyCode.Space)) {
             if (gunCoolDown <= 0 && rb.velocity.magnitude < 150)
             {
+               // gunAnimation.active = true;
                 GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer, GetComponent<Rigidbody>().velocity);
-                gunCoolDown = 0.2f;
+                gunCoolDown = 0.3f;
             }
             gunCoolDown -= Time.deltaTime;
         }
@@ -123,12 +128,12 @@ public class ViperControls : Photon.PunBehaviour
         // if (Input.GetKey(KeyCode.KeypadPlus)) { vert += Time.deltaTime; }
         //if (Input.GetKey(KeyCode.KeypadMinus)) { vert -= Time.deltaTime; }
         if (Input.GetKey(KeyCode.Keypad7) || Input.GetKey(KeyCode.U)) { roll = -rollSpeed; } else if (Input.GetKey(KeyCode.Keypad9) || Input.GetKey(KeyCode.O)) { roll = rollSpeed; } else { roll = 0; }
-        if (Input.GetKey(KeyCode.Keypad4) || Input.GetKey(KeyCode.J)) { mouseX = -160; } else if (Input.GetKey(KeyCode.Keypad6) || Input.GetKey(KeyCode.L)) { mouseX = 160; } else { mouseX = 0; }
-        if (Input.GetKey(KeyCode.Keypad2) || Input.GetKey(KeyCode.K)) { mouseY = -160; } else if (Input.GetKey(KeyCode.Keypad8) || Input.GetKey(KeyCode.I)) { mouseY = 160; } else { mouseY = 0; }
+        if (Input.GetKey(KeyCode.Keypad4) || Input.GetKey(KeyCode.J)) { mouseX = -turnSpeed; } else if (Input.GetKey(KeyCode.Keypad6) || Input.GetKey(KeyCode.L)) { mouseX = turnSpeed; } else { mouseX = 0; }
+        if (Input.GetKey(KeyCode.Keypad2) || Input.GetKey(KeyCode.K)) { mouseY = -turnSpeed; } else if (Input.GetKey(KeyCode.Keypad8) || Input.GetKey(KeyCode.I)) { mouseY = turnSpeed; } else { mouseY = 0; }
         if (Input.GetKey(KeyCode.Keypad5) || Input.GetKey(KeyCode.P)) { afterBurner = 1400.0f; }
         if (afterBurner > 0) { afterBurner -= 4; }
 
-        //GetComponent<PhotonView>().RPC("flightControls", PhotonTargets.AllViaServer, vert, hort, roll, mouseX, mouseY, exit, lift);
+       // GetComponent<PhotonView>().RPC("flightControls", PhotonTargets.AllViaServer, vert, hort, roll, mouseX, mouseY, exit, lift);
         flightControls(vert, hort, roll, mouseX, mouseY, exit, lift);
     }
     [PunRPC]
@@ -169,14 +174,16 @@ public class ViperControls : Photon.PunBehaviour
         if (rollX != 0) { rb.AddTorque(transform.up *  rollX * Time.deltaTime, ForceMode.Impulse); }
         if (rollY != 0) { rb.AddTorque(transform.right *  -rollY * Time.deltaTime, ForceMode.Impulse); }
         if (lift != 0) { rb.AddForce(transform.up * lift * 30); }
-       // if (leave == true &&  GetComponent<Rigidbody>().velocity.magnitude < 30) { GetComponent<PhotonView>().RPC("Land", PhotonTargets.All); }
-
+        // if (leave == true &&  GetComponent<Rigidbody>().velocity.magnitude < 30) { GetComponent<PhotonView>().RPC("Land", PhotonTargets.All); }
+      //  GetComponent<PhotonView>().RPC("SyncVelocity", PhotonTargets.Others, rb.velocity);
     }
-
+    [PunRPC]
+    public void SyncVelocity(Vector3 newVelocity)
+    { GetComponent<Rigidbody>().velocity = newVelocity; }
     //TODO: way back into the ship without jumping? someone needs to retract the pods?
 
- 
-        public void OnCollisionEnter(Collision col2)
+
+    public void OnCollisionEnter(Collision col2)
     {
 
     }
