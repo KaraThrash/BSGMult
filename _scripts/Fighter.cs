@@ -247,7 +247,7 @@ public class Fighter : Photon.PunBehaviour
 
             if (col2.gameObject.tag == "Bullet" && playerControlled == true)
             {
-                GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer);
+                GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer,1);
 
             }
         }
@@ -313,11 +313,11 @@ public class Fighter : Photon.PunBehaviour
     [PunRPC]
     public void NoParent() { transform.parent = null; currentHangar = null; }
     [PunRPC]
-    public void TakeDamage()
+    public void TakeDamage(int dmg)
     {
         //TODO: is that counting once for everyone in the server? need to check this
         if (destroyed == false) {
-            hp--;
+            hp -= dmg;
             if (hp <= 0 )
             {
                
@@ -345,6 +345,13 @@ public class Fighter : Photon.PunBehaviour
             }
         }
     }
+   public void OutOfBounds()
+    {
+        //destroyed = true;
+        //dieClock = 5;
+        GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer,maxHp);
+    }
+
     public void DieOnServer() {
      // GetComponent<PhotonView>().RPC("Die", PhotonTargets.AllViaServer);
     }

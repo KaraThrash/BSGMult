@@ -202,7 +202,8 @@ public class PlayerCharacter : Photon.PunBehaviour
             }
             if (localPlayer != null) {
                 hpHud.text = "";
-                myCamera.active = true; localPlayer.GetComponent<PlayerMain>().roundManager.GetComponent<RoundManager>().wasFrakked = true;
+                myCamera.active = true;
+                localPlayer.GetComponent<PlayerMain>().roundManager.GetComponent<RoundManager>().wasFrakked = true;
             }
             galactica.GetComponent<Galactica>().medbay.GetComponent<Medbay>().PlaceInBed(this.gameObject);
             hp = 0;

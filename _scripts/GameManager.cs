@@ -27,7 +27,9 @@ public class GameManager : Photon.PunBehaviour
 	
 	// Update is called once per frame
 	void Update () {
+
         if (Input.GetKeyDown(KeyCode.Space) && firstScene == true) { ButtonStartGame(); }
+
 	}
     [PunRPC]
     public void StartGame()

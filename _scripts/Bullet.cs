@@ -25,11 +25,7 @@ public class Bullet : MonoBehaviour {
 	}
     public void OnCollisionEnter(Collision col)
     {
-
-        if (ownerObject != null)
-        {
-
-        }
+        GetComponent<Collider>().enabled = false;
         if (explosion != null)
         {
             Instantiate(explosion, transform.position, transform.rotation);
@@ -40,10 +36,7 @@ public class Bullet : MonoBehaviour {
     }
     public void Die() {
 
-        //if (explosion != null)
-        //{
-           
-        //}
+        
         
         Destroy(this.gameObject);
 

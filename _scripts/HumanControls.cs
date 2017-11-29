@@ -58,7 +58,10 @@ public class HumanControls : Photon.PunBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (canMove == true)
+        {
+            GetComponent<CharacterController>().Move(moveDirection * Time.deltaTime);
+        }
         if (controlled == true)
         {
             CheckGround();
@@ -240,7 +243,10 @@ public class HumanControls : Photon.PunBehaviour
         }
                 moveDirection.y -= gravity * Time.deltaTime;
             
-            GetComponent<CharacterController>().Move(moveDirection * Time.deltaTime);
+           // GetComponent<CharacterController>().Move(moveDirection * Time.deltaTime);
+
+
+
        // GetComponent<PhotonView>().RPC("SyncMoveAcrossServer", PhotonTargets.AllViaServer, moveDirection);
         GetComponent<PhotonView>().RPC("UpdateAnimationValues", PhotonTargets.AllViaServer, moveDirection, h,v);
 
