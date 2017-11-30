@@ -238,6 +238,7 @@ MonoBehaviour:
   lifeTime: 1
   ownerObject: {fileID: 0}
   owner: 0
+  explosion: {fileID: 0}
 --- !u!198 &198744493117413634
 ParticleSystem:
   m_ObjectHideFlags: 1

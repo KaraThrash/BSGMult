@@ -68,5 +68,10 @@ public class PartOfShip : MonoBehaviour {
         myShip.SendMessage("Sabotage", whoUsedMe);
 
     }
+    public void DealDamage(int dmg)
+    {
+        // for bombs to use
+        myShip.SendMessage("TakeDamage", dmg);
 
+    }
 }

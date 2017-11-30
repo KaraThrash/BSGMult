@@ -74,10 +74,10 @@ public class DeckGun : MonoBehaviour {
 
         // transform.Rotate(Vector3.right * Time.deltaTime);
         Debug.Log(turretHead.transform.localEulerAngles);
-        if (Input.GetKey(KeyCode.W) && turretHead.transform.localEulerAngles.x < upLimit) { turretHead.transform.Rotate(transform.forward * rotSpeed * leftOrRight * Time.deltaTime); }
-        if (Input.GetKey(KeyCode.S) && turretHead.transform.localEulerAngles.x > downLimit) { turretHead.transform.Rotate(transform.forward * -rotSpeed * leftOrRight * Time.deltaTime); }
-        if (Input.GetKey(KeyCode.D) && turretHead.transform.localEulerAngles.y < rightLimit) { turretHead.transform.Rotate(transform.up * rotSpeed   * Time.deltaTime); }
-        if (Input.GetKey(KeyCode.A) && turretHead.transform.localEulerAngles.y  > leftLimit) { turretHead.transform.Rotate(transform.up * -rotSpeed  * Time.deltaTime); }
+        if (Input.GetKey(KeyCode.W) && turretHead.transform.localEulerAngles.x < upLimit) { turretHead.transform.Rotate(transform.forward * rotSpeed * leftOrRight * Time.deltaTime, Space.Self); }
+        if (Input.GetKey(KeyCode.S) && turretHead.transform.localEulerAngles.x > downLimit) { turretHead.transform.Rotate(transform.forward * -rotSpeed * leftOrRight * Time.deltaTime, Space.Self); }
+        if (Input.GetKey(KeyCode.D) && turretHead.transform.localEulerAngles.y < rightLimit) { turretHead.transform.Rotate(transform.up * rotSpeed   * Time.deltaTime, Space.Self); }
+        if (Input.GetKey(KeyCode.A) && turretHead.transform.localEulerAngles.y  > leftLimit) { turretHead.transform.Rotate(transform.up * -rotSpeed  * Time.deltaTime,Space.Self); }
         vertTarget = turretHead.transform.localEulerAngles.y;
         hortTarget = turretHead.transform.localEulerAngles.x;
        // GetComponent<PhotonView>().RPC("SyncAimTarget", PhotonTargets.Others, hortTarget, vertTarget);

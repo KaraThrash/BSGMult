@@ -24,29 +24,20 @@ public class Computer : Photon.PunBehaviour
     void Start()
     {
         m_PhotonView = GetComponent<PhotonView>();
-       // foodtext = GameObject.Find("foodText").GetComponent<Text>();
-       // foodtext.text = food.ToString();
+ 
 
     }
         // Update is called once per frame
         void Update () {
-        //if (Input.GetKeyDown(KeyCode.Y) && spawnObject == true){ PhotonNetwork.InstantiateSceneObject(objectToSpawn, whereToSpawn.transform.position, whereToSpawn.transform.rotation, 0, null); }
+       
         if (interactTimer >= 0) { interactTimer -= (Time.deltaTime * 0.5f);   }
         if (on == true) { onOffObject.active = true; } else { onOffObject.active = false; }
 	}
     [PunRPC]
     public void ToggleOnOff() {
-        myStat++;
+      
         //TODO: in use or not in use
-        if (spawnObject == true)
-        {
-           // GameObject clone = PhotonNetwork.InstantiateSceneObject(objectToSpawn, whereToSpawn.transform.position, whereToSpawn.transform.rotation, 0, null);
-           // clone.transform.parent = whereToSpawn.transform;
-            //PhotonNetwork.Instantiate(objectToSpawn, whereToSpawn.transform.position, whereToSpawn.transform.rotation, 0, null);
-           // Instantiate(objectToSpawnPrefab, whereToSpawn.transform.position, whereToSpawn.transform.rotation);
-        }
-        else
-        {
+        
             if (on == true)
             {
             on = false; onOffObject.active = false;
@@ -58,7 +49,7 @@ public class Computer : Photon.PunBehaviour
                 //foodtext.text = food.ToString();
             }
             
-        }
+        
 
     }
 

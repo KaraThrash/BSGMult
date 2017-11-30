@@ -27,7 +27,7 @@ public class BattleStation : Photon.PunBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Y) ) {  }
+       
         
         if (on == true) { onOffObject.active = true; } else { onOffObject.active = false; }
     }

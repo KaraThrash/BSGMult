@@ -52,6 +52,7 @@ public class GameManager : Photon.PunBehaviour
         roundManager.GetComponent<RoundManager>().NewRound();
 
         crisisManager.GetComponent<CrisisManager>().AttackingBaseStar();
+        crisisManager.GetComponent<CrisisManager>().HiddenBomb();
     }
 
     public void ButtonStartGame()

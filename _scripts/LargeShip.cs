@@ -7,6 +7,7 @@ public class LargeShip : Photon.PunBehaviour
     public Transform peopleOnBoard;
     public bool fleetShip;
     public bool manned;
+    public bool canRotate;
     public float speed;
     public int size; //galactica and basestars being the largest
     public int hp;
@@ -54,7 +55,9 @@ public class LargeShip : Photon.PunBehaviour
         }
         else
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotationObject.transform.rotation, 1.0f * Time.deltaTime);
+            if (canRotate == true)
+            { transform.rotation = Quaternion.Slerp(transform.rotation, rotationObject.transform.rotation, 1.0f * Time.deltaTime); }
+            
             
             if (Vector3.Distance(fwdObject.transform.position, transform.position) > 10)
             {
@@ -76,14 +79,15 @@ public class LargeShip : Photon.PunBehaviour
             GetComponent<PhotonView>().RPC("SetForwardObject", PhotonTargets.AllViaServer);
             //transform.Translate(Vector3.right * 1);
         }
-
-        if (Input.GetKey(KeyCode.S)) { rotationObject.transform.Rotate(0.5f, 0, 0); }
-        if (Input.GetKey(KeyCode.W)) { rotationObject.transform.Rotate(-0.5f, 0, 0); }
-        if (Input.GetKey(KeyCode.Q)) { rotationObject.transform.Rotate(0, 0, -0.5f); }
-        if (Input.GetKey(KeyCode.E)) { rotationObject.transform.Rotate(0, 0, 0.5f); }
-        if (Input.GetKey(KeyCode.D)) { rotationObject.transform.Rotate(0, 0.5f, 0); }
-        if (Input.GetKey(KeyCode.A)) { rotationObject.transform.Rotate(0, -0.5f, 0); }
-        GetComponent<PhotonView>().RPC("SetRotationObjects", PhotonTargets.Others, rotationObject.transform.rotation);
+        
+            if (Input.GetKey(KeyCode.S)) { rotationObject.transform.Rotate(0.5f, 0, 0); }
+            if (Input.GetKey(KeyCode.W)) { rotationObject.transform.Rotate(-0.5f, 0, 0); }
+            if (Input.GetKey(KeyCode.Q)) { rotationObject.transform.Rotate(0, 0, -0.5f); }
+            if (Input.GetKey(KeyCode.E)) { rotationObject.transform.Rotate(0, 0, 0.5f); }
+            if (Input.GetKey(KeyCode.D)) { rotationObject.transform.Rotate(0, 0.5f, 0); }
+            if (Input.GetKey(KeyCode.A)) { rotationObject.transform.Rotate(0, -0.5f, 0); }
+            GetComponent<PhotonView>().RPC("SetRotationObjects", PhotonTargets.Others, rotationObject.transform.rotation);
+        
     }
 
     [PunRPC]
@@ -143,19 +147,20 @@ public class LargeShip : Photon.PunBehaviour
 
     public void ForPassengersAfterDestroyed()
     {
-        
+        if (peopleOnBoard != null)
+        {
             foreach (Transform child in peopleOnBoard)
             {
                 if (child.GetComponent<PlayerCharacter>().localPlayer != null && child.gameObject.active == true)
                 {
 
-                child.GetComponent<PlayerCharacter>().TakeDamage(99);
+                    child.GetComponent<PlayerCharacter>().TakeDamage(99);
                 }
 
 
 
             }
-        
+        }
     }
 
     public void Repair(GameObject whoUsedMe)

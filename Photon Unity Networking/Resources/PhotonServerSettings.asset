@@ -114,4 +114,6 @@ MonoBehaviour:
   - SetShipGroup
   - SetPilot
   - SyncVelocity
+  - NukeDetonated
+  - NukeDefused
   DisableAutoOpenWizard: 1

@@ -133,7 +133,7 @@ public class ViperControls : Photon.PunBehaviour
         if (afterBurner > 1) { afterBurner -= 0.4f; } else { afterBurner = 1; }
 
         if (Input.GetKeyDown(KeyCode.LeftShift)){
-            if (rb.drag == 0) { rb.drag = myDrag; rb.angularDrag = myAngularDrag; glideIndicator.active = false; } else { rb.drag = 0; rb.angularDrag = myAngularDrag; glideIndicator.active = true; }
+            ToggleGlide();
         }
        
         // GetComponent<PhotonView>().RPC("flightControls", PhotonTargets.AllViaServer, vert, hort, roll, mouseX, mouseY, exit, lift);
@@ -157,17 +157,22 @@ public class ViperControls : Photon.PunBehaviour
 
 
     }
+    public void ToggleGlide()
+    {
 
+        if (rb.drag == 0) { rb.drag = myDrag; rb.angularDrag = myAngularDrag; glideIndicator.active = false; } else { vert = 0; rb.drag = 0; rb.angularDrag = myAngularDrag; glideIndicator.active = true; }
+    }
 
     // [PunRPC]
-    public void flightControls(float vert,float hort,float roll,float rollX,float rollY,bool leave, float lift) {
+    public void flightControls(float newvert,float newhort,float roll,float rollX,float rollY,bool leave, float lift) {
         if (vert != 0)
         {
             rb.AddForce(transform.forward * ((-vert * flySpeed * afterBurner))) ;
-        
+            if (rb.drag == 0) { rb.drag = myDrag; rb.angularDrag = myAngularDrag; glideIndicator.active = false; }
         }
         if (hort != 0)
         {
+            
             rb.AddForce(transform.right * (-hort * strafeSpeed), ForceMode.Impulse);
         }
         //TODO: two monitors makes the X value freak out

@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class Galactica : Photon.PunBehaviour
 {
     public int currentCord;
+    public int hp;
     public GameObject baseStar;
     public Transform peopleOnBoard;
     public GameObject jumpManager;
@@ -100,44 +101,19 @@ public class Galactica : Photon.PunBehaviour
             currentCord = (int)stream.ReceiveNext();
         }
     }
-    //[PunRPC]
-    //public void Jump(int coordsToJump) {
-    //    fuel -= 1;
- 
-    //    currentCord = coordsToJump;
-    //    GetComponent<FTLDrive>().currentCords = coordsToJump;
-    //    baseStar.GetComponent<PhotonView>().RPC("StartFTL", PhotonTargets.AllViaServer, coordsToJump);
-    //    GetComponent<PhotonView>().RPC("SetNewCords", PhotonTargets.AllBufferedViaServer, coordsToJump);
-    //    jumpManager.GetComponent<PhotonView>().RPC("UpdateLocationGalactica", PhotonTargets.AllBufferedViaServer, coordsToJump);
-    //    //GameObject.Find("BaseStar(Clone)").GetComponent<BaseStar>().StartFTL();
-    //    ForPassengersDuringJump(coordsToJump);
-    //    myHangar.GetComponent<LandingBay>().jumping = true;
+    public void TakeDamage()
+    {
+        if (hp > 0)
+        {
+            hp--;
 
+            if (hp <= 0)
+            {
+                hp = 0;
 
+            }
 
-    //}
-    //public void ForPassengersDuringJump(int newCords)
-    //{
-    //    foreach (Transform child in peopleOnBoard)
-    //    {
-    //        if (child.GetComponent<PlayerCharacter>().localPlayer != null)
-    //        {
-    //            //TODO: what about people sitting on the flight deck? >> handled on fighter script currently
-    //            if (child.GetComponent<PlayerCharacter>().flying == false)
-    //            {
-
-    //                child.GetComponent<PlayerCharacter>().localPlayer.GetComponent<PlayerMain>().spaceCoordinates = newCords;
-    //                child.GetComponent<PlayerCharacter>().JumpEffects(newCords);
-    //                jumpManager.GetComponent<JumpManager>().ManageJump(newCords, 0, 0, newCords); //galactica cords, fleet cords, basestar cords, localPlayer cords
-
-    //            }
-    //            else { jumpManager.GetComponent<JumpManager>().ManageJump(newCords, 0, 0, 0); }
-
-    //        }
-
-
-
-    //    }
-
-    //}
+            Debug.Log("hit");
+        }
+    }
 }
