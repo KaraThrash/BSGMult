@@ -20,6 +20,8 @@ public class GameManager : Photon.PunBehaviour
     public bool firstScene;
 
     public int currentScene; //space coordinates
+
+    public GameObject everything;
     // Use this for initialization
     void Start () {
 		
@@ -68,7 +70,25 @@ public class GameManager : Photon.PunBehaviour
        
        // GetComponent<PhotonView>().RPC("StartGame", PhotonTargets.AllBufferedViaServer);
     }
+    [PunRPC]
+    public void RestartGame()
+    {
+        everything.GetComponent<LevelManager>().temp = true;
+        Application.LoadLevel("PlayerLobby");
+        
+    }
+    public void ButtonRestartGame()
+    {
+      //  everything.GetComponent<LevelManager>().temp = true;
+        GetComponent<PhotonView>().RPC("RestartGame", PhotonTargets.AllViaServer);
+        // Application.LoadLevel("PlayerLobby");
 
-  
+        // GetComponent<PhotonView>().RequestOwnership();
+        // PhotonNetwork.Instantiate("Everything", Vector3.zero, new Quaternion(0, 0, 0, 0), 0, null);
+
+        //GameObject.Find("GameManager").GetComponent<PhotonView>().RPC("MasterClientStart", PhotonTargets.MasterClient);
+
+        // GetComponent<PhotonView>().RPC("StartGame", PhotonTargets.AllBufferedViaServer);
+    }
 
 }

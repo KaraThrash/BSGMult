@@ -9,9 +9,14 @@ public class AutoSentry : MonoBehaviour {
     public GameObject bullet;
     public GameObject target;
     public float gunCooldown;
+    public string targetTag;
+    public float fireRate;
+    public float moveForwardSpeed;
+    public bool spawnedByHeavyRaider; //TODO: find better solution for them stacking on top of each other
     // Use this for initialization
     void Start () {
-		
+        if (spawnedByHeavyRaider == true)
+        { GetComponent<Rigidbody>().velocity = transform.forward * moveForwardSpeed * Time.deltaTime; }
 	}
 	
 	// Update is called once per frame
@@ -34,7 +39,7 @@ public class AutoSentry : MonoBehaviour {
         float angle = Vector3.Angle(targetDir, turret.transform.forward);
         Debug.Log(angle + "angle");
         if (angle < 5.0f )
-            { if (gunCooldown <= 0) { gunCooldown = 0.5f; Fire(); } }
+            { if (gunCooldown <= 0) { gunCooldown = fireRate; Fire(); } }
        
     }
     public void Fire()
@@ -47,8 +52,8 @@ public class AutoSentry : MonoBehaviour {
         
         if (target == null)
         {
-            if (col.gameObject.tag == "Raider") {
-                target = col.transform.parent.gameObject;
+            if (col.gameObject.tag == targetTag) {
+                target = col.transform.gameObject;
                // if (col.transform.parent.GetComponent<Fighter>().faction != myFaction)
                // { }
                

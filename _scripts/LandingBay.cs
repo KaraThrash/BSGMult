@@ -35,7 +35,7 @@ public class LandingBay : Photon.PunBehaviour
 
         if (col2.gameObject.GetComponent<Fighter>() != null && !dockedShips.Contains(col2.gameObject))
         {
-            dockedShips.Add(col2.gameObject);
+          //  dockedShips.Add(col2.gameObject);
 
 
         }

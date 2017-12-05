@@ -1109,12 +1109,13 @@ MonoBehaviour:
   rotationObject: {fileID: 1706537156692424}
   engineAnim: {fileID: 1458571438706958}
   rotSpeed: 2
-  explosion: {fileID: 1376863350744484, guid: f719fb6545c58e4428f8616a24c97f25, type: 2}
+  explosion: {fileID: 1513219108712076, guid: 6588fa46cae30e64f94ad79b0269eb18, type: 2}
   impactTimer: 0
-  lastImpact: {x: 0, y: 0, z: 0}
-  impactRotation: {x: 0, y: 0, z: 0, w: 0}
+  lastImpact: {x: 15, y: 3, z: 15}
+  impactRotation: {x: 12, y: 100, z: 0, w: 0}
   destroyed: 0
   dieClock: 0
+  breachLocation: {fileID: 0}
 --- !u!114 &114496385401789938
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1197,7 +1198,7 @@ MonoBehaviour:
   maxSpawn: 5
   hp: 10
   currentSpawn: 0
-  explosion: {fileID: 1376863350744484, guid: f719fb6545c58e4428f8616a24c97f25, type: 2}
+  explosion: {fileID: 1513219108712076, guid: 6588fa46cae30e64f94ad79b0269eb18, type: 2}
   spawntype: 1
 --- !u!136 &136868351524770424
 CapsuleCollider:

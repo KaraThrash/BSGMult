@@ -44,4 +44,6 @@ public class LevelManager : MonoBehaviour {
     }
     public void JoinGame() { Application.LoadLevel("PlayerLobby"); }
     public void ReJoinLobby() { Application.LoadLevel("Lobby"); }
+
+
 }

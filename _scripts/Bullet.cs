@@ -6,13 +6,16 @@ public class Bullet : MonoBehaviour {
     private Rigidbody rb;
     public int speed;
     public float lifeTime;
+    public int damage = 1;
     public GameObject ownerObject;
     public int owner;
     public GameObject explosion;
+    public bool large;
+    public GameObject intialExplosion;
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody>();
-        
+        if (large == true) { Instantiate(intialExplosion, transform.position, transform.rotation); }
         rb.AddForce(transform.forward * (speed), ForceMode.Impulse);
        
     }

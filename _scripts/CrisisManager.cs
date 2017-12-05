@@ -35,10 +35,12 @@ public class CrisisManager : Photon.PunBehaviour
         {
             if (crisis1 == null)
             {
-                crisis1 = PhotonNetwork.Instantiate("BaseStar_New", spawnSpot1.transform.position, spawnSpot1.transform.rotation, 0, null);
+                crisis1 = PhotonNetwork.Instantiate("BaseStar_New_HeavyRaider", spawnSpot1.transform.position, spawnSpot1.transform.rotation, 0, null);
                 crisis2 = PhotonNetwork.Instantiate("BaseStar_New_Missile", spawnSpot2.transform.position, spawnSpot2.transform.rotation, 0, null);
+                crisis3 = PhotonNetwork.Instantiate("BaseStar_New", spawnSpot3.transform.position, spawnSpot3.transform.rotation, 0, null);
                 crisis1.transform.parent = activeCylonFleet.transform;
                 crisis2.transform.parent = activeCylonFleet.transform;
+                crisis3.transform.parent = activeCylonFleet.transform;
             }
             else if (crisis2 == null)
             {

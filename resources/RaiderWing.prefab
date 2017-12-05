@@ -2141,8 +2141,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myNumber: 3
   fwdObject: {fileID: 1151536811317562}
-  speed: 35
-  rotForce: 6
+  speed: 30
+  rotForce: 4
   myPlaceInWing: {fileID: 1043955483298496}
   shipTarget: {fileID: 0}
   gun1: {fileID: 1892439492032270}
@@ -2207,8 +2207,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myNumber: 0
   fwdObject: {fileID: 1309587283831662}
-  speed: 35
-  rotForce: 6
+  speed: 30
+  rotForce: 4
   myPlaceInWing: {fileID: 1700630895160014}
   shipTarget: {fileID: 0}
   gun1: {fileID: 1263975135369502}
@@ -2334,8 +2334,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myNumber: 4
   fwdObject: {fileID: 1522193938672886}
-  speed: 35
-  rotForce: 6
+  speed: 30
+  rotForce: 4
   myPlaceInWing: {fileID: 1619301923479022}
   shipTarget: {fileID: 0}
   gun1: {fileID: 1635518390126030}
@@ -2400,8 +2400,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myNumber: 1
   fwdObject: {fileID: 1240838373355500}
-  speed: 35
-  rotForce: 6
+  speed: 30
+  rotForce: 4
   myPlaceInWing: {fileID: 1776660237110458}
   shipTarget: {fileID: 0}
   gun1: {fileID: 1855274301259256}
@@ -2503,8 +2503,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myNumber: 2
   fwdObject: {fileID: 1643963461742340}
-  speed: 35
-  rotForce: 6
+  speed: 30
+  rotForce: 4
   myPlaceInWing: {fileID: 1342629620560278}
   shipTarget: {fileID: 0}
   gun1: {fileID: 1274341716758076}

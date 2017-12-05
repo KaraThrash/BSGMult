@@ -1003,6 +1003,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activeCylonFleet: {fileID: 0}
+  target: {fileID: 0}
   timer: 0
   spawnCoolDown: 10
   spawnObject: RaiderWingSmall
@@ -1010,7 +1011,8 @@ MonoBehaviour:
   maxSpawn: 5
   hp: 10
   currentSpawn: 0
-  explosion: {fileID: 1376863350744484, guid: f719fb6545c58e4428f8616a24c97f25, type: 2}
+  explosion: {fileID: 1513219108712076, guid: 6588fa46cae30e64f94ad79b0269eb18, type: 2}
+  spawntype: 0
 --- !u!114 &114110856166958430
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1179,12 +1181,13 @@ MonoBehaviour:
   rotationObject: {fileID: 1710908563394726}
   engineAnim: {fileID: 1243641192673106}
   rotSpeed: 2
-  explosion: {fileID: 1376863350744484, guid: f719fb6545c58e4428f8616a24c97f25, type: 2}
+  explosion: {fileID: 1513219108712076, guid: 6588fa46cae30e64f94ad79b0269eb18, type: 2}
   impactTimer: 0
   lastImpact: {x: 0, y: 0, z: 0}
   impactRotation: {x: 0, y: 0, z: 0, w: 0}
   destroyed: 0
   dieClock: 0
+  breachLocation: {fileID: 0}
 --- !u!114 &114914677949802472
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -116,4 +116,5 @@ MonoBehaviour:
   - SyncVelocity
   - NukeDetonated
   - NukeDefused
+  - RestartGame
   DisableAutoOpenWizard: 1
