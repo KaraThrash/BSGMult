@@ -24,7 +24,7 @@ public class JumpManager : Photon.PunBehaviour
     public GameObject cylonFleetLeftBehind;
     public GameObject activeCylonFleet; //currently in Galactica space space
     public GameObject otherCylonFleet;// not currently in Galactica space space
-    //ShipGroup; 0:space/planet //1: galactica + active fleet 2: Cylon fleet 3:  leftbehind
+    //ShipGroup; 0:space/planet //1: galactica + active fleet 2: Cylon fleet 3:  leftbehind  ??4: scouting??
 
     // Use this for initialization
     void Start () {

@@ -55,10 +55,10 @@ public class RoundManager : MonoBehaviour {
         fuelBonus = 1.0f;
         foodBonus = 1.0f;
         dontDieBonus = 1.0f;
-
-        playerObjective.text = ObjectiveList();
-        teamObjective.text = ObjectiveList();
         currentRound++;
+        playerObjective.text = ObjectiveList(Random.Range(0, 4));
+        teamObjective.text = ObjectiveList(4 % currentRound);
+        
         //transform.parent.gameObject.GetComponent<GameManager>().crisisManager.GetComponent<PhotonView>().RPC("AttackingBaseStar", PhotonTargets.AllViaServer);
 
     }
@@ -78,10 +78,10 @@ public class RoundManager : MonoBehaviour {
         localPlayer.GetComponent<PhotonView>().RPC("UpdateScore", PhotonTargets.AllViaServer, totalPoints);
     }
 
-    public string ObjectiveList()
+    public string ObjectiveList(int newRoundVariable)
     {
         string newObj = "Don't Get Frakked";
-        switch (Random.Range(0,4))
+        switch (newRoundVariable)
         {
             case 1:
                 newObj = "Frak Cylons";

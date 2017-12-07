@@ -64,7 +64,9 @@ public class PlayerCharacter : Photon.PunBehaviour
             {
                 if (carriedObject != -1)
                 {
+                    
                     GetComponent<PhotonView>().RPC("DropCarriedObject", PhotonTargets.AllViaServer, carriedObject);
+                    carriedObject = -1;
                 }
             }
             if (Input.GetKeyDown(KeyCode.E))

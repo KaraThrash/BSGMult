@@ -58,12 +58,7 @@ public class FTLcomputer : Photon.PunBehaviour
     // Update is called once per frame
     void Update() {
 
-        //if (Input.GetKey(KeyCode.Tab)) { jumpTargetTextObject.active = true;
-
-
-        //} else { jumpTargetTextObject.active = false; }
-
-
+        
         //TODO: in for testing reasons so I dont need to be near the computer to jump
         
         interactTimer += Time.deltaTime;

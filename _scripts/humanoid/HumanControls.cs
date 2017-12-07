@@ -201,7 +201,8 @@ public class HumanControls : Photon.PunBehaviour
             anim.SetFloat("h", newH);
             anim.SetFloat("v", newV);
         }
-        if (moveDirection != Vector3.zero) { GetComponent<CharacterController>().Move(moveDirection * Time.deltaTime); }
+        moveDirection = newMoveDir;
+       // if (moveDirection != Vector3.zero) { GetComponent<CharacterController>().Move(moveDirection * Time.deltaTime); }
     }
 
     void ApplySynchronizedValues()
@@ -248,7 +249,7 @@ public class HumanControls : Photon.PunBehaviour
 
 
        // GetComponent<PhotonView>().RPC("SyncMoveAcrossServer", PhotonTargets.AllViaServer, moveDirection);
-        GetComponent<PhotonView>().RPC("UpdateAnimationValues", PhotonTargets.AllViaServer, moveDirection, h,v);
+        GetComponent<PhotonView>().RPC("UpdateAnimationValues", PhotonTargets.Others, moveDirection, h,v);
 
 
 

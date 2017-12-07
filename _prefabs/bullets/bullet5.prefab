@@ -20,10 +20,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4395402893329242}
   - component: {fileID: 33580048749350426}
-  - component: {fileID: 135981378684968666}
   - component: {fileID: 23036351142299008}
   - component: {fileID: 114893862465249596}
   - component: {fileID: 54303314691576126}
+  - component: {fileID: 136359888429831212}
   m_Layer: 2
   m_Name: bullet5
   m_TagString: Bullet
@@ -258,8 +258,8 @@ MonoBehaviour:
   explosion: {fileID: 1426337292301710, guid: 72384c6d09431fa48924aced66822ca7, type: 2}
   large: 0
   intialExplosion: {fileID: 0}
---- !u!135 &135981378684968666
-SphereCollider:
+--- !u!136 &136359888429831212
+CapsuleCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -267,6 +267,7 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.2
+  m_Height: 2
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: -0.5}

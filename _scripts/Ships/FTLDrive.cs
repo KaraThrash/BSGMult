@@ -61,6 +61,7 @@ public class FTLDrive : Photon.PunBehaviour
 	[PunRPC]
     public void StartJump(int newCords) //small cooldown that plays the FTL animation when a jump is ordered
     {
+
         ForPassengersDuringJump(targetCords, true);
         ftlSpoolingUp = 0;
         targetCords = newCords;
@@ -80,15 +81,9 @@ public class FTLDrive : Photon.PunBehaviour
         jumping = false;
         if (myHangar != null) { myHangar.GetComponent<PhotonView>().RPC("Jumped", PhotonTargets.AllViaServer); }
         
-        //if (baseStar != null) { baseStar.GetComponent<PhotonView>().RPC("StartFTL", PhotonTargets.AllViaServer, currentCords); }
 
         if (updateJumpManager == true) { jumpManager.GetComponent<PhotonView>().RPC(UpdateMyShipString, PhotonTargets.AllBufferedViaServer, currentCords); }
-        //else
-        //{
-        //    if (jumpManager.GetComponent<JumpManager>().CheckCoordinates(currentCords) == true) { this.gameObject.active = true; }
-        //    else { this.gameObject.active = false; }
-        //}
-        //if (fleetShip == true) { myParent.GetComponent<Fleet>().shipsJumped++; }
+       
 
         if (isGalactica == true) { jumpManager.GetComponent<JumpManager>().GalacticaJumped(currentCords); }
     }

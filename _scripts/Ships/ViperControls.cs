@@ -61,20 +61,22 @@ public class ViperControls : Photon.PunBehaviour
                // GetComponent<Fighter>().dieClock = 2;
                 //GetComponent<Fighter>().destroyed = true;
             }
+            if (m_PhotonView.isMine == true )
+            {
+
+                if (xwing == true) { MouseFlightControls(); } else { KeyboardFlightControls(); }
+
+                //if (Input.GetKeyDown(KeyCode.T))
+                //{ GetComponent<PhotonView>().RPC("DeployLandingGear", PhotonTargets.AllViaServer, true); }
+
+            }
+            else { hort = 0; vert = 0; }
+
         }
         else {  }
         if (gunCoolDown > 0) { gunCoolDown -= Time.deltaTime; }
 
-        if (m_PhotonView.isMine == true && flying == true)
-        {
-
-            if (xwing == true) { MouseFlightControls(); } else { KeyboardFlightControls(); }
-
-            //if (Input.GetKeyDown(KeyCode.T))
-            //{ GetComponent<PhotonView>().RPC("DeployLandingGear", PhotonTargets.AllViaServer, true); }
-
-        }
-        else { hort = 0; vert = 0; }
+        
     }
 
    public void  MouseFlightControls()
@@ -91,7 +93,7 @@ public class ViperControls : Photon.PunBehaviour
             gunCoolDown = gunCoolDown - Time.deltaTime;
         }
 
-            if (Input.GetKeyUp(KeyCode.T) )
+            if (Input.GetKeyUp(KeyCode.T) && flying == true)
         {
             GetComponent<Fighter>().Land();
           
@@ -102,7 +104,10 @@ public class ViperControls : Photon.PunBehaviour
         if (Input.GetKey(KeyCode.Q)) { roll = -rollSpeed; } else if (Input.GetKey(KeyCode.E)) { roll = rollSpeed; } else { roll = 0; }
         if (Input.mousePosition.x < 600) { mouseX = Input.mousePosition.x - 600; } else if (Input.mousePosition.x > 700) { mouseX = Input.mousePosition.x - 700; } else { mouseX = 0; }
         if (Input.mousePosition.y < 325) { mouseY = Input.mousePosition.y - 325; } else if (Input.mousePosition.y > 475) { mouseY = Input.mousePosition.y - 475; } else { mouseY = 0; }
-       // GetComponent<PhotonView>().RPC("flightControls", PhotonTargets.AllViaServer, vert, hort, roll, (mouseX * 0.5f), (-mouseY * 0.5f), exit, lift);
+        // GetComponent<PhotonView>().RPC("flightControls", PhotonTargets.AllViaServer, vert, hort, roll, (mouseX * 0.5f), (-mouseY * 0.5f), exit, lift);
+        Mathf.Clamp(mouseX, -50.0F, 50.0F);
+        Mathf.Clamp(mouseY, -50.0F, 50.0F);
+
         flightControls(vert, hort, roll, mouseX, -mouseY, exit, lift);
     }
     
@@ -118,7 +123,7 @@ public class ViperControls : Photon.PunBehaviour
             gunCoolDown -= Time.deltaTime;
         }
     
-            if (Input.GetKeyUp(KeyCode.T))
+            if (Input.GetKeyUp(KeyCode.T) && flying == true)
          { GetComponent<Fighter>().Land(); }
         if (Input.GetKey(KeyCode.KeypadPlus) || Input.GetKey(KeyCode.LeftBracket)) { lift = liftSpeed; } else if (Input.GetKey(KeyCode.KeypadEnter) || Input.GetKey(KeyCode.RightBracket)) { lift = -liftSpeed; } else { lift = 0; }
 
@@ -163,7 +168,7 @@ public class ViperControls : Photon.PunBehaviour
         if (rb.drag == 0) { rb.drag = myDrag; rb.angularDrag = myAngularDrag; glideIndicator.active = false; } else { vert = 0; rb.drag = 0; rb.angularDrag = myAngularDrag; glideIndicator.active = true; }
     }
 
-    // [PunRPC]
+    //[PunRPC]
     public void flightControls(float newvert,float newhort,float roll,float rollX,float rollY,bool leave, float lift) {
         if (vert != 0)
         {
@@ -176,8 +181,8 @@ public class ViperControls : Photon.PunBehaviour
             rb.AddForce(transform.right * (-hort * strafeSpeed), ForceMode.Impulse);
         }
         //TODO: two monitors makes the X value freak out
-        Mathf.Clamp(rollX, -50.0F, 50.0F);
-        Mathf.Clamp(rollY, -50.0F, 50.0F);
+        //Mathf.Clamp(rollX, -50.0F, 50.0F);
+        //Mathf.Clamp(rollY, -50.0F, 50.0F);
         if (roll != 0) { rb.AddTorque(transform.forward * roll * Time.deltaTime,ForceMode.Impulse); }
         if (rollX != 0) { rb.AddTorque(transform.up *  rollX * Time.deltaTime, ForceMode.Impulse); }
         if (rollY != 0) { rb.AddTorque(transform.right *  -rollY * Time.deltaTime, ForceMode.Impulse); }

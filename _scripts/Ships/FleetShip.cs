@@ -107,7 +107,7 @@ public class FleetShip : Photon.PunBehaviour
     }
     public void AllowInFleetToggle()
     {
-        
+        //todo: just a toggle is too powerful for hidden cylons to abuse
         if (allowedInFleet == true)
         { allowedInFleet = false;
             myMenuButton.GetComponent<Image>().color = Color.red;

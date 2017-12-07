@@ -6,6 +6,7 @@ public class ChatManager : Photon.PunBehaviour
 {
     public string localPlayerName;
     public GameObject localPlayer;
+    public GameObject latestTransmissionObject;
     public InputField chatMsgField;
     public Text inputChatField;
     public Text chat1;
@@ -42,6 +43,7 @@ public class ChatManager : Photon.PunBehaviour
         chat5.text = chat6.text;
         chat6.text = newChat;
 
-
+        latestTransmissionObject.GetComponent<Text>().text = newChat;
+        latestTransmissionObject.active = true;
     }
 }

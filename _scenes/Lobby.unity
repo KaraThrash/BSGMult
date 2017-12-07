@@ -13207,6 +13207,8 @@ MonoBehaviour:
   cylonManager: {fileID: 0}
   firstScene: 1
   currentScene: 0
+  humanLead: 0
+  everything: {fileID: 0}
 --- !u!114 &1606763073
 MonoBehaviour:
   m_ObjectHideFlags: 0

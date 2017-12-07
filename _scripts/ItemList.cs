@@ -28,7 +28,7 @@ public class ItemList : MonoBehaviour {
     {
         if (supplyCrates[itemToDrop] != null)
         {
-
+            
             GameObject clone = Instantiate(supplyCrates[itemToDrop], whereToDrop.transform.position, whereToDrop.transform.rotation) as GameObject;
             clone.GetComponent<Rigidbody>().AddForce(whereToDrop.transform.forward * 10, ForceMode.Impulse);
         }

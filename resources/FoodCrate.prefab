@@ -257,9 +257,10 @@ GameObject:
   - component: {fileID: 65053403524121326}
   - component: {fileID: 54247061819644844}
   - component: {fileID: 114930071364682208}
+  - component: {fileID: 65539272555344516}
   m_Layer: 0
   m_Name: FoodCrate
-  m_TagString: Interactable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2648,6 +2649,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.6430025, y: 0.5394449, z: 0.6676483}
   m_Center: {x: 0.010948658, y: 0.012377262, z: -0.067359924}
+--- !u!65 &65539272555344516
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1425489916161402}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114930071364682208
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2690,4 +2703,5 @@ MonoBehaviour:
   quantity: 1
   countedForFleetStats: 0
   ammo: 0
+  container: 0
   itemInList: 0

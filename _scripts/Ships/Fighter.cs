@@ -61,9 +61,9 @@ public class Fighter : Photon.PunBehaviour
     {
         if (colliderTimer > 0) { colliderTimer -= Time.deltaTime; }
         if (colliderTimer <= 0 && myColliders != null) { myColliders.active = true; }
-        if (destroyed == true)
+        if (destroyed == true )
         {
-            if (dieClock > 0)
+            if (dieClock > 0 && m_PhotonView.isMine == true)
             {
                 transform.position = Vector3.MoveTowards(transform.position, transform.position * 10.5f, 25.0f * Time.deltaTime);
                 transform.rotation = Quaternion.Slerp(transform.rotation, myModel.transform.rotation, 4.0f * Time.deltaTime);
@@ -243,38 +243,39 @@ public class Fighter : Photon.PunBehaviour
             //flying = false;
             GetComponent<PhotonView>().RPC("SetHangar", PhotonTargets.AllViaServer, col2.gameObject.GetComponent<CollisionData>().myData);
         }
-        if (ai == true && col2.gameObject.tag == "Bullet")
+        if ( col2.gameObject.tag == "Bullet" && flying == true)
         {
-            if (ai == true)
-            {
+            TakeDamage(col2.gameObject.GetComponent<Bullet>().damage);
+            //if (ai == true)
+            //{
 
-                if (destroyed == false)
-                {
-                    hp -= col2.gameObject.GetComponent<Bullet>().damage;
-                    if (hp <= 0)
-                    {
+            //    if (destroyed == false)
+            //    {
+            //        hp -= col2.gameObject.GetComponent<Bullet>().damage;
+            //        if (hp <= 0)
+            //        {
 
-                        destroyed = true;
-                        dieClock = lengthOfDeathAnimation;
-
-
-
-                    }
-                }
-            }
-            else
-            {
-                if (photonView.isMine == true && destroyed == false)
-                {
+            //            destroyed = true;
+            //            dieClock = lengthOfDeathAnimation;
 
 
-                    if ( playerControlled == true)
-                    {
-                        GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1);
 
-                    }
-                }
-            }
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    if (photonView.isMine == true && destroyed == false)
+            //    {
+
+
+            //        if ( playerControlled == true)
+            //        {
+            //            GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1);
+
+            //        }
+            //    }
+            //}
         }
     }
     [PunRPC]
@@ -337,7 +338,8 @@ public class Fighter : Photon.PunBehaviour
     }
     [PunRPC]
     public void NoParent() { transform.parent = null; currentHangar = null; }
-    [PunRPC]
+
+    //[PunRPC]
     public void TakeDamage(int dmg)
     {
         //TODO: is that counting once for everyone in the server? need to check this
@@ -361,7 +363,7 @@ public class Fighter : Photon.PunBehaviour
                 dangerText.active = true;
 
             }
-            if (m_PhotonView.isMine == true)
+            if (m_PhotonView.isMine == true )
             {
                 if (hp > 8) { hpHud.text = "Good"; }
                 else if (hp < 9 && hp > 3) { hpHud.text = "Damaged"; }
@@ -374,7 +376,8 @@ public class Fighter : Photon.PunBehaviour
     {
         //destroyed = true;
         //dieClock = 5;
-        GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer,maxHp);
+        TakeDamage(maxHp);
+        //GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer,maxHp);
     }
 
     public void DieOnServer() {
@@ -384,6 +387,7 @@ public class Fighter : Photon.PunBehaviour
 
     public void Die()
     {
+        flying = false;
         GetComponent<Rigidbody>().isKinematic = true;
         if (pilot != null)
         {
@@ -396,16 +400,20 @@ public class Fighter : Photon.PunBehaviour
             //pilot.GetComponent<PlayerCharacter>().localPlayer.GetComponent<PhotonView>().RPC("SetHumanActive", PhotonTargets.AllViaServer);
             //pilot.GetComponent<PlayerCharacter>().myCamera.active = true;
             pilot.GetComponent<PhotonView>().RPC("GetOutShip", PhotonTargets.AllBufferedViaServer,1, medbay.transform.position,1);
-
+            
         }
+        pilot = null;
         Instantiate(explosion, transform.position, transform.rotation);
+        if (GetComponent<ViperControls>() != null)
+        { GetComponent<ViperControls>().enabled = false; }
+       
         Destroy(this.gameObject);
 
     }
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        if (stream.isWriting)
+        if (stream.isWriting && photonView.isMine == true)
         {
             stream.SendNext(transform.rotation);
             stream.SendNext(transform.position);

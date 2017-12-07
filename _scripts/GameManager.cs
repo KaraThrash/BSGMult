@@ -20,7 +20,7 @@ public class GameManager : Photon.PunBehaviour
     public bool firstScene;
 
     public int currentScene; //space coordinates
-
+    public int humanLead;
     public GameObject everything;
     // Use this for initialization
     void Start () {

@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class CrisisManager : Photon.PunBehaviour
 {
 
     public GameObject activeCylonFleet;
     public GameObject[] hiddenNukeSpots;
+    public GameObject chatManager; //for posting the crisis
     public GameObject npcBaseStar;
     public GameObject hiddenNuke;
 
@@ -57,9 +60,11 @@ public class CrisisManager : Photon.PunBehaviour
             {
                 //buff  base star
             }
+            chatManager.GetComponent<PhotonView>().RPC("NewChat", PhotonTargets.AllViaServer, "EBS : Dradis Contact");
+            chatManager.GetComponent<PhotonView>().RPC("NewChat", PhotonTargets.AllViaServer, "EBS : Action Stations, Action Stations");
         }
 
-
+       
     }
 
     public void HiddenBomb()
@@ -89,7 +94,10 @@ public class CrisisManager : Photon.PunBehaviour
                 hiddenNuke.GetComponent<Bomb>().target = 3;
             }
             hiddenNuke.GetComponent<Bomb>().crisisManager = this.gameObject;
+            chatManager.GetComponent<PhotonView>().RPC("NewChat", PhotonTargets.AllViaServer, "EBS" + " : Radiological Alarm");
         }
+        
+        
     }
 
     [PunRPC]

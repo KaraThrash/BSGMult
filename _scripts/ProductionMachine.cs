@@ -24,6 +24,7 @@ public class ProductionMachine : MonoBehaviour {
             interactTimer += Time.deltaTime;
             if (interactTimer >= timeCost) {
                 interactTimer = 0;
+                
                 PhotonNetwork.Instantiate(objectToSpawn, whereToSpawn.transform.position, whereToSpawn.transform.rotation, 0, null);
                 activated = false;
                 loadingObject.active = false;

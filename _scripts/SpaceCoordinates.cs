@@ -24,14 +24,14 @@ public class SpaceCoordinates : MonoBehaviour {
 	}
     public int SelectSpace(int newX,int newY, int newZ) {
         mapped = false;
-        if (newX > maxX) { newX = 1; locationType = "planets"; }
-        if (newX < 1) { newX = maxX; locationType = "notPlanets"; }
+        if (newX > maxX) { newX = 1; locationType = "Planet"; }
+        if (newX < 1) { newX = maxX; locationType = "OpenSpace"; }
         if (newY > maxY) { newY = 0; }
         if (newY < 0) { newY = maxY; }
         if (newZ > maxZ) { newZ = 0; }
         if (newZ < 0) { newZ = maxZ; }
 
-        if (newX % 2 == 0) { locationType = "planets"; } else { locationType = "notPlanets"; }
+        if (newX % 2 == 0) { locationType = "Planet"; } else { locationType = "OpenSpace"; }
         thisX = newX;
         thisY = newY;
         thisZ = newZ;
