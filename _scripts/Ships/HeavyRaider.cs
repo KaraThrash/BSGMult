@@ -28,9 +28,11 @@ public class HeavyRaider : MonoBehaviour {
                    GameObject breachObject =  col.gameObject.GetComponent<PartOfShip>().myShip.GetComponent<LargeShip>().breachLocation;
                 hasCargo = false;
                 GetComponent<Rigidbody>().isKinematic = true;
+                transform.parent = breachObject.transform;
                 transform.position = breachObject.transform.position;
                 transform.rotation = breachObject.transform.rotation;
-                Instantiate(cargo, spawnLocation.transform.position, spawnLocation.transform.rotation);
+                GameObject clone = Instantiate(cargo, spawnLocation.transform.position, spawnLocation.transform.rotation) as GameObject;
+                clone.transform.parent = breachObject.transform;
             }
         }
 

@@ -41,7 +41,7 @@ public class PlayerCharacter : Photon.PunBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (transform.position.y < -1500) { TakeDamage(99); }
         if (controlled == true)
         {
            
@@ -208,6 +208,7 @@ public class PlayerCharacter : Photon.PunBehaviour
                 localPlayer.GetComponent<PlayerMain>().roundManager.GetComponent<RoundManager>().wasFrakked = true;
             }
             galactica.GetComponent<Galactica>().medbay.GetComponent<Medbay>().PlaceInBed(this.gameObject);
+            shipGroup = 1;
             hp = 0;
 
         }

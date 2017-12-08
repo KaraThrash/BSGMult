@@ -421,7 +421,7 @@ MonoBehaviour:
   testObj: {fileID: 0}
   myColliders: {fileID: 0}
   pilot: {fileID: 0}
-  flying: 0
+  flying: 1
   cockpitEntrance: {fileID: 0}
   exit: 0
   myCam: {fileID: 0}

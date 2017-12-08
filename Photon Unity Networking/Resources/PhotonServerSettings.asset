@@ -117,4 +117,6 @@ MonoBehaviour:
   - NukeDetonated
   - NukeDefused
   - RestartGame
+  - UpdateFromFPSCamera
+  - DieOnServer
   DisableAutoOpenWizard: 1

@@ -42,8 +42,21 @@ public class AutoSentry : MonoBehaviour {
             { if (gunCooldown <= 0) { gunCooldown = fireRate; Fire(); } }
        
     }
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Bullet")
+        {
+            Destroy(this.gameObject);
+        }
+
+
+
+
+    }
+
     public void Fire()
     {
+        target = null;
         Instantiate(bullet,gun.transform.position,gun.transform.rotation);
     }
     public void OnTriggerStay(Collider col)

@@ -1003,6 +1003,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myShip: {fileID: 1706537156692424}
+  shipSize: 3
 --- !u!114 &114163948676290094
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1015,6 +1016,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myShip: {fileID: 1706537156692424}
+  shipSize: 0
 --- !u!114 &114166819767396312
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1027,6 +1029,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myShip: {fileID: 1706537156692424}
+  shipSize: 0
 --- !u!114 &114432910548848194
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1039,6 +1042,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myShip: {fileID: 1706537156692424}
+  shipSize: 0
 --- !u!114 &114436588919253988
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1051,6 +1055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myShip: {fileID: 1706537156692424}
+  shipSize: 0
 --- !u!114 &114437822646519596
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1116,6 +1121,7 @@ MonoBehaviour:
   destroyed: 0
   dieClock: 0
   breachLocation: {fileID: 0}
+  dontDie: 0
 --- !u!114 &114496385401789938
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1154,6 +1160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myShip: {fileID: 1706537156692424}
+  shipSize: 0
 --- !u!114 &114629247802364050
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1166,6 +1173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myShip: {fileID: 1706537156692424}
+  shipSize: 0
 --- !u!114 &114744887796058474
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1178,6 +1186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myShip: {fileID: 1706537156692424}
+  shipSize: 0
 --- !u!114 &114746905638098400
 MonoBehaviour:
   m_ObjectHideFlags: 1

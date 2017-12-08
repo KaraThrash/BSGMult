@@ -58,10 +58,12 @@ public class HumanControls : Photon.PunBehaviour
     // Update is called once per frame
     void Update()
     {
+        GetComponent<CharacterController>().Move(moveDirection * Time.deltaTime);
         if (canMove == true)
         {
-            GetComponent<CharacterController>().Move(moveDirection * Time.deltaTime);
+            
         }
+
         if (controlled == true)
         {
             CheckGround();
@@ -191,6 +193,13 @@ public class HumanControls : Photon.PunBehaviour
     {
         GetComponent<Animator>().Play("SwingSword");
     }
+
+    [PunRPC]
+    public void UpdateFromFPSCamera(Quaternion newRot)
+    {
+        
+        transform.localRotation = newRot;
+    }
     [PunRPC]
     public void UpdateAnimationValues(Vector3 newMoveDir,float newH, float newV)
     {
@@ -268,7 +277,7 @@ public class HumanControls : Photon.PunBehaviour
         Vector3 fwd = transform.TransformDirection(Vector3.down);
         RaycastHit raycastResult;
         
-        if (Physics.Raycast(transform.position, fwd, out raycastResult, groundCheckDistance + 5))
+        if (Physics.Raycast(transform.position, fwd, out raycastResult, groundCheckDistance ))
         {    
             grounded = true;
             airTime = 0;

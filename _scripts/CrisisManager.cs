@@ -36,32 +36,32 @@ public class CrisisManager : Photon.PunBehaviour
     {
         if (photonView.isMine == true)
         {
-            if (crisis1 == null)
-            {
+           // if (crisis1 == null)
+           // {
                 crisis1 = PhotonNetwork.Instantiate("BaseStar_New_HeavyRaider", spawnSpot1.transform.position, spawnSpot1.transform.rotation, 0, null);
                 crisis2 = PhotonNetwork.Instantiate("BaseStar_New_Missile", spawnSpot2.transform.position, spawnSpot2.transform.rotation, 0, null);
                 crisis3 = PhotonNetwork.Instantiate("BaseStar_New", spawnSpot3.transform.position, spawnSpot3.transform.rotation, 0, null);
                 crisis1.transform.parent = activeCylonFleet.transform;
                 crisis2.transform.parent = activeCylonFleet.transform;
                 crisis3.transform.parent = activeCylonFleet.transform;
-            }
-            else if (crisis2 == null)
-            {
-                crisis2 = PhotonNetwork.Instantiate("BaseStar_New", spawnSpot2.transform.position, spawnSpot2.transform.rotation, 0, null);
-                crisis2.transform.parent = activeCylonFleet.transform;
+            //}
+            //else if (crisis2 == null)
+            //{
+            //    crisis2 = PhotonNetwork.Instantiate("BaseStar_New", spawnSpot2.transform.position, spawnSpot2.transform.rotation, 0, null);
+            //    crisis2.transform.parent = activeCylonFleet.transform;
 
-            }
-            else if (crisis3 == null)
-            {
-                crisis3 = PhotonNetwork.Instantiate("BaseStar_New", spawnSpot3.transform.position, spawnSpot3.transform.rotation, 0, null);
-                crisis3.transform.parent = activeCylonFleet.transform;
-            }
-            else
-            {
-                //buff  base star
-            }
+            //}
+            //else if (crisis3 == null)
+            //{
+            //    crisis3 = PhotonNetwork.Instantiate("BaseStar_New", spawnSpot3.transform.position, spawnSpot3.transform.rotation, 0, null);
+            //    crisis3.transform.parent = activeCylonFleet.transform;
+            //}
+            //else
+            //{
+            //    //buff  base star
+            //}
             chatManager.GetComponent<PhotonView>().RPC("NewChat", PhotonTargets.AllViaServer, "EBS : Dradis Contact");
-            chatManager.GetComponent<PhotonView>().RPC("NewChat", PhotonTargets.AllViaServer, "EBS : Action Stations, Action Stations");
+           // chatManager.GetComponent<PhotonView>().RPC("NewChat", PhotonTargets.AllViaServer, "EBS : Action Stations, Action Stations");
         }
 
        

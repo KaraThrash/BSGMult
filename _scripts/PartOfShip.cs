@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PartOfShip : MonoBehaviour {
     public GameObject myShip;
-
-
+    public int shipSize;
+    public GameObject lastCollision;
 	// Use this for initialization
 	void Start () {
 		
@@ -25,19 +25,28 @@ public class PartOfShip : MonoBehaviour {
         }
         if (col.gameObject.tag == "LargeShipCollider")
         {
-           if(col.gameObject.GetComponent<LargeShip>().size >= myShip.GetComponent<LargeShip>().size)
-            myShip.SendMessage("Impact",col.gameObject.transform.position);
+          // if(col.gameObject.GetComponent<LargeShip>().size >= myShip.GetComponent<LargeShip>().size)
+          //  myShip.SendMessage("Impact",col.gameObject.transform.position);
            
         }
     }
     public void OnTriggerEnter(Collider col2)
     {
-      
-        if (col2.gameObject.tag == "LargeShipCollider")
-        {
-            if (col2.gameObject.GetComponent<PartOfShip>().myShip.GetComponent<LargeShip>().size >= myShip.GetComponent<LargeShip>().size)
-                myShip.SendMessage("Impact", col2.gameObject.transform.position);
-            myShip.SendMessage("TakeDamage", col2.gameObject.GetComponent<PartOfShip>().myShip.GetComponent<LargeShip>().size);
+
+       
+            if (col2.gameObject.tag == "LargeShipCollider")
+            {
+            if (col2.gameObject.GetComponent<PartOfShip>().myShip == lastCollision) { lastCollision = null; }
+            else
+            {
+                if (col2.gameObject.GetComponent<PartOfShip>().myShip != myShip)
+                {
+                    lastCollision = col2.gameObject.GetComponent<PartOfShip>().myShip;
+                    if (col2.gameObject.GetComponent<PartOfShip>().shipSize >= shipSize)
+                    { myShip.SendMessage("Impact", col2.gameObject.transform.position); }
+                    myShip.SendMessage("TakeDamage", col2.gameObject.GetComponent<PartOfShip>().shipSize);
+                }
+            }
         }
     }
     public void OnTriggerExit(Collider col3)

@@ -41,7 +41,7 @@ public class SupplyCrate : Photon.PunBehaviour
     {
         if (collision.gameObject.GetComponent<SupplyCrate>() != null && container == true)
         {
-            if (collision.gameObject.GetComponent<SupplyCrate>().food == food || collision.gameObject.GetComponent<SupplyCrate>().fuel == fuel)
+            if (collision.gameObject.GetComponent<SupplyCrate>().food == food && collision.gameObject.GetComponent<SupplyCrate>().fuel == fuel)
                 //collision.gameObject.GetComponent<PhotonView>().RPC("PickedUp", PhotonTargets.AllViaServer);
                 Destroy(collision.gameObject);
             quantity++;
@@ -54,12 +54,12 @@ public class SupplyCrate : Photon.PunBehaviour
     public void OnTriggerEnter(Collider col)
     {
         
-        if (col.gameObject.tag == "Storage")
-        {
-            GetComponent<Rigidbody>().useGravity = false;
-            Destroy(this.gameObject);
-            //TODO: combine crates?
-        }
+        //if (col.gameObject.tag == "Storage")
+        //{
+        //    GetComponent<Rigidbody>().useGravity = false;
+        //    Destroy(this.gameObject);
+        //    //TODO: combine crates?
+        //}
 
         if (col.gameObject.GetComponent<PlayerCharacter>() != null)
         {

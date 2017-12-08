@@ -311,6 +311,7 @@ public class Fighter : Photon.PunBehaviour
     public void ParentToShip(int shipFromMasterList,int cordsOfParent)
     {
         flying = false;
+        GetComponent<Rigidbody>().isKinematic = true;
         currentHangar = masterShipList.GetComponent<MasterShipList>().ParentFighterToShip(shipFromMasterList);
          //transform.parent = masterShipList.GetComponent<MasterShipList>().ParentFighterToShip(shipFromMasterList).transform;
         //transform.parent = null;
@@ -343,45 +344,66 @@ public class Fighter : Photon.PunBehaviour
     public void TakeDamage(int dmg)
     {
         //TODO: is that counting once for everyone in the server? need to check this
-        if (destroyed == false) {
-            hp -= dmg;
-            if (hp <= 0 )
+        if (m_PhotonView.isMine == true || ai == true)
+        {
+            if (destroyed == false)
             {
-               
-                destroyed = true;
-                dieClock = lengthOfDeathAnimation;
-                if (pilot != null)
+                hp -= dmg;
+                if (hp <= 0)
                 {
-                    dangerText.active = false;
-                    criticalFailureText.active = true;
+                    GetComponent<PhotonView>().RPC("DieOnServer", PhotonTargets.AllViaServer);
+                    destroyed = true;
+                    dieClock = lengthOfDeathAnimation;
+                    if (pilot != null)
+                    {
+                       // dangerText.active = false;
+                        //criticalFailureText.active = true;
+                    }
+
+
                 }
+                else
+                {
+                    if (ai == false)
+                    { dangerText.active = true; }
+                   
 
-
-            }
-            else {
-               
-                dangerText.active = true;
-
-            }
-            if (m_PhotonView.isMine == true )
-            {
-                if (hp > 8) { hpHud.text = "Good"; }
-                else if (hp < 9 && hp > 3) { hpHud.text = "Damaged"; }
-                else if (hp < 4 && hp > 0) { hpHud.text = "Critical"; }
-                else { hpHud.text = ""; }
+                }
+                if (m_PhotonView.isMine == true && ai == false)
+                {
+                    if (hp > 8) { hpHud.text = "Good"; }
+                    else if (hp < 9 && hp > 3) { hpHud.text = "Damaged"; }
+                    else if (hp < 4 && hp > 0) { hpHud.text = "Critical"; }
+                    else { hpHud.text = ""; }
+                }
             }
         }
     }
-   public void OutOfBounds()
+    public void Impact(Vector3 pointOfImpact)
+    {
+
+       // GetComponent<Rigidbody>().AddForce((pointOfImpact - transform.position) * 55.0f * Time.deltaTime,ForceMode.Impulse);
+       
+
+    }
+    public void ExitImpact()
+    {
+  
+
+
+    }
+    public void OutOfBounds()
     {
         //destroyed = true;
         //dieClock = 5;
         TakeDamage(maxHp);
         //GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer,maxHp);
     }
-
+    [PunRPC]
     public void DieOnServer() {
-     // GetComponent<PhotonView>().RPC("Die", PhotonTargets.AllViaServer);
+        destroyed = true;
+        hp = 0;
+        dieClock = lengthOfDeathAnimation;
     }
    // [PunRPC]
 
