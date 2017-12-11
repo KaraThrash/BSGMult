@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DeckGun : MonoBehaviour {
     public bool manned;
+    public GameObject myTerminal;
     public float mouseX;
     public float mouseY;
     public float gunCoolDown;
@@ -59,7 +60,8 @@ public class DeckGun : MonoBehaviour {
                 
                 AimGun();
             }
-            // else { turretHead.transform.localEulerAngles = Vector3.Slerp(turretHead.transform.localEulerAngles, new Vector3(hortTarget, vertTarget, 0), 8.0f * Time.deltaTime); }
+
+             else { turretHead.transform.localEulerAngles = Vector3.Slerp(turretHead.transform.localEulerAngles, new Vector3(hortTarget, vertTarget, 0), 8.0f * Time.deltaTime); }
             if (Input.GetKey(KeyCode.Backspace)) { manned = false; myCamera.active = false; }
         }
 	}
@@ -80,7 +82,7 @@ public class DeckGun : MonoBehaviour {
         if (Input.GetKey(KeyCode.A) && turretHead.transform.localEulerAngles.y  > leftLimit) { turretHead.transform.Rotate(transform.up * -rotSpeed  * Time.deltaTime,Space.Self); }
         vertTarget = turretHead.transform.localEulerAngles.y;
         hortTarget = turretHead.transform.localEulerAngles.x;
-       // GetComponent<PhotonView>().RPC("SyncAimTarget", PhotonTargets.Others, hortTarget, vertTarget);
+        GetComponent<PhotonView>().RPC("SyncAimTarget", PhotonTargets.Others, hortTarget, vertTarget);
       
     }
     public void Manned() {
@@ -105,16 +107,18 @@ public class DeckGun : MonoBehaviour {
     public void ActivateOnServer() { activated = true; }
 
   
-    public void TakeDamage()
+    public void TakeDamage(int dmg)
     {
         if (hp > 0)
         {
-            hp--;
+            hp -= dmg;
 
             if (hp <= 0 )
             {
                 hp = 0;
-               
+                // myTerminal.GetComponent<BattleStation>().damageObject.active = true;
+                NotManned();
+                myTerminal.GetComponent<PhotonView>().RPC("Damaged", PhotonTargets.AllViaServer);
             }
           
             Debug.Log("hit");
@@ -154,13 +158,13 @@ public class DeckGun : MonoBehaviour {
         if (stream.isWriting)
         {
             stream.SendNext(activated);
-            
+            stream.SendNext(turretHead.transform.rotation);
         }
         else
         {
             activated = (bool)stream.ReceiveNext();
-           // readyPosition.transform.position = (Vector3)stream.ReceiveNext();
-           // targetRotation = (Quaternion)stream.ReceiveNext();
+          //  readyPosition.transform.position = (Vector3)stream.ReceiveNext();
+            turretHead.transform.rotation = (Quaternion)stream.ReceiveNext();
         }
     }
 }

@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class HeavyRaider : MonoBehaviour {
    
-    public GameObject cargo; //centurions, bombs?
+    public GameObject cargo; //centurions, bombs, sentry guns?
     public GameObject spawnLocation;
     public bool hasCargo;
-    
+    public bool startClock;
+    public float dieTime;
     // Use this for initialization
     void Start () {
 		
@@ -15,7 +16,8 @@ public class HeavyRaider : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        if (startClock == true)
+        { dieTime -= Time.deltaTime;if (dieTime <= 0) { Destroy(this.gameObject); } }
 	}
     public void OnCollisionEnter(Collision col)
     {
@@ -33,6 +35,7 @@ public class HeavyRaider : MonoBehaviour {
                 transform.rotation = breachObject.transform.rotation;
                 GameObject clone = Instantiate(cargo, spawnLocation.transform.position, spawnLocation.transform.rotation) as GameObject;
                 clone.transform.parent = breachObject.transform;
+                startClock = true;
             }
         }
 

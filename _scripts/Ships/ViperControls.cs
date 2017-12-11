@@ -148,10 +148,10 @@ public class ViperControls : Photon.PunBehaviour
     public void ShootGuns(Vector3 currentVelocity)
     {
            GameObject clone = Instantiate(bullet, gun2.transform.position, gun2.transform.rotation) as GameObject;
-        clone.GetComponent<Rigidbody>().velocity += currentVelocity;
+       // clone.GetComponent<Rigidbody>().velocity += currentVelocity;
         clone.GetComponent<Bullet>().owner = GetComponent<PhotonView>().ownerId;
         GameObject clone2 =  Instantiate(bullet, gun1.transform.position, gun1.transform.rotation) as GameObject;
-        clone2.GetComponent<Rigidbody>().velocity += currentVelocity;
+      //  clone2.GetComponent<Rigidbody>().velocity += currentVelocity;
         clone2.GetComponent<Bullet>().owner = GetComponent<PhotonView>().ownerId;
     }
     [PunRPC]
@@ -188,7 +188,7 @@ public class ViperControls : Photon.PunBehaviour
         if (rollY != 0) { rb.AddTorque(transform.right *  -rollY * Time.deltaTime, ForceMode.Impulse); }
         if (lift != 0) { rb.AddForce(transform.up * lift * 30); }
         // if (leave == true &&  GetComponent<Rigidbody>().velocity.magnitude < 30) { GetComponent<PhotonView>().RPC("Land", PhotonTargets.All); }
-      //  GetComponent<PhotonView>().RPC("SyncVelocity", PhotonTargets.Others, rb.velocity);
+       GetComponent<PhotonView>().RPC("SyncVelocity", PhotonTargets.Others, rb.velocity);
     }
     [PunRPC]
     public void SyncVelocity(Vector3 newVelocity)

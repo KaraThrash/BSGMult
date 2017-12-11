@@ -6,6 +6,8 @@ public class PartOfShip : MonoBehaviour {
     public GameObject myShip;
     public int shipSize;
     public GameObject lastCollision;
+    public bool cantCollide;
+    public GameObject secondarySystem; //deal damage to specific system in that part of the ship // hit in the engines take damage to engine systems 
 	// Use this for initialization
 	void Start () {
 		
@@ -19,9 +21,17 @@ public class PartOfShip : MonoBehaviour {
     {
         if (col.gameObject.tag == "Bullet")
         {
-           // myShip.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer);
-           myShip.SendMessage("TakeDamage",1);
-            Debug.Log("hit");
+            // myShip.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer);
+            if (col.gameObject.GetComponent<Bullet>().damage >= shipSize)
+            {
+                if (secondarySystem != null)
+                {
+                    //secondarySystem.SendMessage("TakeDamage", 1);
+                    secondarySystem.GetComponent<PhotonView>().RPC("Damaged", PhotonTargets.AllViaServer);
+                }
+                myShip.SendMessage("TakeDamage", col.gameObject.GetComponent<Bullet>().damage);
+                Debug.Log("hit");
+            }
         }
         if (col.gameObject.tag == "LargeShipCollider")
         {
@@ -34,7 +44,7 @@ public class PartOfShip : MonoBehaviour {
     {
 
        
-            if (col2.gameObject.tag == "LargeShipCollider")
+            if (col2.gameObject.tag == "LargeShipCollider" && cantCollide == false)
             {
             if (col2.gameObject.GetComponent<PartOfShip>().myShip == lastCollision) { lastCollision = null; }
             else

@@ -26,6 +26,7 @@ public class LargeShip : Photon.PunBehaviour
     public float dieClock;
     public GameObject breachLocation; //for heavy raiders
     public bool dontDie;
+    public float lengthOfDeathAnimation = 5.0f;
     // Use this for initialization
     void Start()
     {
@@ -90,6 +91,8 @@ public class LargeShip : Photon.PunBehaviour
             if (Input.GetKey(KeyCode.E)) { rotationObject.transform.Rotate(0, 0, 0.5f); }
             if (Input.GetKey(KeyCode.D)) { rotationObject.transform.Rotate(0, 0.5f, 0); }
             if (Input.GetKey(KeyCode.A)) { rotationObject.transform.Rotate(0, -0.5f, 0); }
+
+           
             GetComponent<PhotonView>().RPC("SetRotationObjects", PhotonTargets.Others, rotationObject.transform.rotation);
         
     }
@@ -124,15 +127,24 @@ public class LargeShip : Photon.PunBehaviour
 
             if (hp <= 0 && destroyed == false)
             {
-                Instantiate(explosion, transform.position, transform.rotation);
-                dieClock = 5.0f;
-                destroyed = true;
+                GetComponent<PhotonView>().RPC("DieOnServer", PhotonTargets.AllViaServer);
+                
                 
               
             }
             //Destroy(this.gameObject);
             Debug.Log("hit");
         }
+    }
+    [PunRPC]
+    public void DieOnServer()
+    {
+        GameObject clone = Instantiate(explosion, transform.position, transform.rotation) as GameObject;
+        clone.transform.parent = this.transform;
+
+        destroyed = true;
+        hp = 0;
+        dieClock = lengthOfDeathAnimation;
     }
     public void Die()
     {
@@ -213,9 +225,10 @@ public class LargeShip : Photon.PunBehaviour
     {
         if (stream.isWriting)
         {
-            stream.SendNext(transform.rotation);
-            stream.SendNext(transform.position);
-        
+            
+                stream.SendNext(transform.rotation);
+                stream.SendNext(transform.position);
+            
         }
         else
         {

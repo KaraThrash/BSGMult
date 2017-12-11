@@ -14,6 +14,9 @@ public class BattleStation : Photon.PunBehaviour
     public bool dontChangeCamera;
     public bool canRepair;
     public bool canSabotage;
+
+    public bool damaged;
+    public GameObject damageObject; //visual model to show terminal cant be used until repaired
     //TODO: types of computers
     //>> spawns, builds, actively use >> guns,dradis,communications
     // Use this for initialization
@@ -35,6 +38,7 @@ public class BattleStation : Photon.PunBehaviour
     public void ToggleOnOff()
     {
         //TODO: in use or not in use
+       
         if (on == false)
         {
             on = true; onOffObject.active = true;
@@ -68,7 +72,7 @@ public class BattleStation : Photon.PunBehaviour
     }
     public void Interact(GameObject whoUsedMe)
     {
-        if (on == false) {
+        if (on == false && damaged == false) {
             
             whoUsedMe.GetComponent<HumanControls>().canMove = false;
             whoUsedMe.GetComponent<PlayerCharacter>().station = this.gameObject;
@@ -84,11 +88,24 @@ public class BattleStation : Photon.PunBehaviour
         
 
     }
+    [PunRPC]
+    public void Damaged()
+    {
+        damaged = true;
+        damageObject.active = true;
+        if (user != null) { user.GetComponent<PlayerCharacter>().myCamera.active = true; user.GetComponent<HumanControls>().canMove = true; user.GetComponent<PlayerCharacter>().station = null; } 
+        on = false;
+        onOffObject.active = false;
+        user = null;
+        if (myStation != null) { myStation.SendMessage("NotManned"); }
+
+    }
     public void Repair(GameObject whoUsedMe)
     {
         if (canRepair == true)
         { myStation.SendMessage("Repair"); }
-        
+        damaged = false;
+        damageObject.active = false;
     }
 
     public void Sabotage(GameObject whoUsedMe)

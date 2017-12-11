@@ -119,4 +119,5 @@ MonoBehaviour:
   - RestartGame
   - UpdateFromFPSCamera
   - DieOnServer
+  - Damaged
   DisableAutoOpenWizard: 1

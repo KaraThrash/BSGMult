@@ -435,11 +435,13 @@ public class Fighter : Photon.PunBehaviour
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        if (stream.isWriting && photonView.isMine == true)
-        {
-            stream.SendNext(transform.rotation);
-            stream.SendNext(transform.position);
-            stream.SendNext(flying);
+        if (stream.isWriting  )
+        {if (photonView.isMine == true)
+            {
+                stream.SendNext(transform.rotation);
+                stream.SendNext(transform.position);
+                stream.SendNext(flying);
+            }
         }
         else
         {
