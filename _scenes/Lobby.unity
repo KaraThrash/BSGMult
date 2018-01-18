@@ -6046,6 +6046,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c1b84a427010e0469ce0df07ab64dbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerManager: {fileID: 0}
+  everything: {fileID: 0}
   scoreKeeper: {fileID: 0}
   spawnServerSTuff: {fileID: 0}
   firstIn: 0
@@ -13646,10 +13648,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24a7d62f9ef78ad41a52cfb74a0afb5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onjectsToEnable: []
+  objectsToEnable: []
   startGameButton: {fileID: 0}
   roundManager: {fileID: 0}
   crisisManager: {fileID: 0}
+  spaceManager: {fileID: 0}
   resourceManager: {fileID: 0}
   shipList: {fileID: 0}
   itemList: {fileID: 0}
@@ -13658,6 +13661,7 @@ MonoBehaviour:
   firstScene: 1
   currentScene: 0
   humanLead: 0
+  localPlayer: {fileID: 0}
   everything: {fileID: 0}
 --- !u!114 &1606763073
 MonoBehaviour:

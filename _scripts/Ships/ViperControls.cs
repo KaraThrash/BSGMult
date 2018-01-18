@@ -83,7 +83,7 @@ public class ViperControls : Photon.PunBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            if (gunCoolDown <= 0 && rb.velocity.magnitude < 150)
+            if (gunCoolDown <= 0 && rb.velocity.magnitude < 250)
             {
                 // gunAnimation.active = false;
                 //  gunAnimation.active = true;
@@ -107,8 +107,9 @@ public class ViperControls : Photon.PunBehaviour
         { mouseX = 0; mouseY = 0; }
         else
         {
-            if (Input.mousePosition.x < 600) { mouseX = Input.mousePosition.x - 600; } else if (Input.mousePosition.x > 700) { mouseX = Input.mousePosition.x - 700; } else { mouseX = 0; }
-            if (Input.mousePosition.y < 325) { mouseY = Input.mousePosition.y - 325; } else if (Input.mousePosition.y > 475) { mouseY = Input.mousePosition.y - 475; } else { mouseY = 0; }
+            //To prevent issues with going off window
+            if (Input.mousePosition.x < 600 && Input.mousePosition.x > 20) { mouseX = Input.mousePosition.x - 600; } else if (Input.mousePosition.x > 700 && Input.mousePosition.x < 1200) { mouseX = Input.mousePosition.x - 700; } else { mouseX = 0; }
+            if (Input.mousePosition.y < 325 && Input.mousePosition.y > 25) { mouseY = Input.mousePosition.y - 325; } else if (Input.mousePosition.y > 475 && Input.mousePosition.y < 855) { mouseY = Input.mousePosition.y - 475; } else { mouseY = 0; }
             // GetComponent<PhotonView>().RPC("flightControls", PhotonTargets.AllViaServer, vert, hort, roll, (mouseX * 0.5f), (-mouseY * 0.5f), exit, lift);
             Mathf.Clamp(mouseX, -50.0F, 50.0F);
             Mathf.Clamp(mouseY, -50.0F, 50.0F);
@@ -120,7 +121,7 @@ public class ViperControls : Photon.PunBehaviour
     {
         if (Input.GetKey(KeyCode.Space)) {
             
-            if (gunCoolDown <= 0 && rb.velocity.magnitude < 150)
+            if (gunCoolDown <= 0)
             {
                 // gunAnimation.active = true;
                 RaycastShootGuns();
@@ -233,21 +234,23 @@ public class ViperControls : Photon.PunBehaviour
     public void flightControls(float newvert,float newhort,float roll,float rollX,float rollY,bool leave, float lift) {
         if (vert != 0)
         {
-            rb.AddForce(transform.forward * ((-vert * flySpeed * afterBurner))) ;
+            rb.AddForce(transform.forward * ((-vert * flySpeed * afterBurner)) * Time.deltaTime) ;
             if (rb.drag == 0) { rb.drag = myDrag; rb.angularDrag = myAngularDrag; glideIndicator.active = false; }
         }
         if (hort != 0)
         {
             
-            rb.AddForce(transform.right * (-hort * strafeSpeed), ForceMode.Impulse);
+            rb.AddForce(transform.right * (-hort * strafeSpeed) * Time.deltaTime, ForceMode.Impulse);
         }
         //TODO: two monitors makes the X value freak out
         //Mathf.Clamp(rollX, -50.0F, 50.0F);
         //Mathf.Clamp(rollY, -50.0F, 50.0F);
-        if (roll != 0) { rb.AddTorque(transform.forward * roll * Time.deltaTime,ForceMode.Impulse); }
-        if (rollX != 0) { rb.AddTorque(transform.up *  rollX * Time.deltaTime, ForceMode.Impulse); }
-        if (rollY != 0) { rb.AddTorque(transform.right *  -rollY * Time.deltaTime, ForceMode.Impulse); }
-        if (lift != 0) { rb.AddForce(transform.up * lift * 30); }
+        if (roll != 0) { rb.AddTorque(transform.forward * roll * Time.deltaTime, ForceMode.Impulse); }
+        if (rollX != 0) { rb.AddTorque(transform.up * rollX * Time.deltaTime, ForceMode.Impulse); }
+        if (rollY != 0) { rb.AddTorque(transform.right * -rollY * Time.deltaTime, ForceMode.Impulse); }
+       // transform.Rotate(0.1f * -rollY, 0.1f * rollX, 0.1f * roll);
+
+        if (lift != 0) { rb.AddForce(transform.up * lift * 30 * Time.deltaTime); }
         // if (leave == true &&  GetComponent<Rigidbody>().velocity.magnitude < 30) { GetComponent<PhotonView>().RPC("Land", PhotonTargets.All); }
        GetComponent<PhotonView>().RPC("SyncVelocity", PhotonTargets.Others, rb.velocity);
     }

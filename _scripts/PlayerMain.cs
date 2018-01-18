@@ -8,6 +8,7 @@ public class PlayerMain : Photon.PunBehaviour
     public GameObject galactica;
     public GameObject roundManager;
     public int spaceCoordinates;
+    
     public float score;
     //Parent script for each player on the server
     public GameObject myCamera;
@@ -25,19 +26,14 @@ public class PlayerMain : Photon.PunBehaviour
 
     // Use this for initialization
     void Start () {
-        // scoreText = GameObject.Find("Menu").GetComponent<ItemList>().supplyCrates[GetComponent<PhotonView>().ownerId].GetComponent<Text>();
+        
         if (photonView.isMine == true)
         {
-            gameManager = GameObject.Find("GameManager");
-            //playerHud = GameObject.Find("PlayerHud");
-            // hpTextObj = playerHud.transform.Find("HpText").gameObject;
-            // ammoTextObj = playerHud.transform.Find("AmmoText").gameObject;
+           
             myCamera.active = true;
             myCamera.transform.parent = null;
 
         }
-        //else { scoreText = GameObject.Find("Menu").GetComponent<ItemList>().supplyCrates[GetComponent<PhotonView>().ownerId].GetComponent<Text>(); }
-
 
 	}
 	
@@ -46,9 +42,18 @@ public class PlayerMain : Photon.PunBehaviour
         if (photonView.isMine == true)
         {
 
+            if (gameManager == null)
+            {
+                gameManager = GameObject.Find("GameManager");
+                gameManager.GetComponent<GameManager>().localPlayer = this.gameObject;
+            }
 
+            if (humanoidObject == null) {
+               
+                
+                PickCharacter();
 
-            if (SceneManager.GetActiveScene().name == "PlayerLobby") { PickCharacter(); }
+            }
         }
     }
     void Awake()
@@ -96,11 +101,9 @@ public class PlayerMain : Photon.PunBehaviour
     }
     public void Jumping(int newCords, int newShipGroup)
     {
-        Debug.Log("Joined game and changing to new scene: " + newCords);
-        // SceneManager.LoadScene(newCords.ToString());
         spaceCoordinates = newCords;
-
-        //Application.LoadLevel(newCords.ToString());
+        shipGroup = newShipGroup;
+        
     }
     [PunRPC]
     public void UpdateScore(float newScore)
@@ -115,7 +118,7 @@ public class PlayerMain : Photon.PunBehaviour
     public void CharacterDied()
     {
         roundManager.GetComponent<RoundManager>().wasFrakked = true;
-
+        shipGroup = 1;
     }
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

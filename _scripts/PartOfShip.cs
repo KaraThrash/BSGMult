@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PartOfShip : Photon.PunBehaviour
 {
+
     public GameObject myShip;
     public int shipSize;
     public GameObject lastCollision;
@@ -21,14 +22,18 @@ public class PartOfShip : Photon.PunBehaviour
     [PunRPC]
     public void TakeDamage(int dmg, int byWho)
     {
-        if (dmg >= shipSize)
+        if (dmg >= shipSize )
         {
+       
+            
                 if (secondarySystem != null)
                 {
                     //secondarySystem.SendMessage("TakeDamage", 1);
                     secondarySystem.GetComponent<PhotonView>().RPC("Damaged", PhotonTargets.AllViaServer);
                 }
                 myShip.SendMessage("TakeDamage", dmg);
+            
+               
         }
         
     }

@@ -45,6 +45,7 @@ public class SupplyCrate : Photon.PunBehaviour
                 //collision.gameObject.GetComponent<PhotonView>().RPC("PickedUp", PhotonTargets.AllViaServer);
                 Destroy(collision.gameObject);
             quantity++;
+           // transform.localScale *= 1.1f;
         }
         
 

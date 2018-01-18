@@ -53,8 +53,8 @@ public class LargeShip : Photon.PunBehaviour
         if (impactTimer > 0)
         {
             impactTimer -= Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, lastImpact, -35.0f * Time.deltaTime);
-            transform.rotation = Quaternion.Slerp(transform.rotation, impactRotation, -0.5f * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, lastImpact, -15.0f * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, impactRotation, -0.1f * Time.deltaTime);
 
             rotationObject.transform.rotation = transform.rotation;
         }
@@ -85,12 +85,12 @@ public class LargeShip : Photon.PunBehaviour
             //transform.Translate(Vector3.right * 1);
         }
         
-            if (Input.GetKey(KeyCode.S)) { rotationObject.transform.Rotate(0.5f, 0, 0); }
-            if (Input.GetKey(KeyCode.W)) { rotationObject.transform.Rotate(-0.5f, 0, 0); }
-            if (Input.GetKey(KeyCode.Q)) { rotationObject.transform.Rotate(0, 0, -0.5f); }
-            if (Input.GetKey(KeyCode.E)) { rotationObject.transform.Rotate(0, 0, 0.5f); }
-            if (Input.GetKey(KeyCode.D)) { rotationObject.transform.Rotate(0, 0.5f, 0); }
-            if (Input.GetKey(KeyCode.A)) { rotationObject.transform.Rotate(0, -0.5f, 0); }
+            if (Input.GetKey(KeyCode.S)) { rotationObject.transform.Rotate(0.2f, 0, 0); }
+            if (Input.GetKey(KeyCode.W)) { rotationObject.transform.Rotate(-0.2f, 0, 0); }
+            if (Input.GetKey(KeyCode.Q)) { rotationObject.transform.Rotate(0, 0, -0.2f); }
+            if (Input.GetKey(KeyCode.E)) { rotationObject.transform.Rotate(0, 0, 0.2f); }
+            if (Input.GetKey(KeyCode.D)) { rotationObject.transform.Rotate(0, 0.2f, 0); }
+            if (Input.GetKey(KeyCode.A)) { rotationObject.transform.Rotate(0, -0.2f, 0); }
 
            
             GetComponent<PhotonView>().RPC("SetRotationObjects", PhotonTargets.Others, rotationObject.transform.rotation);

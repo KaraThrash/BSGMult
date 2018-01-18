@@ -21,7 +21,7 @@ public class DemoRPGMovement : MonoBehaviour
        // GameObject newPlayerObject = PhotonNetwork.Instantiate( "OldKyle", position, Quaternion.identity, 0 );
         //newPlayerObject.GetComponent<HumanControls>().SetAsMyPlayer();
          
-        GameObject newPlayerObject = PhotonNetwork.Instantiate(playerObject, new Vector3(-45.0f,0,(-40.0f * PhotonNetwork.room.playerCount)), Quaternion.identity, 0);
+        GameObject newPlayerObject = PhotonNetwork.Instantiate(playerObject, new Vector3(-545.0f,0,(-40.0f * PhotonNetwork.room.playerCount)), Quaternion.identity, 0);
         //newPlayerObject.GetComponent<HumanControls>().SetAsMyPlayer();
 
 

@@ -51,7 +51,6 @@ public class Fighter : Photon.PunBehaviour
     {
         gameManager = GameObject.Find("GameManager"); 
          maxHp = 10;
-        medbay = GameObject.Find(medbayName);
         rb = GetComponent<Rigidbody>();
         m_PhotonView = GetComponent<PhotonView>();
         if (masterShipList == null) { masterShipList = GameObject.Find("MasterShipList"); }
@@ -60,8 +59,10 @@ public class Fighter : Photon.PunBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (colliderTimer > 0) { colliderTimer -= Time.deltaTime; }
         if (colliderTimer <= 0 && myColliders != null) { myColliders.active = true; }
+
         if (destroyed == true )
         {
             if (dieClock > 0 && m_PhotonView.isMine == true)
@@ -74,17 +75,6 @@ public class Fighter : Photon.PunBehaviour
             dieClock -= Time.deltaTime;
             if (dieClock <= 0) { Die(); }
         }
-        if (flying == true)
-        {
-
-        }
-        else { }
-  
-
-        if (m_PhotonView.isMine == true && flying == true)
-        {
-           
-        }
     }
 
 
@@ -93,22 +83,15 @@ public class Fighter : Photon.PunBehaviour
     {
         if (myShipGroup != 3) { myShipGroup = 0; }
         landingGear.active = false;
-        GetComponent<Rigidbody>().isKinematic = false;
-        GetComponent<Rigidbody>().useGravity = false;
+
         if (inHangar == true)
         {
 
 
-            myColliders.active = false;
-            colliderTimer = 2.0f;
+           
             hangarSpace.GetComponent<DockingSpace>().spaceOpen = true;
             currentHangar.GetComponent<LandingBay>().ShipLeavesHangar(this.gameObject);
-            if (photonView.isMine == false)
-            {
-                this.gameObject.active = currentHangar.GetComponent<LandingBay>().myShip.active;
-
-
-            }
+            
             GetComponent<PhotonView>().RPC("OutInSpace", PhotonTargets.AllBufferedViaServer, currentCords);
            
             transform.position = hangarSpace.GetComponent<DockingSpace>().myLaunchBay.transform.position;
@@ -166,18 +149,10 @@ public class Fighter : Photon.PunBehaviour
 
 
     }
-    public void OnTriggerEnter(Collider col3)
-    {
-        if (col3.gameObject.tag == "ExitLaunchBay") { myColliders.active = true; flying = true; }
-        if (photonView.isMine == true)
-        {
-        }
 
-    }
     public void OnTriggerExit(Collider col)
     {
-
-        //if (col.gameObject.tag == "HangarSpot") { col.transform.name = "open"; }
+        
         if (col.gameObject.tag == "Border" && m_PhotonView.isMine == true)
         {
             //TODO: give the border an object that looks at the ship and then moves it. That way you can't fly backward out of the border and end up going out the opposite one.
@@ -231,8 +206,7 @@ public class Fighter : Photon.PunBehaviour
     {
         if (col3.gameObject.tag == "LandingPad" && photonView.isMine == true)
         {
-            //flying = true;
-            //GetComponent<PhotonView>().RPC("OutInSpace", PhotonTargets.AllBufferedViaServer,currentCords);
+          
             currentHangar = null;
         }
     }
@@ -261,9 +235,7 @@ public class Fighter : Photon.PunBehaviour
        
     
     
-    [PunRPC]
-    public void NoHangar()
-    { currentHangar = null; }
+   
     [PunRPC]
     public void SetHangar(int hangarToSet) {
         
@@ -296,20 +268,12 @@ public class Fighter : Photon.PunBehaviour
         flying = false;
         GetComponent<Rigidbody>().isKinematic = true;
         currentHangar = masterShipList.GetComponent<MasterShipList>().ParentFighterToShip(shipFromMasterList);
-         //transform.parent = masterShipList.GetComponent<MasterShipList>().ParentFighterToShip(shipFromMasterList).transform;
-        //transform.parent = null;
-       //  GetComponent<FTLDrive>().currentCords = cordsOfParent;
         currentCords = cordsOfParent;
         
         if (currentHangar != null)
         {
             currentHangar.GetComponent<LandingBay>().AddThisShip(this.gameObject);
-            // currentHangar.GetComponent<LandingBay>().AddThisShip(this.gameObject);
-
-
-            // GetComponent<Rigidbody>().isKinematic = true;
-            //  transform.parent = currentHangar.transform;
-
+            myShipGroup = currentHangar.GetComponent<LandingBay>().shipGroup;
         }
         if (pilot != null)
         {
@@ -317,6 +281,7 @@ public class Fighter : Photon.PunBehaviour
             pilot.transform.rotation = cockpitEntrance.transform.rotation;
             pilot.active = true;
             pilot.GetComponent<PlayerCharacter>().myCamera.active = true;
+            pilot.GetComponent<PlayerCharacter>().localPlayer.GetComponent<PlayerMain>().shipGroup = myShipGroup;
         }
         pilot = null;
     }
@@ -326,9 +291,7 @@ public class Fighter : Photon.PunBehaviour
     [PunRPC]
     public void TakeDamage(int dmg,int fromWho)
     {
-        //TODO: is that counting once for everyone in the server? need to check this
-       // if (m_PhotonView.isMine == true || ai == true)
-       // {
+       
             if (destroyed == false)
             {
                 hp -= dmg;
@@ -361,25 +324,10 @@ public class Fighter : Photon.PunBehaviour
                     else { hpHud.text = ""; }
                 }
             }
-       // }
-    }
-    public void Impact(Vector3 pointOfImpact)
-    {
-
-       // GetComponent<Rigidbody>().AddForce((pointOfImpact - transform.position) * 55.0f * Time.deltaTime,ForceMode.Impulse);
-       
-
-    }
-    public void ExitImpact()
-    {
-  
-
-
     }
     public void OutOfBounds()
     {
-        //destroyed = true;
-        //dieClock = 5;
+
         //TakeDamage(maxHp);
         GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer,maxHp);
     }
@@ -389,7 +337,6 @@ public class Fighter : Photon.PunBehaviour
         hp = 0;
         dieClock = lengthOfDeathAnimation;
     }
-   // [PunRPC]
 
     public void Die()
     {
@@ -399,14 +346,8 @@ public class Fighter : Photon.PunBehaviour
         {
             //pilot.transform.parent = medbay.transform;
             pilot.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            pilot.transform.position = medbay.transform.position;
-            pilot.transform.rotation = medbay.transform.rotation;
-
             pilot.active = true;
-            //pilot.GetComponent<PlayerCharacter>().localPlayer.GetComponent<PhotonView>().RPC("SetHumanActive", PhotonTargets.AllViaServer);
-            //pilot.GetComponent<PlayerCharacter>().myCamera.active = true;
             pilot.GetComponent<PlayerCharacter>().TakeDamage(99);
-            //pilot.GetComponent<PhotonView>().RPC("GetOutShip", PhotonTargets.AllBufferedViaServer,1, medbay.transform.position,1);
             
         }
         pilot = null;
@@ -439,25 +380,25 @@ public class Fighter : Photon.PunBehaviour
     {
         //when interacted with it takes off
         GetComponent<PhotonView>().RequestOwnership();
-        if (xwing == true)
-            {
-                //whoUsedMe.GetComponent<HumanControls>().cam.GetComponent<FPScamera>().lockCursor = false;
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.lockState = CursorLockMode.Confined;
-            }
+        
 
             playerControlled = true;
         GetComponent<PhotonView>().RPC("SetPilot", PhotonTargets.AllBufferedViaServer, whoUsedMe.GetComponent<PlayerCharacter>().myCharacterOnList);
          whoUsedMe.GetComponent<PlayerCharacter>().ammoHud.text = "-";
         hpHud = whoUsedMe.GetComponent<PlayerCharacter>().hpHud;
+        whoUsedMe.GetComponent<PlayerCharacter>().localPlayer.GetComponent<PlayerMain>().shipGroup = 0 ;
         hpHud.text = hp.ToString();
         whoUsedMe.active = false;
             myCam.active = true;
             myModel.active = false;
-
-            //pilot.GetComponent<PhotonView>().RPC("GetInShip", PhotonTargets.AllBufferedViaServer);
-           // GetComponent<PhotonView>().RPC("TakeOff", PhotonTargets.AllBufferedViaServer);
+        if (xwing == true)
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.lockState = CursorLockMode.Confined;
+        }
+        GetComponent<Rigidbody>().useGravity = false;
+        GetComponent<Rigidbody>().isKinematic = false;
         GetComponent<PhotonView>().RPC("TakeOff", PhotonTargets.AllViaServer, whoUsedMe.GetComponent<PhotonView>().owner.ID);
     }
     [PunRPC]

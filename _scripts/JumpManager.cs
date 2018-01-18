@@ -34,6 +34,7 @@ public class JumpManager : Photon.PunBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+        if (localPlayer == null) { localPlayer = gameManager.GetComponent<GameManager>().localPlayer; }
        // if (Input.GetKeyUp(KeyCode.Y)) { PhotonNetwork.InstantiateSceneObject("humanBullet", Vector3.zero, Quaternion.identity, 0, null); }
 
     }
@@ -75,22 +76,28 @@ public class JumpManager : Photon.PunBehaviour
         fleet.GetComponent<Fleet>().CheckAllShipsLocation();
         activeHumanFleet.active = true;
         fleetLeftBehind.active = true;
-
+        if (localPlayer != null)
+        {
+            if (localPlayer.GetComponent<PlayerMain>().shipGroup != 1 && localPlayer.GetComponent<PlayerMain>().humanoidObject.GetComponent<PlayerCharacter>().flying == false)
+            { localPlayer.GetComponent<PlayerMain>().humanoidObject.GetComponent<PlayerCharacter>().TakeDamage(99); }
+        }
         foreach (Transform child in activePersistantFighters.transform)
         {
-          //  child.parent = fleetLeftBehind.transform;
-           // child.GetComponent<Fighter>().myShipGroup = 3;
+          
             child.GetComponent<Fighter>().Die();
 
         }
 
-      //  if (photonView.isMine == true)
-      //  { gameManager.GetComponent<RoundManager>().NewRound(); }
+       
 
-        gameManager.GetComponent<GameManager>().NewRound();
+        
+
+            gameManager.GetComponent<GameManager>().NewRound();
         //roundManager.GetComponent<RoundManager>().NewRound();
         if (localPlayer != null)
         {
+
+
            // if (localPlayer.GetComponent<PlayerMain>().shipGroup == 1)
           //  {
                 galactica.active = true;

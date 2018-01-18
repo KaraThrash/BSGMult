@@ -6,11 +6,12 @@ public class GameManager : Photon.PunBehaviour
 {
     //Has Access to all other objects to make it easier to manage
 
-    public List<GameObject> onjectsToEnable = new List<GameObject>();
+    public List<GameObject> objectsToEnable = new List<GameObject>();
     public GameObject startGameButton;
 
     public GameObject roundManager;
     public GameObject crisisManager;
+    public GameObject spaceManager;
     public GameObject resourceManager; //fleet
     public GameObject shipList;
     
@@ -21,6 +22,7 @@ public class GameManager : Photon.PunBehaviour
 
     public int currentScene; //space coordinates
     public int humanLead;
+    public GameObject localPlayer;
     public GameObject everything;
     // Use this for initialization
     void Start () {
@@ -37,10 +39,11 @@ public class GameManager : Photon.PunBehaviour
     public void StartGame()
     {
         startGameButton.active = false;
-        for (int i = onjectsToEnable.Count - 1; i >= 0; --i)
+        for (int i = objectsToEnable.Count - 1; i >= 0; --i)
         {
-            onjectsToEnable[i].active = true;
+            objectsToEnable[i].active = true;
         }
+        spaceManager.GetComponent<SpaceManager>().SpawnSpace(0);
     }
     [PunRPC]
     public void MasterClientStart()
@@ -55,21 +58,14 @@ public class GameManager : Photon.PunBehaviour
         if (roundManager.GetComponent<RoundManager>().currentRound % 2 == 0)
         { crisisManager.GetComponent<CrisisManager>().AttackingBaseStar(); }
         else { crisisManager.GetComponent<CrisisManager>().HiddenBomb(); }
-        
+        spaceManager.GetComponent<SpaceManager>().SpawnSpace(roundManager.GetComponent<RoundManager>().currentRound);
     }
 
     public void ButtonStartGame()
     {
 
         GetComponent<PhotonView>().RPC("MasterClientStart", PhotonTargets.MasterClient);
-        // Application.LoadLevel("PlayerLobby");
-
-        // GetComponent<PhotonView>().RequestOwnership();
-        // PhotonNetwork.Instantiate("Everything", Vector3.zero, new Quaternion(0, 0, 0, 0), 0, null);
-
-        //GameObject.Find("GameManager").GetComponent<PhotonView>().RPC("MasterClientStart", PhotonTargets.MasterClient);
-       
-       // GetComponent<PhotonView>().RPC("StartGame", PhotonTargets.AllBufferedViaServer);
+        
     }
     [PunRPC]
     public void PlayerDie()

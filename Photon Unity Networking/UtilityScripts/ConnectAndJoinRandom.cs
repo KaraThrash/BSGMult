@@ -8,6 +8,8 @@ using System.Collections;
 /// </summary>
 public class ConnectAndJoinRandom : Photon.MonoBehaviour
 {
+    public GameObject playerManager;
+    public GameObject everything;
     public GameObject scoreKeeper;
     public GameObject spawnServerSTuff;
     
@@ -79,9 +81,11 @@ public class ConnectAndJoinRandom : Photon.MonoBehaviour
            // PhotonNetwork.InstantiateSceneObject("Everything", Vector3.zero, new Quaternion(0, 0, 0, 0), 0, null);
            
         }
-       // else { Application.LoadLevel("PlayerLobby"); }
-        Application.LoadLevel("PlayerLobby");
-        //Application.LoadLevel("ServerStart");
+
+       
+        //everything.active = true;
+       Application.LoadLevel("PlayerLobby");
+
 
     }
 }
