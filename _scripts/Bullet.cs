@@ -12,6 +12,7 @@ public class Bullet : MonoBehaviour {
     public GameObject explosion;
     public bool large;
     public GameObject intialExplosion;
+    public bool aiBullet;
     // Use this for initialization
     void Start () {
         rb = GetComponent<Rigidbody>();

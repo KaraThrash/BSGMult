@@ -16,6 +16,7 @@ public class PlayerMain : Photon.PunBehaviour
     public bool atBattleStation;
     public int currentCord;
     public GameObject jumpManager;
+    public GameObject gameManager;
     public int shipGroup;  //0:space/planet //1: galactica + active fleet 2: Cylon fleet 3:  leftbehind
     public GameObject playerHud;
     public GameObject hpTextObj;
@@ -27,6 +28,7 @@ public class PlayerMain : Photon.PunBehaviour
         // scoreText = GameObject.Find("Menu").GetComponent<ItemList>().supplyCrates[GetComponent<PhotonView>().ownerId].GetComponent<Text>();
         if (photonView.isMine == true)
         {
+            gameManager = GameObject.Find("GameManager");
             //playerHud = GameObject.Find("PlayerHud");
             // hpTextObj = playerHud.transform.Find("HpText").gameObject;
             // ammoTextObj = playerHud.transform.Find("AmmoText").gameObject;
@@ -35,6 +37,8 @@ public class PlayerMain : Photon.PunBehaviour
 
         }
         //else { scoreText = GameObject.Find("Menu").GetComponent<ItemList>().supplyCrates[GetComponent<PhotonView>().ownerId].GetComponent<Text>(); }
+
+
 	}
 	
 	// Update is called once per frame
@@ -108,6 +112,12 @@ public class PlayerMain : Photon.PunBehaviour
         score = newScore;
         scoreText.text = score.ToString();
     }
+    public void CharacterDied()
+    {
+        roundManager.GetComponent<RoundManager>().wasFrakked = true;
+
+    }
+
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.isWriting)

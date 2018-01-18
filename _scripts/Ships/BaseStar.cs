@@ -79,6 +79,7 @@ public class BaseStar : Photon.PunBehaviour
             raiderParentObject = parentclone;
         }
          GameObject clone = PhotonNetwork.InstantiateSceneObject(objectToSpawn, launchBay.transform.position, launchBay.transform.rotation, 0, null);
+        clone.transform.parent = raiderParentObject.transform;
         clone.GetComponent<FighterWing>().roundManager = gameManager.GetComponent<GameManager>().roundManager;
         numberOfRaiderWings -= 5;
 
@@ -106,20 +107,21 @@ public class BaseStar : Photon.PunBehaviour
         jumping = false;
         ftlClock = 3;
         //Using the parent object was only deleteing on the server
-        //if (raiderParentObject != null && photonView.isMine == true)
-        //{
-        //    foreach (Transform child in raiderParentObject.transform)
-        //    {
-        //        if(child.GetComponent<FighterWing>() != null) {
-        //            if (child.childCount > 0 ) { numberOfRaiderWings += child.childCount; }
-        //            PhotonNetwork.Destroy(child.gameObject);
-        //            // Destroy(child.gameObject);
-        //        }
-        //    }
+        if (raiderParentObject != null && photonView.isMine == true)
+        {
+            foreach (Transform child in raiderParentObject.transform)
+            {
+                if (child.GetComponent<FighterWing>() != null)
+                {
+                   // if (child.childCount > 0) { numberOfRaiderWings += child.childCount; }
+                    PhotonNetwork.Destroy(child.gameObject);
+                    // Destroy(child.gameObject);
+                }
+            }
 
 
-        //    // Destroy(raiderParentObject);
-        //}
+            // Destroy(raiderParentObject);
+        }
         numberOfRaiderWings += 12;
         GetComponent<FTLDrive>().currentCords = ftlCoords;
         // Application.LoadLevel(ftlCoords.ToString()); //this only works if the server isnt also a player

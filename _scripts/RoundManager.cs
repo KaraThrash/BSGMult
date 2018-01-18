@@ -84,7 +84,7 @@ public class RoundManager : MonoBehaviour {
         switch (newRoundVariable)
         {
             case 1:
-                newObj = "Frak Cylons";
+                newObj = "Frak Cylon Raiders";
                 cylonKillBonus = 1.2f;
                 break;
             case 2:

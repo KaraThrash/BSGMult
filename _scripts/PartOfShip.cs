@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PartOfShip : MonoBehaviour {
+public class PartOfShip : Photon.PunBehaviour
+{
     public GameObject myShip;
     public int shipSize;
     public GameObject lastCollision;
@@ -17,6 +18,21 @@ public class PartOfShip : MonoBehaviour {
 	void Update () {
 		
 	}
+    [PunRPC]
+    public void TakeDamage(int dmg, int byWho)
+    {
+        if (dmg >= shipSize)
+        {
+                if (secondarySystem != null)
+                {
+                    //secondarySystem.SendMessage("TakeDamage", 1);
+                    secondarySystem.GetComponent<PhotonView>().RPC("Damaged", PhotonTargets.AllViaServer);
+                }
+                myShip.SendMessage("TakeDamage", dmg);
+        }
+        
+    }
+
     public void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.tag == "Bullet")

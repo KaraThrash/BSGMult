@@ -120,8 +120,8 @@ public class FighterWing : Photon.PunBehaviour
         
     }
 
-   // [PunRPC]
-    public void ShipDestroyed(int shipNumber)
+    [PunRPC]
+    public void ShipDestroyed(int shipNumber, int byWho)
     {
         if (ships.Count >= shipNumber )
         {
@@ -129,6 +129,7 @@ public class FighterWing : Photon.PunBehaviour
             //Destroy(ships[shipNumber]);
             if (ships[shipNumber] != null )
             {
+                roundManager.GetComponent<RoundManager>().CylonKilled(1, byWho);
                 ships[shipNumber].active = false;
                // if (shipsDestroyed >= ships.Count) { Destroy(this.gameObject); }
 

@@ -133,13 +133,46 @@ public class Dradis : MonoBehaviour {
 
     public void OnTriggerExit(Collider col2)
     {
-        if (dradisList.Contains(col2.gameObject) == true)
+
+        if (isRadar == false && col2.gameObject.GetComponent<Dradis>() != null)
+        {
+
+            if (col2.gameObject.GetComponent<Dradis>().isRadar == true)
+
+            {
+                col2.gameObject.GetComponent<Dradis>().LostDradisContact(this.gameObject);
+
+
+            }
+
+        }
+
+    }
+    public void OnTriggerEnter(Collider col)
+    {
+        if (isRadar == false && col.gameObject.GetComponent<Dradis>() != null)
+        {
+            
+                if(col.gameObject.GetComponent<Dradis>().isRadar == true)
+                
+                {
+                col.gameObject.GetComponent<Dradis>().NewDradisContact(this.gameObject);
+
+
+                }
+            
+        }
+    }
+
+    public void LostDradisContact(GameObject oldContact)
+    {
+        if (dradisList.Contains(oldContact) == true)
         {
             if (dontDestroyOld == true)
             {
-                int index = dradisList.IndexOf(col2.gameObject);
+                int index = dradisList.IndexOf(oldContact);
 
-                dradisList.Remove(col2.gameObject);
+                dradisList.Remove(oldContact);
                 Destroy(activeDradisModelList[index]);
                 activeDradisModelList.RemoveAt(index);
 
@@ -147,40 +180,35 @@ public class Dradis : MonoBehaviour {
                 //emptyObject = Instantiate(placeHolder, displayLocation.transform.position, displayLocation.transform.rotation) as GameObject;
                 //emptyObject.transform.parent = displayLocation.transform;
             }
-            else { dradisList.Remove(col2.gameObject); }
+            else { dradisList.Remove(oldContact); }
         }
-            
 
     }
-    public void OnTriggerEnter(Collider col)
-    {
-        if (isRadar == true)
-        {
-            if (col.gameObject.GetComponent<Dradis>() != null)
-            {
-                if (!dradisList.Contains(col.gameObject) && dradisValue <= dradisPower)
-                {
-                    dradisList.Add(col.gameObject);
-                    
-                    if (dontDestroyOld == true)
-                    {
-                        GameObject clone = null;
-                        if (fullScaleRadarImages == true)
-                        {
-                            clone = Instantiate(col.gameObject.GetComponent<Dradis>().dradisModel, Vector3.zero, col.gameObject.transform.rotation) as GameObject;
-                        }
-                        else
-                        {
-                            clone = Instantiate(col.gameObject.GetComponent<Dradis>().transparentDradisModel, Vector3.zero, col.gameObject.transform.rotation) as GameObject;
-                        }
 
-                        clone.transform.parent = emptyObject.transform;
-                        clone.transform.localScale *= reScale;
-                        clone.transform.localPosition = ((col.gameObject.transform.position - transform.position) * radarSize);
-                        activeDradisModelList.Add(clone);
-                    }
+    public void NewDradisContact(GameObject newContact)
+    {
+        if (!GetComponent<Dradis>().dradisList.Contains(newContact) && dradisValue <= dradisPower)
+        {
+            dradisList.Add(newContact);
+
+            if (dontDestroyOld == true)
+            {
+                GameObject clone = null;
+                if (fullScaleRadarImages == true)
+                {
+                    clone = Instantiate(newContact.GetComponent<Dradis>().dradisModel, Vector3.zero, newContact.transform.rotation) as GameObject;
                 }
+                else
+                {
+                    clone = Instantiate(newContact.GetComponent<Dradis>().transparentDradisModel, Vector3.zero, newContact.transform.rotation) as GameObject;
+                }
+
+                clone.transform.parent = emptyObject.transform;
+                clone.transform.localScale *= reScale;
+                clone.transform.localPosition = ((newContact.transform.position - transform.position) * radarSize);
+                activeDradisModelList.Add(clone);
             }
         }
+
     }
 }

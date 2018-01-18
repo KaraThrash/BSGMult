@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DeckGun : MonoBehaviour {
+public class DeckGun : Photon.PunBehaviour
+{
     public bool manned;
     public GameObject myTerminal;
     public float mouseX;
@@ -106,7 +107,7 @@ public class DeckGun : MonoBehaviour {
     [PunRPC]
     public void ActivateOnServer() { activated = true; }
 
-  
+
     public void TakeDamage(int dmg)
     {
         if (hp > 0)
@@ -131,7 +132,7 @@ public class DeckGun : MonoBehaviour {
         if (hp < maxHp)
         {
             hp++;
-
+            
         }
     }
 

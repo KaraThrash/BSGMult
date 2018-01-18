@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 114147382816258032}
   m_Layer: 0
   m_Name: BaseStar_new_model_collider
-  m_TagString: Untagged
+  m_TagString: TargetableSystem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -469,6 +469,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -484,6 +485,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -501,6 +503,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -516,6 +519,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -533,6 +537,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -548,6 +553,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -565,6 +571,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -580,6 +587,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -597,6 +605,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -612,6 +621,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -629,6 +639,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -644,6 +655,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -661,6 +673,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -676,6 +689,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -693,6 +707,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -708,6 +723,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -725,6 +741,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -741,6 +758,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -758,6 +776,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -773,6 +792,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -890,9 +910,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Convex: 0
-  m_InflateMesh: 0
+  m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: c0dc51ae16d883c41b96dd00e678d0c6, type: 3}
 --- !u!65 &65116326151800852
@@ -1026,6 +1046,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myShip: {fileID: 1710908563394726}
   shipSize: 0
+  lastCollision: {fileID: 0}
+  cantCollide: 0
+  secondarySystem: {fileID: 0}
 --- !u!114 &114147382816258032
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1039,6 +1062,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myShip: {fileID: 1710908563394726}
   shipSize: 3
+  lastCollision: {fileID: 0}
+  cantCollide: 0
+  secondarySystem: {fileID: 0}
 --- !u!114 &114151957742639164
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1113,6 +1139,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myShip: {fileID: 1710908563394726}
   shipSize: 0
+  lastCollision: {fileID: 0}
+  cantCollide: 0
+  secondarySystem: {fileID: 0}
 --- !u!114 &114380814071201300
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1126,6 +1155,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myShip: {fileID: 1710908563394726}
   shipSize: 0
+  lastCollision: {fileID: 0}
+  cantCollide: 0
+  secondarySystem: {fileID: 0}
 --- !u!114 &114383679315334638
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1139,6 +1171,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myShip: {fileID: 1710908563394726}
   shipSize: 0
+  lastCollision: {fileID: 0}
+  cantCollide: 0
+  secondarySystem: {fileID: 0}
 --- !u!114 &114476571521335306
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1152,6 +1187,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myShip: {fileID: 1710908563394726}
   shipSize: 0
+  lastCollision: {fileID: 0}
+  cantCollide: 0
+  secondarySystem: {fileID: 0}
 --- !u!114 &114614218222118392
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1165,6 +1203,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myShip: {fileID: 1710908563394726}
   shipSize: 0
+  lastCollision: {fileID: 0}
+  cantCollide: 0
+  secondarySystem: {fileID: 0}
 --- !u!114 &114734493374662656
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1189,6 +1230,7 @@ MonoBehaviour:
   engineAnim: {fileID: 1243641192673106}
   rotSpeed: 2
   explosion: {fileID: 1513219108712076, guid: 6588fa46cae30e64f94ad79b0269eb18, type: 2}
+  impactExplosion: {fileID: 0}
   impactTimer: 0
   lastImpact: {x: 0, y: 0, z: 0}
   impactRotation: {x: 0, y: 0, z: 0, w: 0}
@@ -1196,6 +1238,7 @@ MonoBehaviour:
   dieClock: 0
   breachLocation: {fileID: 0}
   dontDie: 0
+  lengthOfDeathAnimation: 5
 --- !u!114 &114914677949802472
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1209,6 +1252,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myShip: {fileID: 1710908563394726}
   shipSize: 0
+  lastCollision: {fileID: 0}
+  cantCollide: 0
+  secondarySystem: {fileID: 0}
 --- !u!136 &136479383614731862
 CapsuleCollider:
   m_ObjectHideFlags: 1

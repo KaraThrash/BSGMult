@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114893862465249596}
   - component: {fileID: 54303314691576126}
   - component: {fileID: 136436800430884958}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: bullet1
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 4106866194202912}
   - component: {fileID: 33559156032239688}
   - component: {fileID: 23732604296633334}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: BulletModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 4614544341635582}
   - component: {fileID: 33808074318736734}
   - component: {fileID: 23134875709960676}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Group 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,6 +116,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -131,6 +132,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -148,6 +150,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -164,6 +167,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -181,6 +185,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -196,6 +201,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -251,14 +257,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 658aecb010325f34c902ca4ceba42323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: -25
-  lifeTime: 6
+  speed: -35
+  lifeTime: 3
   damage: 1
   ownerObject: {fileID: 0}
   owner: 1
   explosion: {fileID: 1426337292301710, guid: 72384c6d09431fa48924aced66822ca7, type: 2}
   large: 0
   intialExplosion: {fileID: 0}
+  aiBullet: 0
 --- !u!135 &135981378684968666
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -280,7 +287,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.2
-  m_Height: 2
+  m_Radius: 0.23567352
+  m_Height: 1.0072365
   m_Direction: 2
-  m_Center: {x: 0, y: 0, z: -0.5}
+  m_Center: {x: 0.03567353, y: 0, z: -0.27676964}

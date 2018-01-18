@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 64329918203061060}
   m_Layer: 15
   m_Name: RaiderModel
-  m_TagString: Raider
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 135074301083099462}
   m_Layer: 15
   m_Name: Raider (1)
-  m_TagString: Untagged
+  m_TagString: Raider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 64696292733745840}
   m_Layer: 15
   m_Name: RaiderModel
-  m_TagString: Raider
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -317,7 +317,7 @@ GameObject:
   - component: {fileID: 114669054029808760}
   - component: {fileID: 54246299622846926}
   - component: {fileID: 135864148681480062}
-  m_Layer: 16
+  m_Layer: 2
   m_Name: RaiderWing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -337,7 +337,7 @@ GameObject:
   - component: {fileID: 135221349492413522}
   m_Layer: 15
   m_Name: Raider (2)
-  m_TagString: Untagged
+  m_TagString: Raider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -355,7 +355,7 @@ GameObject:
   - component: {fileID: 64406529900150822}
   m_Layer: 15
   m_Name: RaiderModel
-  m_TagString: Raider
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -442,7 +442,7 @@ GameObject:
   - component: {fileID: 135321821847432992}
   m_Layer: 15
   m_Name: Raider
-  m_TagString: Untagged
+  m_TagString: Raider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -460,7 +460,7 @@ GameObject:
   - component: {fileID: 135945172688479696}
   m_Layer: 15
   m_Name: Raider (3)
-  m_TagString: Untagged
+  m_TagString: Raider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -494,7 +494,7 @@ GameObject:
   - component: {fileID: 64259220495343240}
   m_Layer: 15
   m_Name: RaiderModel
-  m_TagString: Raider
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -528,7 +528,7 @@ GameObject:
   - component: {fileID: 64432919262778928}
   m_Layer: 15
   m_Name: RaiderModel
-  m_TagString: Raider
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -562,7 +562,7 @@ GameObject:
   - component: {fileID: 135145637104744316}
   m_Layer: 15
   m_Name: Raider (4)
-  m_TagString: Untagged
+  m_TagString: Raider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1147,6 +1147,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1162,6 +1163,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -1179,6 +1181,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1194,6 +1197,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -1211,6 +1215,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1226,6 +1231,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -1243,6 +1249,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1259,6 +1266,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -1276,6 +1284,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1291,6 +1300,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -1308,6 +1318,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1323,6 +1334,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -1340,6 +1352,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1355,6 +1368,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -1372,6 +1386,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1388,6 +1403,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -1405,6 +1421,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1420,6 +1437,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -1437,6 +1455,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1453,6 +1472,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -1470,6 +1490,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1485,6 +1506,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -1502,6 +1524,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1518,6 +1541,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -1535,6 +1559,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1550,6 +1575,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -1567,6 +1593,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1583,6 +1610,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -1600,6 +1628,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -1615,6 +1644,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -2007,9 +2037,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Convex: 1
-  m_InflateMesh: 1
+  m_CookingOptions: 15
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 81908d88859584740bf9af8eb0aa10a6, type: 3}
 --- !u!64 &64329918203061060
@@ -2021,9 +2051,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Convex: 1
-  m_InflateMesh: 1
+  m_CookingOptions: 15
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 81908d88859584740bf9af8eb0aa10a6, type: 3}
 --- !u!64 &64406529900150822
@@ -2035,9 +2065,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Convex: 1
-  m_InflateMesh: 1
+  m_CookingOptions: 15
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 81908d88859584740bf9af8eb0aa10a6, type: 3}
 --- !u!64 &64432919262778928
@@ -2049,9 +2079,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Convex: 1
-  m_InflateMesh: 1
+  m_CookingOptions: 15
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 81908d88859584740bf9af8eb0aa10a6, type: 3}
 --- !u!64 &64696292733745840
@@ -2063,9 +2093,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Convex: 1
-  m_InflateMesh: 1
+  m_CookingOptions: 15
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 81908d88859584740bf9af8eb0aa10a6, type: 3}
 --- !u!65 &65285537907480064
@@ -2078,8 +2108,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 7, y: 2, z: 7}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 3, y: 0.5, z: 3}
+  m_Center: {x: 0, y: -0.5, z: -1.5}
 --- !u!65 &65324171185435270
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -2090,8 +2120,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 7, y: 2, z: 7}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 3, y: 0.5, z: 3}
+  m_Center: {x: 0, y: -0.5, z: -1.5}
 --- !u!65 &65570943491746112
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -2102,8 +2132,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 7, y: 2, z: 7}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 3, y: 0.5, z: 3}
+  m_Center: {x: 0, y: -0.5, z: -1.5}
 --- !u!65 &65832501709245714
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -2114,8 +2144,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 7, y: 2, z: 7}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 3, y: 0.5, z: 3}
+  m_Center: {x: 0, y: -0.5, z: -1.5}
 --- !u!65 &65973107608479490
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -2126,8 +2156,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 7, y: 2, z: 7}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 3, y: 0.5, z: 3}
+  m_Center: {x: 0, y: -0.5, z: -1.5}
 --- !u!114 &114063718794508362
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2157,6 +2187,8 @@ MonoBehaviour:
   avoidCollisionClock: 0
   canShoot: 0
   myWing: {fileID: 0}
+  destroyed: 0
+  hp: 0
   accuracy: 15
   gunCost: 0.3
 --- !u!114 &114094899640714042
@@ -2223,6 +2255,8 @@ MonoBehaviour:
   avoidCollisionClock: 0
   canShoot: 0
   myWing: {fileID: 0}
+  destroyed: 0
+  hp: 0
   accuracy: 2
   gunCost: 1
 --- !u!114 &114186831937186586
@@ -2350,6 +2384,8 @@ MonoBehaviour:
   avoidCollisionClock: 0
   canShoot: 0
   myWing: {fileID: 0}
+  destroyed: 0
+  hp: 0
   accuracy: 0
   gunCost: 1
 --- !u!114 &114562870788868982
@@ -2416,6 +2452,8 @@ MonoBehaviour:
   avoidCollisionClock: 0
   canShoot: 0
   myWing: {fileID: 0}
+  destroyed: 0
+  hp: 0
   accuracy: 3
   gunCost: 1
 --- !u!114 &114669054029808760
@@ -2519,6 +2557,8 @@ MonoBehaviour:
   avoidCollisionClock: 0
   canShoot: 0
   myWing: {fileID: 0}
+  destroyed: 0
+  hp: 0
   accuracy: 6
   gunCost: 0.5
 --- !u!135 &135074301083099462

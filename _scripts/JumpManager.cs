@@ -78,8 +78,10 @@ public class JumpManager : Photon.PunBehaviour
 
         foreach (Transform child in activePersistantFighters.transform)
         {
-            child.parent = fleetLeftBehind.transform;
-            child.GetComponent<Fighter>().myShipGroup = 3;
+          //  child.parent = fleetLeftBehind.transform;
+           // child.GetComponent<Fighter>().myShipGroup = 3;
+            child.GetComponent<Fighter>().Die();
+
         }
 
       //  if (photonView.isMine == true)
@@ -89,8 +91,8 @@ public class JumpManager : Photon.PunBehaviour
         //roundManager.GetComponent<RoundManager>().NewRound();
         if (localPlayer != null)
         {
-            if (localPlayer.GetComponent<PlayerMain>().shipGroup == 1)
-            {
+           // if (localPlayer.GetComponent<PlayerMain>().shipGroup == 1)
+          //  {
                 galactica.active = true;
                 cylonFleetLeftBehind.active = false;
                 baseStarShip.active = false;
@@ -98,16 +100,16 @@ public class JumpManager : Photon.PunBehaviour
 
                 activeCylonFleet.active = false;
                 fleetLeftBehind.active = false;
-                Application.LoadLevel(newScene.ToString());
+                //Application.LoadLevel(newScene.ToString());
 
-            }
-            else
-            {
-                activeHumanFleet.active = false;
-                galactica.active = false;
-                //baseStar.active = false;
-                fleetLeftBehind.active = true;
-            }
+            //}
+            //else
+            //{
+            //    activeHumanFleet.active = false;
+            //    galactica.active = false;
+                
+            //    fleetLeftBehind.active = true;
+            //}
 
             
         }
@@ -132,7 +134,7 @@ public class JumpManager : Photon.PunBehaviour
                 cylonFleetLeftBehind.active = false;
                 baseStarShip.active = true;
 
-                Application.LoadLevel(galacticaCoordinates.ToString());
+                //Application.LoadLevel(galacticaCoordinates.ToString());
 
             }
             if (localPlayer.GetComponent<PlayerMain>().shipGroup == 3)

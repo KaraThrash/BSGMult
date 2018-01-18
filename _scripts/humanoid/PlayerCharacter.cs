@@ -6,6 +6,7 @@ public class PlayerCharacter : Photon.PunBehaviour
 {
     //using this for humanoid
     public int myCharacterOnList; //who they are in the character masterList
+    public int playerNumber;
     public int shipGroup;
     public int hp;
     public int ammo;
@@ -77,8 +78,9 @@ public class PlayerCharacter : Photon.PunBehaviour
         }
         
     }
-    public void SetAsMyPlayer(GameObject myNewPlayer)
+    public void SetAsMyPlayer(GameObject myNewPlayer,int newPlayerNumber)
     {
+        playerNumber = newPlayerNumber;
         localPlayer = myNewPlayer;
         controlled = true;
         ammoHud.text = ammo.ToString();
@@ -140,6 +142,7 @@ public class PlayerCharacter : Photon.PunBehaviour
         shipGroup = newShipGroup;
         this.gameObject.active = true;
         if (localPlayer != null) {
+            Heal(0);
             ammoHud.text  = GetComponent<HumanControls>().heldItem.GetComponent<HeldItem>().ammo.ToString();
             transform.position = newExit;
             this.gameObject.active = true;
@@ -197,19 +200,23 @@ public class PlayerCharacter : Photon.PunBehaviour
         }
         if (hp <= 0)
         {
+            flying = false;
+
+            this.gameObject.active = true;
             if (station != null)
             {
                 
                 station.GetComponent<PhotonView>().RPC("MakeAvailable", PhotonTargets.AllBufferedViaServer);
             }
             if (localPlayer != null) {
-                hpHud.text = "";
+                hpHud.text = "i";
                 myCamera.active = true;
-                localPlayer.GetComponent<PlayerMain>().roundManager.GetComponent<RoundManager>().wasFrakked = true;
+                localPlayer.GetComponent<PlayerMain>().CharacterDied();
+                //localPlayer.GetComponent<PlayerMain>().roundManager.GetComponent<RoundManager>().wasFrakked = true;
             }
             galactica.GetComponent<Galactica>().medbay.GetComponent<Medbay>().PlaceInBed(this.gameObject);
             shipGroup = 1;
-            hp = 0;
+            hp = 1;
 
         }
 

@@ -23,7 +23,7 @@ public class YuME_keyboardShortcuts : EditorWindow
             }
         }
 
-        if (keyEvent.type == EventType.keyDown)
+        if (keyEvent.type == EventType.KeyDown)
 		{
 			switch(keyEvent.keyCode)
 			{

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class SelectCharacter : Photon.PunBehaviour
 {
     public bool selected;
+    public int playerNumber;
     public GameObject myPlayer;
     public GameObject myCharacter;
     public GameObject galactica;
@@ -39,7 +40,7 @@ public class SelectCharacter : Photon.PunBehaviour
 
             jumpManager.GetComponent<JumpManager>().PlayerJoin(pickedBy) ;
             myCharacter.GetComponent<HumanControls>().SetAsMyPlayer();
-            myCharacter.GetComponent<PlayerCharacter>().SetAsMyPlayer(pickedBy);
+            myCharacter.GetComponent<PlayerCharacter>().SetAsMyPlayer(pickedBy,playerNumber);
             chatManager.GetComponent<ChatManager>().localPlayer = myPlayer;
             chatManager.GetComponent<ChatManager>().localPlayerName = myCharacter.transform.name;
             myCharacter.GetComponent<PhotonView>().ownerId = newView;

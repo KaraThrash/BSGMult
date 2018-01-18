@@ -603,7 +603,7 @@ public class YuME_mapEditor : EditorWindow
 
             if (selectedTool > toolIcons.defaultTools)
             {
-                if ((Event.current.type == EventType.mouseDrag || Event.current.type == EventType.mouseDown) &&
+                if ((Event.current.type == EventType.MouseDrag || Event.current.type == EventType.MouseDown) &&
                     Event.current.button == 0 &&
                     Event.current.alt == false &&
                     Event.current.shift == false &&
@@ -639,7 +639,7 @@ public class YuME_mapEditor : EditorWindow
 
                     allowTileRedraw = false;
                 }
-                else if ((Event.current.type == EventType.mouseDrag || Event.current.type == EventType.mouseDown) &&
+                else if ((Event.current.type == EventType.MouseDrag || Event.current.type == EventType.MouseDown) &&
                     Event.current.button == 0 &&
                     Event.current.alt == false &&
                     Event.current.shift == true &&
@@ -655,7 +655,7 @@ public class YuME_mapEditor : EditorWindow
 
                     allowTileRedraw = false;
                 }
-                else if ((Event.current.type == EventType.mouseDrag || Event.current.type == EventType.mouseDown) &&
+                else if ((Event.current.type == EventType.MouseDrag || Event.current.type == EventType.MouseDown) &&
                     Event.current.button == 0 &&
                     Event.current.alt == false &&
                     Event.current.shift == false &&

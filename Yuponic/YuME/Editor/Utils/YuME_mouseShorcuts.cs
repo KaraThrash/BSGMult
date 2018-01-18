@@ -5,7 +5,7 @@ public class YuME_mouseShorcuts : EditorWindow
 {
 	public static void checkMouseShortcuts(Event mouseEvent)
 	{
-        if (mouseEvent.type == EventType.scrollWheel && mouseEvent.shift && !mouseEvent.control && !mouseEvent.alt)
+        if (mouseEvent.type == EventType.ScrollWheel && mouseEvent.shift && !mouseEvent.control && !mouseEvent.alt)
         {
             mouseEvent.Use();
 
@@ -19,7 +19,7 @@ public class YuME_mouseShorcuts : EditorWindow
             }
             
         }
-        if (mouseEvent.type == EventType.scrollWheel && mouseEvent.shift && mouseEvent.alt && !mouseEvent.control)
+        if (mouseEvent.type == EventType.ScrollWheel && mouseEvent.shift && mouseEvent.alt && !mouseEvent.control)
         {
             mouseEvent.Use();
 
@@ -33,7 +33,7 @@ public class YuME_mouseShorcuts : EditorWindow
             }
 
         }
-        else if (mouseEvent.type == EventType.scrollWheel && mouseEvent.control && mouseEvent.alt && YuME_mapEditor.selectedTool == YuME_mapEditor.toolIcons.brushTool)
+        else if (mouseEvent.type == EventType.ScrollWheel && mouseEvent.control && mouseEvent.alt && YuME_mapEditor.selectedTool == YuME_mapEditor.toolIcons.brushTool)
 		{
 			mouseEvent.Use();
 
@@ -46,7 +46,7 @@ public class YuME_mouseShorcuts : EditorWindow
 				YuME_mapEditor.tileRotation-=90f;
 			}
 		}
-        else if(mouseEvent.type == EventType.scrollWheel && mouseEvent.control && mouseEvent.shift == true && YuME_mapEditor.selectedTool == YuME_mapEditor.toolIcons.brushTool)
+        else if(mouseEvent.type == EventType.ScrollWheel && mouseEvent.control && mouseEvent.shift == true && YuME_mapEditor.selectedTool == YuME_mapEditor.toolIcons.brushTool)
         {
             mouseEvent.Use();
 

@@ -72,6 +72,12 @@ public class GameManager : Photon.PunBehaviour
        // GetComponent<PhotonView>().RPC("StartGame", PhotonTargets.AllBufferedViaServer);
     }
     [PunRPC]
+    public void PlayerDie()
+    {
+        resourceManager.GetComponent<Fleet>().UpdateResources(0,0,0,-1,0);
+
+    }
+    [PunRPC]
     public void RestartGame()
     {
         everything.GetComponent<LevelManager>().temp = true;

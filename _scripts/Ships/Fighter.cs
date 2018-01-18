@@ -9,6 +9,7 @@ public class Fighter : Photon.PunBehaviour
  
     public GameObject myColliders;
     public GameObject pilot;
+    public int playerNumber;
     public bool flying;
     PhotonView m_PhotonView;
     private Rigidbody rb;
@@ -237,47 +238,29 @@ public class Fighter : Photon.PunBehaviour
     }
     public void OnCollisionEnter(Collision col2)
     {
-       
-        if (col2.gameObject.tag == "LandingPad" && photonView.isMine == true)
+        if (photonView.isMine == true)
         {
-            //flying = false;
-            GetComponent<PhotonView>().RPC("SetHangar", PhotonTargets.AllViaServer, col2.gameObject.GetComponent<CollisionData>().myData);
-        }
-        if ( col2.gameObject.tag == "Bullet" && flying == true)
-        {
-            TakeDamage(col2.gameObject.GetComponent<Bullet>().damage);
-            //if (ai == true)
-            //{
+            if (col2.gameObject.tag == "LandingPad")
+            {
+                //flying = false;
+                GetComponent<PhotonView>().RPC("SetHangar", PhotonTargets.AllViaServer, col2.gameObject.GetComponent<CollisionData>().myData);
+            }
+            if (col2.gameObject.tag == "Bullet" && flying == true )
+            {
 
-            //    if (destroyed == false)
-            //    {
-            //        hp -= col2.gameObject.GetComponent<Bullet>().damage;
-            //        if (hp <= 0)
-            //        {
+                if (playerControlled == true)
+                {
+                    if (col2.gameObject.GetComponent<Bullet>().aiBullet == true)
+                    { GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1, 0); }
+                   
 
-            //            destroyed = true;
-            //            dieClock = lengthOfDeathAnimation;
-
-
-
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    if (photonView.isMine == true && destroyed == false)
-            //    {
-
-
-            //        if ( playerControlled == true)
-            //        {
-            //            GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1);
-
-            //        }
-            //    }
-            //}
+                }
+            }
         }
     }
+       
+    
+    
     [PunRPC]
     public void NoHangar()
     { currentHangar = null; }
@@ -340,12 +323,12 @@ public class Fighter : Photon.PunBehaviour
     [PunRPC]
     public void NoParent() { transform.parent = null; currentHangar = null; }
 
-    //[PunRPC]
-    public void TakeDamage(int dmg)
+    [PunRPC]
+    public void TakeDamage(int dmg,int fromWho)
     {
         //TODO: is that counting once for everyone in the server? need to check this
-        if (m_PhotonView.isMine == true || ai == true)
-        {
+       // if (m_PhotonView.isMine == true || ai == true)
+       // {
             if (destroyed == false)
             {
                 hp -= dmg;
@@ -364,20 +347,21 @@ public class Fighter : Photon.PunBehaviour
                 }
                 else
                 {
-                    if (ai == false)
-                    { dangerText.active = true; }
+                  //  if (ai == false)
+                   // { dangerText.active = true; }
                    
 
                 }
                 if (m_PhotonView.isMine == true && ai == false)
                 {
-                    if (hp > 8) { hpHud.text = "Good"; }
+                dangerText.active = true;
+                if (hp > 8) { hpHud.text = "Good"; }
                     else if (hp < 9 && hp > 3) { hpHud.text = "Damaged"; }
                     else if (hp < 4 && hp > 0) { hpHud.text = "Critical"; }
                     else { hpHud.text = ""; }
                 }
             }
-        }
+       // }
     }
     public void Impact(Vector3 pointOfImpact)
     {
@@ -396,8 +380,8 @@ public class Fighter : Photon.PunBehaviour
     {
         //destroyed = true;
         //dieClock = 5;
-        TakeDamage(maxHp);
-        //GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer,maxHp);
+        //TakeDamage(maxHp);
+        GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer,maxHp);
     }
     [PunRPC]
     public void DieOnServer() {
@@ -421,7 +405,8 @@ public class Fighter : Photon.PunBehaviour
             pilot.active = true;
             //pilot.GetComponent<PlayerCharacter>().localPlayer.GetComponent<PhotonView>().RPC("SetHumanActive", PhotonTargets.AllViaServer);
             //pilot.GetComponent<PlayerCharacter>().myCamera.active = true;
-            pilot.GetComponent<PhotonView>().RPC("GetOutShip", PhotonTargets.AllBufferedViaServer,1, medbay.transform.position,1);
+            pilot.GetComponent<PlayerCharacter>().TakeDamage(99);
+            //pilot.GetComponent<PhotonView>().RPC("GetOutShip", PhotonTargets.AllBufferedViaServer,1, medbay.transform.position,1);
             
         }
         pilot = null;
@@ -480,6 +465,7 @@ public class Fighter : Photon.PunBehaviour
     {
         if (gameManager == null) { gameManager = GameObject.Find("GameManager"); }
         pilot = gameManager.GetComponent<GameManager>().characterList.GetComponent<CharacterList>().characters[newPilot];
+        playerNumber = pilot.GetComponent<PlayerCharacter>().playerNumber;
         pilot.GetComponent<PlayerCharacter>().GetInShip();
     }
     public void Repair(GameObject whoUsedMe)

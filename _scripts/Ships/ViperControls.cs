@@ -6,6 +6,7 @@ public class ViperControls : Photon.PunBehaviour
 {
    
     public GameObject pilot;
+    public int playerNumber;
     public bool flying;
     PhotonView m_PhotonView;
     private Rigidbody rb;
@@ -38,9 +39,10 @@ public class ViperControls : Photon.PunBehaviour
     public float myAngularDrag;
     public GameObject afterBurnerIndicator;
     public GameObject glideIndicator;
+    public float range;
     // Use this for initialization
     void Start () {
-       
+        range = 1000.0f;
         rb = GetComponent<Rigidbody>();
         m_PhotonView = GetComponent<PhotonView>();
    
@@ -54,12 +56,10 @@ public class ViperControls : Photon.PunBehaviour
         if (flying == true)
         {
             //Secondary check to make sure the ship isnt active when docked
-            if (transform.position.y < -500) {
-
+            if (transform.position.y < -500 && transform.position.y > -800) {
 
                 GetComponent<Fighter>().OutOfBounds();
-               // GetComponent<Fighter>().dieClock = 2;
-                //GetComponent<Fighter>().destroyed = true;
+
             }
             if (m_PhotonView.isMine == true )
             {
@@ -85,10 +85,11 @@ public class ViperControls : Photon.PunBehaviour
         {
             if (gunCoolDown <= 0 && rb.velocity.magnitude < 150)
             {
-               // gunAnimation.active = false;
-              //  gunAnimation.active = true;
+                // gunAnimation.active = false;
+                //  gunAnimation.active = true;
+                RaycastShootGuns();
                 GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer, GetComponent<Rigidbody>().velocity);
-                gunCoolDown = 0.3f;
+                gunCoolDown = 0.1f;
             }
             gunCoolDown = gunCoolDown - Time.deltaTime;
         }
@@ -102,23 +103,29 @@ public class ViperControls : Photon.PunBehaviour
         hort = Input.GetAxis("Horizontal");
         vert = Input.GetAxis("Vertical");
         if (Input.GetKey(KeyCode.Q)) { roll = -rollSpeed; } else if (Input.GetKey(KeyCode.E)) { roll = rollSpeed; } else { roll = 0; }
-        if (Input.mousePosition.x < 600) { mouseX = Input.mousePosition.x - 600; } else if (Input.mousePosition.x > 700) { mouseX = Input.mousePosition.x - 700; } else { mouseX = 0; }
-        if (Input.mousePosition.y < 325) { mouseY = Input.mousePosition.y - 325; } else if (Input.mousePosition.y > 475) { mouseY = Input.mousePosition.y - 475; } else { mouseY = 0; }
-        // GetComponent<PhotonView>().RPC("flightControls", PhotonTargets.AllViaServer, vert, hort, roll, (mouseX * 0.5f), (-mouseY * 0.5f), exit, lift);
-        Mathf.Clamp(mouseX, -50.0F, 50.0F);
-        Mathf.Clamp(mouseY, -50.0F, 50.0F);
-
+        if (Input.GetMouseButton(1))
+        { mouseX = 0; mouseY = 0; }
+        else
+        {
+            if (Input.mousePosition.x < 600) { mouseX = Input.mousePosition.x - 600; } else if (Input.mousePosition.x > 700) { mouseX = Input.mousePosition.x - 700; } else { mouseX = 0; }
+            if (Input.mousePosition.y < 325) { mouseY = Input.mousePosition.y - 325; } else if (Input.mousePosition.y > 475) { mouseY = Input.mousePosition.y - 475; } else { mouseY = 0; }
+            // GetComponent<PhotonView>().RPC("flightControls", PhotonTargets.AllViaServer, vert, hort, roll, (mouseX * 0.5f), (-mouseY * 0.5f), exit, lift);
+            Mathf.Clamp(mouseX, -50.0F, 50.0F);
+            Mathf.Clamp(mouseY, -50.0F, 50.0F);
+        }
         flightControls(vert, hort, roll, mouseX, -mouseY, exit, lift);
     }
     
     public void KeyboardFlightControls()
     {
         if (Input.GetKey(KeyCode.Space)) {
+            
             if (gunCoolDown <= 0 && rb.velocity.magnitude < 150)
             {
-               // gunAnimation.active = true;
+                // gunAnimation.active = true;
+                RaycastShootGuns();
                 GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer, GetComponent<Rigidbody>().velocity);
-                gunCoolDown = 0.3f;
+                gunCoolDown = 0.1f;
             }
             gunCoolDown -= Time.deltaTime;
         }
@@ -134,7 +141,7 @@ public class ViperControls : Photon.PunBehaviour
         if (Input.GetKey(KeyCode.Keypad7) || Input.GetKey(KeyCode.U)) { roll = -rollSpeed; } else if (Input.GetKey(KeyCode.Keypad9) || Input.GetKey(KeyCode.O)) { roll = rollSpeed; } else { roll = 0; }
         if (Input.GetKey(KeyCode.Keypad4) || Input.GetKey(KeyCode.J)) { mouseX = -turnSpeed; } else if (Input.GetKey(KeyCode.Keypad6) || Input.GetKey(KeyCode.L)) { mouseX = turnSpeed; } else { mouseX = 0; }
         if (Input.GetKey(KeyCode.Keypad2) || Input.GetKey(KeyCode.K)) { mouseY = -turnSpeed; } else if (Input.GetKey(KeyCode.Keypad8) || Input.GetKey(KeyCode.I)) { mouseY = turnSpeed; } else { mouseY = 0; }
-        if (Input.GetKey(KeyCode.Keypad5) || Input.GetKey(KeyCode.P)) { afterBurner = 4.0f;afterBurnerIndicator.active = true; }
+        if (Input.GetKey(KeyCode.Keypad5) || Input.GetKey(KeyCode.P)) { afterBurner = 8.0f;afterBurnerIndicator.active = true; }
         if (afterBurner > 1) { afterBurner -= 0.4f; } else { afterBurner = 1; }
 
         if (Input.GetKeyDown(KeyCode.LeftShift)){
@@ -144,15 +151,69 @@ public class ViperControls : Photon.PunBehaviour
         // GetComponent<PhotonView>().RPC("flightControls", PhotonTargets.AllViaServer, vert, hort, roll, mouseX, mouseY, exit, lift);
         flightControls(vert, hort, roll, mouseX, mouseY, exit, lift);
     }
+
+    public void RaycastShootGuns()
+    {
+
+        RaycastHit hit;
+
+
+        if (Physics.Raycast(gun1.transform.position, -gun1.transform.forward, out hit, range))
+        {
+
+            if (hit.transform.gameObject.tag == "Raider")
+            // if (hit.transform.gameObject.GetComponent<Fighter>() != null || hit.transform.gameObject.GetComponent<Dradis>() != null)
+            {
+
+                hit.transform.gameObject.GetComponent<Raider>().TakeDamage(1, 1);
+                // hit.transform.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1,GetComponent<Fighter>().playerNumber);
+            }
+            else if (hit.transform.gameObject.tag == "Fighter")
+            {
+                hit.transform.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1, GetComponent<Fighter>().playerNumber);
+               // hit.transform.gameObject.GetComponent<Fighter>().TakeDamage(1, playerNumber);
+            }
+            else if (hit.transform.gameObject.tag == "TargetableSystem") {
+                hit.transform.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1, GetComponent<Fighter>().playerNumber);
+              //  hit.transform.gameObject.GetComponent<PartOfShip>().TakeDamage(1, playerNumber);
+            }
+        }
+
+        if (Physics.Raycast(gun2.transform.position, -gun2.transform.forward, out hit, range))
+        {
+
+            if (hit.transform.gameObject.tag == "Raider")
+            // if (hit.transform.gameObject.GetComponent<Fighter>() != null || hit.transform.gameObject.GetComponent<Dradis>() != null)
+            {
+
+                hit.transform.gameObject.GetComponent<Raider>().TakeDamage(1, 1);
+                // hit.transform.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1,GetComponent<Fighter>().playerNumber);
+            }
+            else if (hit.transform.gameObject.tag == "Fighter")
+            {
+                hit.transform.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1, GetComponent<Fighter>().playerNumber);
+                // hit.transform.gameObject.GetComponent<Fighter>().TakeDamage(1, playerNumber);
+            }
+            else if (hit.transform.gameObject.tag == "TargetableSystem")
+            {
+                hit.transform.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1, GetComponent<Fighter>().playerNumber);
+                //  hit.transform.gameObject.GetComponent<PartOfShip>().TakeDamage(1, playerNumber);
+            }
+        }
+    }
     [PunRPC]
     public void ShootGuns(Vector3 currentVelocity)
     {
-           GameObject clone = Instantiate(bullet, gun2.transform.position, gun2.transform.rotation) as GameObject;
+        Instantiate(bullet, gun2.transform.position, gun2.transform.rotation);
+        Instantiate(bullet, gun1.transform.position, gun1.transform.rotation);
+
+
+                //GameObject clone = Instantiate(bullet, gun2.transform.position, gun2.transform.rotation) as GameObject;
        // clone.GetComponent<Rigidbody>().velocity += currentVelocity;
-        clone.GetComponent<Bullet>().owner = GetComponent<PhotonView>().ownerId;
-        GameObject clone2 =  Instantiate(bullet, gun1.transform.position, gun1.transform.rotation) as GameObject;
+       // clone.GetComponent<Bullet>().owner = GetComponent<PhotonView>().ownerId;
+       // GameObject clone2 =  Instantiate(bullet, gun1.transform.position, gun1.transform.rotation) as GameObject;
       //  clone2.GetComponent<Rigidbody>().velocity += currentVelocity;
-        clone2.GetComponent<Bullet>().owner = GetComponent<PhotonView>().ownerId;
+       // clone2.GetComponent<Bullet>().owner = GetComponent<PhotonView>().ownerId;
     }
     [PunRPC]
     public void DeployLandingGear(bool GearOutOrIn)
