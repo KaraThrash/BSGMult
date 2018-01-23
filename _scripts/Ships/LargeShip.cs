@@ -119,7 +119,8 @@ public class LargeShip : Photon.PunBehaviour
        // rotationObject.transform.rotation = transform.rotation;
     }
 
-    public void TakeDamage(int dmgTaken)
+    [PunRPC]
+    public void TookDamage(int dmgTaken)
     {
         if (hp > 0)
         {
@@ -176,7 +177,7 @@ public class LargeShip : Photon.PunBehaviour
                 if (child.GetComponent<PlayerCharacter>().localPlayer != null && child.gameObject.active == true)
                 {
 
-                    child.GetComponent<PlayerCharacter>().TakeDamage(99);
+                    child.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 99, 0);
                 }
 
 

@@ -84,7 +84,7 @@ public class HumanControls : Photon.PunBehaviour
                 {
                     if (Input.GetKeyDown(KeyCode.Q))
                     {
-                        GetComponent<PhotonView>().RPC("ChangeItem", PhotonTargets.AllViaServer);
+                       // GetComponent<PhotonView>().RPC("ChangeItem", PhotonTargets.AllViaServer);
                     }
                 }
                 else { coolDown -= Time.deltaTime; }
@@ -129,6 +129,7 @@ public class HumanControls : Photon.PunBehaviour
             if (Input.GetKeyDown(KeyCode.Backspace))
             {
                 canMove = true;
+
             }
 
             if (moveDirection != Vector3.zero) {
@@ -142,13 +143,13 @@ public class HumanControls : Photon.PunBehaviour
        // anim.SetFloat("CamAngle", camGunAimAngle);
     }
     [PunRPC]
-    public void ChangeItem( )
+    public void ChangeItem(int changeTo)
     {
         GetComponent<Animator>().ResetTrigger("SwingWrench") ;
        
         if (controlled == true)
         {
-            if (camWrenchModel.active == true)
+            if (changeTo == 0)
             {
                 heldItem.GetComponent<HeldItem>().ChangeType(1);
                 anim.SetBool("RifleOut", true);
@@ -167,7 +168,7 @@ public class HumanControls : Photon.PunBehaviour
         {
             camWrenchModel.active = false;
             camGunModel.active = false;
-            if (wrenchModel.active == true)
+            if (changeTo == 0)
             {
                 heldItem.GetComponent<HeldItem>().ChangeType(1);
                 GetComponent<Animator>().SetBool("RifleOut", true);
@@ -211,7 +212,7 @@ public class HumanControls : Photon.PunBehaviour
             anim.SetFloat("v", newV);
         }
         moveDirection = newMoveDir;
-       // if (moveDirection != Vector3.zero) { GetComponent<CharacterController>().Move(moveDirection * Time.deltaTime); }
+       
     }
 
     void ApplySynchronizedValues()
@@ -252,25 +253,14 @@ public class HumanControls : Photon.PunBehaviour
 
         }
                 moveDirection.y -= gravity * Time.deltaTime;
-            
-           // GetComponent<CharacterController>().Move(moveDirection * Time.deltaTime);
 
-
-
-       // GetComponent<PhotonView>().RPC("SyncMoveAcrossServer", PhotonTargets.AllViaServer, moveDirection);
         GetComponent<PhotonView>().RPC("UpdateAnimationValues", PhotonTargets.Others, moveDirection, h,v);
 
 
 
         
     }
-    //[PunRPC]
-    //public void SyncMoveAcrossServer(Vector3 moveDir)
-    //{
 
-    //    moveDirection = moveDir;
-        
-    //}
 
     public void CheckGround()
     {

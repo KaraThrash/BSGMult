@@ -84,6 +84,7 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -99,6 +100,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -116,6 +118,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -135,6 +138,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -186,12 +190,14 @@ MonoBehaviour:
   speed: 40
   lifeTime: 3
   damage: 1
+  size: 0
   ownerObject: {fileID: 0}
   owner: 3
   explosion: {fileID: 1401367637877318, guid: fd0b1ec50a137874cbd9d9e0cc0ece9e, type: 2}
   large: 0
   intialExplosion: {fileID: 1719309589237102, guid: 3070e67f06dd83a4d9b4406fdd046b51,
     type: 2}
+  aiBullet: 0
 --- !u!135 &135981378684968666
 SphereCollider:
   m_ObjectHideFlags: 1

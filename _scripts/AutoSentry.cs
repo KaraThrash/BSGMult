@@ -48,10 +48,6 @@ public class AutoSentry : MonoBehaviour {
         {
             Destroy(this.gameObject);
         }
-
-
-
-
     }
 
     public void Fire()

@@ -68,9 +68,6 @@ public class ViperControls : Photon.PunBehaviour
 
                 if (xwing == true) { MouseFlightControls(); } else { KeyboardFlightControls(); }
 
-                //if (Input.GetKeyDown(KeyCode.T))
-                //{ GetComponent<PhotonView>().RPC("DeployLandingGear", PhotonTargets.AllViaServer, true); }
-
             }
             else { hort = 0; vert = 0; }
 
@@ -110,8 +107,8 @@ public class ViperControls : Photon.PunBehaviour
         else
         {
             //To prevent issues with going off window
-            if (Input.mousePosition.x < 600 && Input.mousePosition.x > 20) { mouseX = Input.mousePosition.x - 600; } else if (Input.mousePosition.x > 700 && Input.mousePosition.x < 1200) { mouseX = Input.mousePosition.x - 700; } else { mouseX = 0; }
-            if (Input.mousePosition.y < 325 && Input.mousePosition.y > 25) { mouseY = Input.mousePosition.y - 325; } else if (Input.mousePosition.y > 475 && Input.mousePosition.y < 855) { mouseY = Input.mousePosition.y - 475; } else { mouseY = 0; }
+            if (Input.mousePosition.x < 620 && Input.mousePosition.x > 0) { mouseX = (Input.mousePosition.x - 640) * 0.5f; } else if (Input.mousePosition.x > 665 && Input.mousePosition.x < 1280) { mouseX = (Input.mousePosition.x - 640) * 0.5f;  } else { mouseX = 0; }
+            if (Input.mousePosition.y < 385 && Input.mousePosition.y > 0) { mouseY = (Input.mousePosition.y - 400) * 0.5f;} else if (Input.mousePosition.y > 415 && Input.mousePosition.y < 800) { mouseY = (Input.mousePosition.y - 400) *0.5f;  } else { mouseY = 0; }
             // GetComponent<PhotonView>().RPC("flightControls", PhotonTargets.AllViaServer, vert, hort, roll, (mouseX * 0.5f), (-mouseY * 0.5f), exit, lift);
             Mathf.Clamp(mouseX, -50.0F, 50.0F);
             Mathf.Clamp(mouseY, -50.0F, 50.0F);
@@ -177,8 +174,8 @@ public class ViperControls : Photon.PunBehaviour
                // hit.transform.gameObject.GetComponent<Fighter>().TakeDamage(1, playerNumber);
             }
             else if (hit.transform.gameObject.tag == "TargetableSystem") {
-                hit.transform.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1, GetComponent<Fighter>().playerNumber);
-              //  hit.transform.gameObject.GetComponent<PartOfShip>().TakeDamage(1, playerNumber);
+                // hit.transform.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1, GetComponent<Fighter>().playerNumber);
+                hit.transform.gameObject.GetComponent<PartOfShip>().TakeDamage(1, GetComponent<Fighter>().playerNumber);
             }
         }
 
@@ -199,8 +196,8 @@ public class ViperControls : Photon.PunBehaviour
             }
             else if (hit.transform.gameObject.tag == "TargetableSystem")
             {
-                hit.transform.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1, GetComponent<Fighter>().playerNumber);
-                //hit.transform.gameObject.GetComponent<PartOfShip>().TakeDamage(1, playerNumber);
+               // hit.transform.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1, GetComponent<Fighter>().playerNumber);
+                hit.transform.gameObject.GetComponent<PartOfShip>().TakeDamage(1, GetComponent<Fighter>().playerNumber);
             }
         }
     }

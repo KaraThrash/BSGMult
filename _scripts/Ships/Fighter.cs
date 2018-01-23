@@ -330,7 +330,7 @@ public class Fighter : Photon.PunBehaviour
     {
 
         //TakeDamage(maxHp);
-        GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer,maxHp);
+        GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer,maxHp,0);
     }
     [PunRPC]
     public void DieOnServer() {
@@ -348,8 +348,8 @@ public class Fighter : Photon.PunBehaviour
             //pilot.transform.parent = medbay.transform;
             pilot.GetComponent<Rigidbody>().velocity = Vector3.zero;
             pilot.active = true;
-            pilot.GetComponent<PlayerCharacter>().TakeDamage(99);
-            
+            pilot.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 99, 0);
+
         }
         pilot = null;
         Instantiate(explosion, transform.position, transform.rotation);
@@ -411,13 +411,14 @@ public class Fighter : Photon.PunBehaviour
         playerNumber = pilot.GetComponent<PlayerCharacter>().playerNumber;
         pilot.GetComponent<PlayerCharacter>().GetInShip();
     }
-    public void Repair(GameObject whoUsedMe)
+    [PunRPC]
+    public void Repair(int whoUsedMe)
     {
         if (hp < maxHp)
         { hp++; Instantiate(testObj, new Vector3(transform.position.x + 2,transform.position.y + 2, transform.position.z), transform.rotation); }
     }
-
-    public void Sabotage(GameObject whoUsedMe)
+    [PunRPC]
+    public void Sabotage(int whoUsedMe)
     {
         if (hp > 0)
         { hp--; Instantiate(testObj, new Vector3(transform.position.x + 2, transform.position.y + 2, transform.position.z), transform.rotation); }

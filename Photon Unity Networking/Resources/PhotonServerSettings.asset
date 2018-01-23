@@ -121,4 +121,6 @@ MonoBehaviour:
   - DieOnServer
   - Damaged
   - PlayerDie
+  - Sabotage
+  - TookDamage
   DisableAutoOpenWizard: 1

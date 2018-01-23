@@ -107,43 +107,7 @@ public class DeckGun : Photon.PunBehaviour
     [PunRPC]
     public void ActivateOnServer() { activated = true; }
 
-
-    public void TakeDamage(int dmg)
-    {
-        if (hp > 0)
-        {
-            hp -= dmg;
-
-            if (hp <= 0 )
-            {
-                hp = 0;
-                // myTerminal.GetComponent<BattleStation>().damageObject.active = true;
-                NotManned();
-                myTerminal.GetComponent<PhotonView>().RPC("Damaged", PhotonTargets.AllViaServer);
-            }
-          
-            Debug.Log("hit");
-        }
-    }
-
-
-    public void Repair()
-    {
-        if (hp < maxHp)
-        {
-            hp++;
-            
-        }
-    }
-
-    public void Sabotage()
-    {
-        if (hp > 0)
-        {
-            hp--;
-
-        }
-    }
+    
     public void NotManned()
     {
         myCamera.active = false;

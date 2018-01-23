@@ -14,7 +14,7 @@ public class BattleStation : Photon.PunBehaviour
     public bool dontChangeCamera;
     public bool canRepair;
     public bool canSabotage;
-
+    public int hp;
     public bool damaged;
     public GameObject damageObject; //visual model to show terminal cant be used until repaired
     //TODO: types of computers
@@ -24,7 +24,7 @@ public class BattleStation : Photon.PunBehaviour
     {
         //myCam = GameObject.Find("GalacticaCamera");
         m_PhotonView = GetComponent<PhotonView>();
-        
+        hp = 1;
 
     }
     // Update is called once per frame
@@ -89,6 +89,21 @@ public class BattleStation : Photon.PunBehaviour
 
     }
     [PunRPC]
+    public void TookDamage(int dmg)
+    {
+        if (hp > 0)
+        {
+            hp -= dmg;
+
+            if (hp <= 0)
+            {
+                hp = 0;
+                Damaged();
+            }
+        }
+    }
+
+    //[PunRPC]
     public void Damaged()
     {
         damaged = true;
@@ -100,19 +115,33 @@ public class BattleStation : Photon.PunBehaviour
         if (myStation != null) { myStation.SendMessage("NotManned"); }
 
     }
-    public void Repair(GameObject whoUsedMe)
+    [PunRPC]
+    public void Repair(int whoUsedMe)
     {
         if (canRepair == true)
-        { myStation.SendMessage("Repair"); }
+        { myStation.SendMessage("Repaired"); }
         damaged = false;
         damageObject.active = false;
-    }
+        hp++;
 
-    public void Sabotage(GameObject whoUsedMe)
+        if (hp >= 3)
+        {
+            hp = 3;
+          
+        }
+    }
+    [PunRPC]
+    public void Sabotage(int whoUsedMe)
     {
         if (canSabotage == true)
-        { myStation.SendMessage("Sabotage"); }
-       
+        { myStation.SendMessage("Sabotaged"); }
+        hp --;
+
+        if (hp <= 0)
+        {
+            hp = 0;
+            Damaged();
+        }
     }
 
 

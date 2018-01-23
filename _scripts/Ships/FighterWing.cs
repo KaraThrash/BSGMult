@@ -48,7 +48,10 @@ public class FighterWing : Photon.PunBehaviour
             roundManager = GameObject.Find("RoundManager");
         }
         if (shipTarget == null) { Patrol(); }
-            if (shipTarget != null) { Attack(); if (Vector3.Distance(transform.position, shipTarget.transform.position) > 4000) { shipTarget = null; } }
+            if (shipTarget != null) {
+            Attack(); if (Vector3.Distance(transform.position, shipTarget.transform.position) > 4000) { shipTarget = null; }
+            if(shipTarget.transform.position.y < -700){ shipTarget = null; }
+        }
         
     }
 

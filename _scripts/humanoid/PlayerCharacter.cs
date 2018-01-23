@@ -20,29 +20,31 @@ public class PlayerCharacter : Photon.PunBehaviour
     public GameObject bullet;
     public GameObject station;
     public bool flying;
-    public bool atComputer;
     public bool controlled;
     
     public GameObject galactica;
     public GameObject jumpManager;
     public GameObject localPlayer;
-    public GameObject spaceObject;
     public GameObject masterShipList;
     public GameObject masterCharacterList;
     public GameObject backpack;
     public int carriedObject;
+    public int heldItem; //0gun, 1 wrench
     // Use this for initialization
     void Start()
     {
         m_PhotonView = GetComponent<PhotonView>();
 
-       }
+    }
  
 
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.y < -1500) { TakeDamage(99); }
+        if (transform.position.y < -1500) {
+
+            GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 99,0);
+        }
         if (controlled == true)
         {
            
@@ -55,10 +57,25 @@ public class PlayerCharacter : Photon.PunBehaviour
                 }
 
             }
-            if (Input.GetMouseButtonDown(0) )
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                if (heldItem == 0)
+                { heldItem = 1; }
+                else { heldItem = 0; }
+                GetComponent<PhotonView>().RPC("ChangeItem", PhotonTargets.AllViaServer,heldItem);
+            }
+            if (Input.GetMouseButtonDown(0))
             {
 
+                UseHeldItem(0);
                // GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer);
+
+            }
+            if (Input.GetMouseButtonDown(1))
+            {
+
+                UseHeldItem(1);
+                // GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer);
 
             }
             if (Input.GetKeyDown(KeyCode.T))
@@ -87,15 +104,47 @@ public class PlayerCharacter : Photon.PunBehaviour
         myNewPlayer.GetComponent<PlayerMain>().roundManager = jumpManager.GetComponent<JumpManager>().roundManager;
         myNewPlayer.GetComponent<PlayerMain>().roundManager.GetComponent<RoundManager>().localPlayer = myNewPlayer;
     }
+    public void UseHeldItem(int leftOrRightClick)
+    {
+        RaycastHit hit;
 
+        if (heldItem == 0 && ammo > 0)
+        {
+            ammo--;
+            ammoHud.text = GetComponent<HumanControls>().heldItem.GetComponent<HeldItem>().ammo.ToString();
+            if (Physics.Raycast(myCamera.transform.position, myCamera.transform.forward, out hit, 30.0f) )
+            {
+                //hit.transform.gameObject.SendMessage("Interact", this.gameObject);
+                
+                if (hit.transform.tag == "Player")
+                { hit.transform.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1, playerNumber); }
+                //else if (hit.transform.tag == "TargetableSystem") {
+                //    hit.transform.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1, playerNumber);
+                //    //hit.transform.gameObject.GetComponent<PartOfShip>().TakeDamage(1, GetComponent<Fighter>().playerNumber);
+                //}
+            }
+            
+        }
+        else {
+            if (Physics.Raycast(myCamera.transform.position, myCamera.transform.forward, out hit, 3.0f))
+            {
+                //hit.transform.gameObject.SendMessage("Interact", this.gameObject);
+
+                if (hit.transform.tag == "Player")
+                { hit.transform.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 3, playerNumber); }
+                 else if (hit.transform.tag == "Interactable") {
+                    if (leftOrRightClick == 0)
+                    { hit.transform.GetComponent<PhotonView>().RPC("Repair", PhotonTargets.AllViaServer, playerNumber); }
+                    else { hit.transform.GetComponent<PhotonView>().RPC("Sabotage", PhotonTargets.AllViaServer, playerNumber); }
+                   
+                }
+            }
+        }
+
+    }
     public void CheckForIneractableObject()
     {
         RaycastHit hit;
-        //if (Physics.Raycast(transform.position, transform.forward, out hit, 5.0f))
-        //{
-        //    Debug.Log(hit.transform.name);
-
-        //}
 
         if (Physics.Raycast(myCamera.transform.position, myCamera.transform.forward, out hit, 5.0f) && hit.transform.tag == "Interactable")
         {
@@ -111,7 +160,7 @@ public class PlayerCharacter : Photon.PunBehaviour
     {
         GetComponent<HumanControls>().heldItem.GetComponent<HeldItem>().UsePrimary();
         //if (ammo > 0) { Instantiate(bullet, gun.transform.position, gun.transform.rotation); ammo--; }
-        if (controlled == true) { ammoHud.text = GetComponent<HumanControls>().heldItem.GetComponent<HeldItem>().ammo.ToString(); }
+        if (controlled == true) {  }
     }
     [PunRPC]
     public void UseHeldSecondary()
@@ -142,6 +191,7 @@ public class PlayerCharacter : Photon.PunBehaviour
         shipGroup = newShipGroup;
         this.gameObject.active = true;
         if (localPlayer != null) {
+            hpHud.text = "";
             Heal(0);
             ammoHud.text  = GetComponent<HumanControls>().heldItem.GetComponent<HeldItem>().ammo.ToString();
             transform.position = newExit;
@@ -185,41 +235,46 @@ public class PlayerCharacter : Photon.PunBehaviour
 
     public void OnCollisionEnter(Collision col2)
     {
-        if (col2.gameObject.tag == "Bullet")
-        {
-            TakeDamage(1);
-        }
+        //if (col2.gameObject.tag == "Bullet")
+        //{
+        //    GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 99, 0);
+        //}
     }
-    public void TakeDamage(int dmg)
+
+    [PunRPC]
+    public void TakeDamage(int dmg, int fromWho)
     {
-        hp -= dmg;
-        if (hpHud.text.Length > 1 && localPlayer != null)
-        {
-            hpHud.text = hpHud.text.Remove(hpHud.text.Length - 1);
-           // hpHud.text.Remove(-1);
-        }
-        if (hp <= 0)
-        {
-            flying = false;
-
-            this.gameObject.active = true;
-            if (station != null)
+        
+            hp -= dmg;
+            if (hpHud.text.Length > 1 && controlled == true)
             {
-                
-                station.GetComponent<PhotonView>().RPC("MakeAvailable", PhotonTargets.AllBufferedViaServer);
+                hpHud.text = hpHud.text.Remove(hpHud.text.Length - 1);
+                // hpHud.text.Remove(-1);
             }
-            if (localPlayer != null) {
-                hpHud.text = "i";
-                myCamera.active = true;
-                localPlayer.GetComponent<PlayerMain>().CharacterDied();
-                //localPlayer.GetComponent<PlayerMain>().roundManager.GetComponent<RoundManager>().wasFrakked = true;
+            if (hp <= 0)
+            {
+                flying = false;
+
+                this.gameObject.active = true;
+                if (station != null)
+                {
+
+                    station.GetComponent<PhotonView>().RPC("MakeAvailable", PhotonTargets.AllBufferedViaServer);
+                }
+                if (localPlayer != null)
+                {
+                    hpHud.text = "i";
+                    myCamera.active = true;
+                    localPlayer.GetComponent<PlayerMain>().CharacterDied();
+                    //localPlayer.GetComponent<PlayerMain>().roundManager.GetComponent<RoundManager>().wasFrakked = true;
+                }
+                galactica.GetComponent<Galactica>().medbay.GetComponent<Medbay>().PlaceInBed(this.gameObject);
+                shipGroup = 1;
+                hp = 1;
+
             }
-            galactica.GetComponent<Galactica>().medbay.GetComponent<Medbay>().PlaceInBed(this.gameObject);
-            shipGroup = 1;
-            hp = 1;
 
-        }
-
+        
     }
 
 
@@ -228,7 +283,9 @@ public class PlayerCharacter : Photon.PunBehaviour
     [PunRPC]
     public void NoParent() { transform.parent = null; }
 
-    public void TakeOff() {
+    public void TakeOff()
+    {
+
         //myCamera.active = false;
         GetComponent<PhotonView>().RPC("GetInShip", PhotonTargets.AllBufferedViaServer);
     }

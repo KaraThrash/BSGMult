@@ -6,12 +6,14 @@ public class HeldItem : MonoBehaviour {
     //Items held by humanoid characters that are used: guns, wrenches, hands[to access computers]
     //Items have a primary use mouse0 and a secondary mouse1
 
-    public bool isGun;
-    public bool isWrench;
+    public int weaponType; //0 gun, 1 wrench, 2 hands, 3 bombs
+    public bool isGun; //TODO use vector 3 for dmg,cooldown,ammo tracking
+    public bool isWrench;//TODO use vector 4 for type,dmg,cooldown,ammo tracking
     public bool isHands;
     public GameObject gun;
     public GameObject bullet;
     public int ammo;
+    public int range;
     public float coolDown;
     public float wrenchCoolDown;
     public float gunCoolDown;
@@ -41,7 +43,12 @@ public class HeldItem : MonoBehaviour {
     }
     public void ShootGun()
     {
-        if (ammo > 0 && coolDown <= 0) { coolDown = gunCoolDown; Instantiate(bullet, transform.position, transform.rotation); ammo--; }
+        if (ammo > 0 && coolDown <= 0)
+        {
+            coolDown = gunCoolDown;
+            Instantiate(bullet, transform.position, transform.rotation);
+            ammo--;
+        }
     }
     public void Repair()
     {
@@ -52,10 +59,10 @@ public class HeldItem : MonoBehaviour {
 
             if (Physics.Raycast(transform.position, transform.forward, out hit, 2.0f) && hit.transform.tag == "Interactable")
             {
-               
+
                 coolDown = wrenchCoolDown;
                 Instantiate(wrenchImpact, hit.point, transform.rotation);
-                hit.transform.gameObject.SendMessage("Repair", this.gameObject);
+               // hit.transform.gameObject.SendMessage("Repair", this.gameObject);
 
             }
         }
@@ -71,7 +78,7 @@ public class HeldItem : MonoBehaviour {
             {
                 Instantiate(wrenchImpact, hit.point, transform.rotation);
                 coolDown = wrenchCoolDown;
-                hit.transform.gameObject.SendMessage("Sabotage", this.gameObject);
+                //hit.transform.gameObject.SendMessage("Sabotage", this.gameObject);
 
             }
         }

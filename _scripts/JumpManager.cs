@@ -85,7 +85,10 @@ public class JumpManager : Photon.PunBehaviour
         if (localPlayer != null)
         {
             if (localPlayer.GetComponent<PlayerMain>().shipGroup != 1 && localPlayer.GetComponent<PlayerMain>().humanoidObject.GetComponent<PlayerCharacter>().flying == false)
-            { localPlayer.GetComponent<PlayerMain>().humanoidObject.GetComponent<PlayerCharacter>().TakeDamage(99); }
+            {
+                localPlayer.GetComponent<PlayerMain>().humanoidObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 99, 0);
+            }
+
         }
         foreach (Transform child in activePersistantFighters.transform)
         {
