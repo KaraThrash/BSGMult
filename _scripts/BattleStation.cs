@@ -30,7 +30,7 @@ public class BattleStation : Photon.PunBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+        if (user != null) { if (Vector3.Distance(user.transform.position, transform.position) > 5) { GetComponent<PhotonView>().RPC("MakeAvailable", PhotonTargets.AllViaServer); } }
         
         if (on == true) { onOffObject.active = true; } else { onOffObject.active = false; }
     }

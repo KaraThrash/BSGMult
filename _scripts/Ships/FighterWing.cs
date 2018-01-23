@@ -24,6 +24,7 @@ public class FighterWing : Photon.PunBehaviour
     public bool canPatrol;
     public GameObject dradisModel;
     public GameObject roundManager;
+    
     //TODO: create formation types for different type of ships/targets
 
     // Use this for initialization

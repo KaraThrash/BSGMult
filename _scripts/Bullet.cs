@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour {
     public int speed;
     public float lifeTime;
     public int damage = 1;
+    public int size; //what it can hit, small arms are 'smaller' ship guns are 'larger.' Galactica cant be damaged by a pistol etc
     public GameObject ownerObject;
     public int owner;
     public GameObject explosion;
@@ -23,7 +24,7 @@ public class Bullet : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-       // Debug.Log(rb.velocity.magnitude + "bullet Magnitude");
+       
         lifeTime -= Time.deltaTime;
         if (lifeTime <= 0) { Die(); }
 	}

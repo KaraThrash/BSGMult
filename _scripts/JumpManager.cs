@@ -24,8 +24,9 @@ public class JumpManager : Photon.PunBehaviour
     public GameObject cylonFleetLeftBehind;
     public GameObject activeCylonFleet; //currently in Galactica space space
     public GameObject otherCylonFleet;// not currently in Galactica space space
-    //ShipGroup; 0:space/planet //1: galactica + active fleet 2: Cylon fleet 3:  leftbehind  ??4: scouting??
+                                      //ShipGroup; 0:space/planet //1: galactica + active fleet 2: Cylon fleet 3:  leftbehind  ??4: scouting??
 
+    public float timeSinceLastJump;
     // Use this for initialization
     void Start () {
 		
@@ -34,6 +35,10 @@ public class JumpManager : Photon.PunBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+        if (baseStar.active == false)
+        { timeSinceLastJump += Time.deltaTime; }
+        
+        if (timeSinceLastJump > 20.0f) { timeSinceLastJump = 0; BaseStarJump(); }
         if (localPlayer == null) { localPlayer = gameManager.GetComponent<GameManager>().localPlayer; }
        // if (Input.GetKeyUp(KeyCode.Y)) { PhotonNetwork.InstantiateSceneObject("humanBullet", Vector3.zero, Quaternion.identity, 0, null); }
 
@@ -64,6 +69,7 @@ public class JumpManager : Photon.PunBehaviour
 
     public void GalacticaJumped(int newScene) //new round
     {
+        timeSinceLastJump = 0;
         galacticaCoordinates = newScene;
         baseStar.GetComponent<PhotonView>().RPC("StartFTL", PhotonTargets.AllViaServer);
         //TODO: all the cylons go away, and the basestar does the clean up when it jumps so there is no reason to pick and choose the cylon ship parents
@@ -96,28 +102,13 @@ public class JumpManager : Photon.PunBehaviour
         //roundManager.GetComponent<RoundManager>().NewRound();
         if (localPlayer != null)
         {
-
-
-           // if (localPlayer.GetComponent<PlayerMain>().shipGroup == 1)
-          //  {
                 galactica.active = true;
                 cylonFleetLeftBehind.active = false;
                 baseStarShip.active = false;
 
-
                 activeCylonFleet.active = false;
                 fleetLeftBehind.active = false;
-                //Application.LoadLevel(newScene.ToString());
-
-            //}
-            //else
-            //{
-            //    activeHumanFleet.active = false;
-            //    galactica.active = false;
-                
-            //    fleetLeftBehind.active = true;
-            //}
-
+             
             
         }
     }

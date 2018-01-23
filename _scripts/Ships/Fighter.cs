@@ -243,6 +243,7 @@ public class Fighter : Photon.PunBehaviour
     }
     [PunRPC]
     public void OutInSpace(int spaceCords) {
+        //to manage people joining later to maintain the fighters location in addition to it's position
         transform.parent = spaceObject.transform;
         currentHangar = null;
       
@@ -362,12 +363,13 @@ public class Fighter : Photon.PunBehaviour
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.isWriting  )
-        {if (photonView.isMine == true)
-            {
+        {
+            //if (photonView.isMine == true)
+           // {
                 stream.SendNext(transform.rotation);
                 stream.SendNext(transform.position);
                 stream.SendNext(flying);
-            }
+            //}
         }
         else
         {

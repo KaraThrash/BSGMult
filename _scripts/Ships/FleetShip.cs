@@ -85,17 +85,7 @@ public class FleetShip : Photon.PunBehaviour
     }
     public void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag == "Bullet" && hp > 0)
-        {
-        //    hp--;
-           
-        //    if (hp <= 0) {
-        //        Die();
-        //        //GetComponent<PhotonView>().RPC("Die", PhotonTargets.AllBufferedViaServer);
-        //    }
-            //Destroy(this.gameObject);
-            Debug.Log("hit");
-        }
+        
     }
     public void LeftBehind()
     {

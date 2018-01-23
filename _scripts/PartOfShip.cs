@@ -40,42 +40,47 @@ public class PartOfShip : Photon.PunBehaviour
 
     public void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag == "Bullet")
+        if (cantCollide == false)
         {
-            // myShip.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer);
-            if (col.gameObject.GetComponent<Bullet>().damage >= shipSize)
+            if (col.gameObject.tag == "Bullet")
             {
-                if (secondarySystem != null)
+              
+                if (col.gameObject.GetComponent<Bullet>().damage >= shipSize)
                 {
-                    //secondarySystem.SendMessage("TakeDamage", 1);
-                    secondarySystem.GetComponent<PhotonView>().RPC("Damaged", PhotonTargets.AllViaServer);
+                    if (secondarySystem != null)
+                    {
+                        //secondarySystem.SendMessage("TakeDamage", 1);
+                        secondarySystem.GetComponent<PhotonView>().RPC("Damaged", PhotonTargets.AllViaServer);
+                    }
+                    myShip.SendMessage("TakeDamage", col.gameObject.GetComponent<Bullet>().damage);
+                    Debug.Log("hit");
                 }
-                myShip.SendMessage("TakeDamage", col.gameObject.GetComponent<Bullet>().damage);
-                Debug.Log("hit");
             }
-        }
-        if (col.gameObject.tag == "LargeShipCollider")
-        {
-          // if(col.gameObject.GetComponent<LargeShip>().size >= myShip.GetComponent<LargeShip>().size)
-          //  myShip.SendMessage("Impact",col.gameObject.transform.position);
-           
+            if (col.gameObject.tag == "LargeShipCollider")
+            {
+                // if(col.gameObject.GetComponent<LargeShip>().size >= myShip.GetComponent<LargeShip>().size)
+                //  myShip.SendMessage("Impact",col.gameObject.transform.position);
+
+            }
         }
     }
     public void OnTriggerEnter(Collider col2)
     {
+        if (cantCollide == false)
+        {
 
-       
             if (col2.gameObject.tag == "LargeShipCollider" && cantCollide == false)
             {
-            if (col2.gameObject.GetComponent<PartOfShip>().myShip == lastCollision) { lastCollision = null; }
-            else
-            {
-                if (col2.gameObject.GetComponent<PartOfShip>().myShip != myShip)
+                if (col2.gameObject.GetComponent<PartOfShip>().myShip == lastCollision) { lastCollision = null; }
+                else
                 {
-                    lastCollision = col2.gameObject.GetComponent<PartOfShip>().myShip;
-                    if (col2.gameObject.GetComponent<PartOfShip>().shipSize >= shipSize)
-                    { myShip.SendMessage("Impact", col2.gameObject.transform.position); }
-                    myShip.SendMessage("TakeDamage", col2.gameObject.GetComponent<PartOfShip>().shipSize);
+                    if (col2.gameObject.GetComponent<PartOfShip>().myShip != myShip)
+                    {
+                        lastCollision = col2.gameObject.GetComponent<PartOfShip>().myShip;
+                        if (col2.gameObject.GetComponent<PartOfShip>().shipSize >= shipSize)
+                        { myShip.SendMessage("Impact", col2.gameObject.transform.position); }
+                        myShip.SendMessage("TakeDamage", col2.gameObject.GetComponent<PartOfShip>().shipSize);
+                    }
                 }
             }
         }

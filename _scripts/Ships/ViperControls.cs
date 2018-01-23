@@ -52,7 +52,9 @@ public class ViperControls : Photon.PunBehaviour
     // Update is called once per frame
     void Update()
     {
-        flying = GetComponent<Fighter>().flying;
+        if (flying != GetComponent<Fighter>().flying)
+        { flying = GetComponent<Fighter>().flying; }
+       
         if (flying == true)
         {
             //Secondary check to make sure the ship isnt active when docked
@@ -198,7 +200,7 @@ public class ViperControls : Photon.PunBehaviour
             else if (hit.transform.gameObject.tag == "TargetableSystem")
             {
                 hit.transform.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1, GetComponent<Fighter>().playerNumber);
-                //  hit.transform.gameObject.GetComponent<PartOfShip>().TakeDamage(1, playerNumber);
+                //hit.transform.gameObject.GetComponent<PartOfShip>().TakeDamage(1, playerNumber);
             }
         }
     }
@@ -242,17 +244,13 @@ public class ViperControls : Photon.PunBehaviour
             
             rb.AddForce(transform.right * (-hort * strafeSpeed) * Time.deltaTime, ForceMode.Impulse);
         }
-        //TODO: two monitors makes the X value freak out
-        //Mathf.Clamp(rollX, -50.0F, 50.0F);
-        //Mathf.Clamp(rollY, -50.0F, 50.0F);
         if (roll != 0) { rb.AddTorque(transform.forward * roll * Time.deltaTime, ForceMode.Impulse); }
         if (rollX != 0) { rb.AddTorque(transform.up * rollX * Time.deltaTime, ForceMode.Impulse); }
         if (rollY != 0) { rb.AddTorque(transform.right * -rollY * Time.deltaTime, ForceMode.Impulse); }
        // transform.Rotate(0.1f * -rollY, 0.1f * rollX, 0.1f * roll);
 
         if (lift != 0) { rb.AddForce(transform.up * lift * 30 * Time.deltaTime); }
-        // if (leave == true &&  GetComponent<Rigidbody>().velocity.magnitude < 30) { GetComponent<PhotonView>().RPC("Land", PhotonTargets.All); }
-       GetComponent<PhotonView>().RPC("SyncVelocity", PhotonTargets.Others, rb.velocity);
+       
     }
     [PunRPC]
     public void SyncVelocity(Vector3 newVelocity)

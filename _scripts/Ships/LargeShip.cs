@@ -93,7 +93,7 @@ public class LargeShip : Photon.PunBehaviour
             if (Input.GetKey(KeyCode.A)) { rotationObject.transform.Rotate(0, -0.2f, 0); }
 
            
-            GetComponent<PhotonView>().RPC("SetRotationObjects", PhotonTargets.Others, rotationObject.transform.rotation);
+            GetComponent<PhotonView>().RPC("SetRotationObjects", PhotonTargets.AllViaServer, rotationObject.transform.rotation);
         
     }
 
@@ -108,7 +108,7 @@ public class LargeShip : Photon.PunBehaviour
     }
 
     public void Manned() {
-        rotationObject.transform.rotation = transform.rotation;
+       // rotationObject.transform.rotation = transform.rotation;
         manned = true;
         myCamera.GetComponent<RPGCamera>().Target = this.transform;
         myCamera.active = true;
@@ -116,7 +116,7 @@ public class LargeShip : Photon.PunBehaviour
     public void NotManned() {
         manned = false;
         myCamera.active = false;
-        rotationObject.transform.rotation = transform.rotation;
+       // rotationObject.transform.rotation = transform.rotation;
     }
 
     public void TakeDamage(int dmgTaken)
