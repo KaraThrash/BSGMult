@@ -41,14 +41,16 @@ public class HeldItem : MonoBehaviour {
         else if (isWrench == true) { Sabotage(); }
         else { }
     }
-    public void ShootGun()
+    public bool ShootGun()
     {
         if (ammo > 0 && coolDown <= 0)
         {
             coolDown = gunCoolDown;
             Instantiate(bullet, transform.position, transform.rotation);
             ammo--;
+            return true;
         }
+        else { return false; }
     }
     public void Repair()
     {

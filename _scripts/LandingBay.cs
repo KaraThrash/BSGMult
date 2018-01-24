@@ -27,30 +27,18 @@ public class LandingBay : Photon.PunBehaviour
 
     // Update is called once per frame
     void Update() {
-        // if (Input.GetKeyDown(KeyCode.P)) { GetComponent<PhotonView>().RPC("Jumped", PhotonTargets.AllViaServer); }
+        
     }
     public void OnCollisionEnter(Collision col2)
     {
         
 
-        if (col2.gameObject.GetComponent<Fighter>() != null && !dockedShips.Contains(col2.gameObject))
-        {
-          //  dockedShips.Add(col2.gameObject);
-
-
-        }
 
 
     }
     public void OnTriggerExit(Collider col)
     {
-        // if (col.gameObject.GetComponent<ViperControls>()) { col.transform.parent = null; }
-        if (dockedShips.Contains(col.gameObject))
-        {
-            //TODO: fixed the collision for this because right now it's causing problems over the network with residual forces causing the ship to drift slightly away.
-           // dockedShips.Remove(col.gameObject);
-
-        }
+       
 
     }
 
@@ -114,16 +102,13 @@ public class LandingBay : Photon.PunBehaviour
         int openSpace = -1;
         for (int i = dockingSpaces.Count - 1; i >= 0; --i)
         {
-            Debug.Log("find space at: " + i.ToString() + dockingSpaces[i].GetComponent<DockingSpace>().spaceOpen);
             if (dockingSpaces[i].GetComponent<DockingSpace>().spaceOpen == true && openSpace == -1)
             {
                 dockingSpaces[i].GetComponent<DockingSpace>().spaceOpen = false;
-                Debug.Log("openspace found");
                 openSpace  = i;
 
             }
         }
-        Debug.Log("no openspace found");
         return openSpace;
 
     }

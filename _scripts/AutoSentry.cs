@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AutoSentry : MonoBehaviour {
     public int myFaction;
+    public int hp;
     public GameObject turret;
     public GameObject gun;
     public GameObject bullet;
@@ -46,7 +47,7 @@ public class AutoSentry : MonoBehaviour {
     {
         if (collision.gameObject.tag == "Bullet")
         {
-            Destroy(this.gameObject);
+            //Destroy(this.gameObject);
         }
     }
 
@@ -54,6 +55,24 @@ public class AutoSentry : MonoBehaviour {
     {
         target = null;
         Instantiate(bullet,gun.transform.position,gun.transform.rotation);
+    }
+    [PunRPC]
+    public void TookDamage(int dmgTaken)
+    {
+        if (hp > 0)
+        {
+            hp -= dmgTaken;
+
+            if (hp <= 0 )
+            {
+                Destroy(this.gameObject); 
+
+
+
+            }
+            //Destroy(this.gameObject);
+            Debug.Log("hit");
+        }
     }
     public void OnTriggerStay(Collider col)
     {

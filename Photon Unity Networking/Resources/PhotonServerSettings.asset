@@ -123,4 +123,5 @@ MonoBehaviour:
   - PlayerDie
   - Sabotage
   - TookDamage
+  - SpawnObject
   DisableAutoOpenWizard: 1

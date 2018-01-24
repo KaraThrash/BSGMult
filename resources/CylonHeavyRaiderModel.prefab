@@ -165,7 +165,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1753014113428194}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4389565822209292}
@@ -374,8 +374,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53da3c54250d602408949aae1da6d31b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cargo: {fileID: 1250442508304966, guid: 7785dd9ab9fef3247b93e50a8f339133, type: 2}
+  cargo: {fileID: 1060479397756414, guid: 85895473e375d1c4c8946ebdb7c6b5e4, type: 2}
   spawnLocation: {fileID: 1890689714372630}
+  objectToSpawn: SentryHeavyRaiderSpawnNet
   hasCargo: 1
   startClock: 0
   dieTime: 0

@@ -67,10 +67,10 @@ public class BaseStar : Photon.PunBehaviour
     {
         if (Vector3.Distance(galactica.transform.position, transform.position) < 3000)
         { attackpatrolPoints.transform.position = galactica.transform.position; }
-        Debug.Log("basestar In New Scene");
+     
        // DontDestroyOnLoad(this.gameObject);
     }
-    //[PunRPC]
+    [PunRPC]
     void LaunchRaiders()
     {
         if (raiderParentObject == null)

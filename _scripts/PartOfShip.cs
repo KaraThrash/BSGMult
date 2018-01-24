@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PartOfShip : MonoBehaviour
+public class PartOfShip : Photon.PunBehaviour
 {
 
     public GameObject myShip;
@@ -10,8 +10,9 @@ public class PartOfShip : MonoBehaviour
     public GameObject lastCollision;
     public bool cantCollide;
     public GameObject secondarySystem; //deal damage to specific system in that part of the ship // hit in the engines take damage to engine systems 
-	// Use this for initialization
-	void Start () {
+    public GameObject breachLocation;
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
@@ -40,36 +41,20 @@ public class PartOfShip : MonoBehaviour
 
     public void OnCollisionEnter(Collision col)
     {
-        //if (cantCollide == false)
-        //{
-        //    if (col.gameObject.tag == "Bullet")
-        //    {
-              
-        //        if (col.gameObject.GetComponent<Bullet>().damage >= shipSize)
-        //        {
-        //            if (secondarySystem != null)
-        //            {
-        //                //secondarySystem.SendMessage("TakeDamage", 1);
-        //               // secondarySystem.GetComponent<PhotonView>().RPC("Damaged", PhotonTargets.AllViaServer);
-        //            }
-        //           // myShip.SendMessage("TakeDamage", col.gameObject.GetComponent<Bullet>().damage);
-        //            Debug.Log("hit");
-        //        }
-        //    }
-        //    if (col.gameObject.tag == "LargeShipCollider")
-        //    {
-        //        // if(col.gameObject.GetComponent<LargeShip>().size >= myShip.GetComponent<LargeShip>().size)
-        //        //  myShip.SendMessage("Impact",col.gameObject.transform.position);
-
-        //    }
-        //}
+        if (photonView.isMine == true)
+        {
+            if (col.gameObject.tag == "Bullet")
+            {
+                GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, col.gameObject.GetComponent<Bullet>().damage,0);
+            }
+        }
     }
     public void OnTriggerEnter(Collider col2)
     {
         if (cantCollide == false)
         {
 
-            if (col2.gameObject.tag == "LargeShipCollider" && cantCollide == false)
+            if (col2.gameObject.tag == "LargeShipCollider" )
             {
                 if (col2.gameObject.GetComponent<PartOfShip>().myShip == lastCollision) { lastCollision = null; }
                 else
@@ -116,7 +101,7 @@ public class PartOfShip : MonoBehaviour
     public void DealDamage(int dmg)
     {
         // for bombs to use
-        myShip.SendMessage("TakeDamage", dmg);
-
+        //myShip.SendMessage("TakeDamage", dmg);
+        myShip.GetComponent<PhotonView>().RPC("TookDamage", PhotonTargets.AllViaServer, dmg);
     }
 }

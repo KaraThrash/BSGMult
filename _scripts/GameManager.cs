@@ -24,6 +24,7 @@ public class GameManager : Photon.PunBehaviour
     public int humanLead;
     public GameObject localPlayer;
     public GameObject everything;
+    public bool gameOn;
     // Use this for initialization
     void Start () {
 		
@@ -31,13 +32,14 @@ public class GameManager : Photon.PunBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-
+        
         if (Input.GetKeyDown(KeyCode.Space) && firstScene == true) { ButtonStartGame(); }
 
 	}
     [PunRPC]
     public void StartGame()
     {
+        gameOn = true;
         startGameButton.active = false;
         for (int i = objectsToEnable.Count - 1; i >= 0; --i)
         {

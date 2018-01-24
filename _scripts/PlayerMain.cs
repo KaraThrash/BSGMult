@@ -45,7 +45,10 @@ public class PlayerMain : Photon.PunBehaviour
             if (gameManager == null)
             {
                 gameManager = GameObject.Find("GameManager");
-                gameManager.GetComponent<GameManager>().localPlayer = this.gameObject;
+                if (gameManager != null)
+                {
+                    gameManager.GetComponent<GameManager>().localPlayer = this.gameObject;
+                }
             }
 
             if (humanoidObject == null) {

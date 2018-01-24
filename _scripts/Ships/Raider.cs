@@ -34,52 +34,52 @@ public class Raider : MonoBehaviour
         hp = 1;
         rb = GetComponent<Rigidbody>();
         myWing = transform.parent.gameObject;
-        if (Random.Range(0, 2) == 1) { strafeDirection = 1; } else { strafeDirection = -1; }
+        if (Random.Range(0, 3) == 1) { strafeDirection = 1; } else { if (Random.Range(0, 3) == 2) { strafeDirection = -1; } else { strafeDirection = 0; } }
         
     }
-	
-	// Update is called once per frame
-	void Update () {
-        // CheckForward();
 
-        
+    // Update is called once per frame
+    void Update() {
+        // CheckForward();
+        if (myWing.GetComponent<FighterWing>().shipTarget != null)
+        { shipTarget = myWing.GetComponent<FighterWing>().shipTarget; }
+        else { shipTarget = null; }
+
+        if (shipTarget != null)
+        {
+            Attack();
+        }
+        else
+        {
             if (avoidCollisionClock <= 0f)
             {
 
+                
 
-                if (myWing.GetComponent<FighterWing>().shipTarget != null)
-                { shipTarget = myWing.GetComponent<FighterWing>().shipTarget; }
-                else { shipTarget = null; }
-
-
-                if (shipTarget != null) { Attack(); } else { Patrol(); }
-
+                Patrol(); CheckForward(); 
 
             }
             else { AvoidCollision(); }
-        
+        }
+            
+    
 	}
     public void CheckForward()
     {
-        // possible issue with dradis detection
+       
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 110.0f) )
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 50.0f) )
         {
-            if (hit.transform.gameObject == shipTarget)
-            {
-                canShoot = true;
-            }
-            else
-            {
-                canShoot = false;
+          
                 if (avoidCollisionClock < 0) { avoidCollisionClock = 0.4f; }
                 else { if (avoidCollisionClock < 3) { avoidCollisionClock += Time.deltaTime; } }
-            }
+            
 
         }
-        else { avoidCollisionClock -= 0.1f; canShoot = true; }
+        else { avoidCollisionClock -= 0.1f;  }
     }
+
     public void AvoidCollision()
     {
         transform.position = Vector3.MoveTowards(transform.position, fwdObject.transform.position, speed * Time.deltaTime);
@@ -92,10 +92,7 @@ public class Raider : MonoBehaviour
         if (col.gameObject.tag == "Bullet")
         {
             Instantiate(explosion, transform.position, transform.rotation);
-           // GameObject.Find("RoundManager").GetComponent<RoundManager>().CylonKilled(1, col.gameObject.GetComponent<Bullet>().owner);
-            //Destroy(this.gameObject);
-           // Die(col.gameObject.GetComponent<Bullet>().owner);
-            Debug.Log("hit");
+          
         }
     }
     public void OnTriggerEnter(Collider other)
@@ -116,7 +113,7 @@ public class Raider : MonoBehaviour
 
     public void Attack()
     {
-        //transform.parent = null;
+        
         gunCooldown -= Time.deltaTime;
         targetRotation = Quaternion.LookRotation(shipTarget.transform.position - transform.position);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotForce * Time.deltaTime);
@@ -125,7 +122,7 @@ public class Raider : MonoBehaviour
 
 
         
-        if (Vector3.Distance( transform.position, shipTarget.transform.position) > 100 || Vector3.Distance(transform.position, shipTarget.transform.position) < 20)
+        if (Vector3.Distance( transform.position, shipTarget.transform.position) > 100 || Vector3.Distance(transform.position, shipTarget.transform.position) < 30)
         { transform.position = Vector3.MoveTowards(transform.position, fwdObject.transform.position, speed * Time.deltaTime); }
         
         // transform.position += (transform.forward * Time.deltaTime * speed);
@@ -152,23 +149,12 @@ public class Raider : MonoBehaviour
         
     }
 
-    // [PunRPC]
-    public void Die(int byWho)
-    {
-        //myWing.GetComponent<FighterWing>().roundManager.GetComponent<RoundManager>().CylonKilled(1, byWho);
-        //GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer);
+  
 
-       // myWing.GetComponent<PhotonView>().RPC("ShipDestroyed", PhotonTargets.AllViaServer, myNumber);
-       // myWing.GetComponent<FighterWing>().ShipDestroyed(myNumber,byWho);
-    
-    }
-
-    //[PunRPC]
+ 
     public void TakeDamage(int dmg, int fromWho)
     {
-        //TODO: is that counting once for everyone in the server? need to check this
-        // if (m_PhotonView.isMine == true || ai == true)
-        // {
+      
 
         Instantiate(explosion, transform.position, transform.rotation);
         if (destroyed == false)
@@ -176,11 +162,11 @@ public class Raider : MonoBehaviour
             hp -= dmg;
             if (hp <= 0)
             {
-               // GetComponent<PhotonView>().RPC("DieOnServer", PhotonTargets.AllViaServer);
+               
                 destroyed = true;
 
                 myWing.GetComponent<PhotonView>().RPC("ShipDestroyed", PhotonTargets.AllViaServer, myNumber,fromWho);
-                // Die(fromWho);
+                
 
 
 

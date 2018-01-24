@@ -301,28 +301,16 @@ public class Fighter : Photon.PunBehaviour
                     GetComponent<PhotonView>().RPC("DieOnServer", PhotonTargets.AllViaServer);
                     destroyed = true;
                     dieClock = lengthOfDeathAnimation;
-                    if (pilot != null)
-                    {
-                       // dangerText.active = false;
-                        //criticalFailureText.active = true;
-                    }
-
 
                 }
-                else
-                {
-                  //  if (ai == false)
-                   // { dangerText.active = true; }
-                   
 
-                }
                 if (m_PhotonView.isMine == true && ai == false)
                 {
                 dangerText.active = true;
-                if (hp > 8) { hpHud.text = "Good"; }
-                    else if (hp < 9 && hp > 3) { hpHud.text = "Damaged"; }
-                    else if (hp < 4 && hp > 0) { hpHud.text = "Critical"; }
-                    else { hpHud.text = ""; }
+                if (hp > 8) { hpHud.text = "Green"; }
+                    else if (hp < 9 && hp > 3) { hpHud.text = "Yellow"; }
+                    else if (hp < 4 && hp > 0) { hpHud.text = "Red"; }
+                    else { hpHud.text = "Fail"; criticalFailureText.active = true; }
                 }
             }
     }

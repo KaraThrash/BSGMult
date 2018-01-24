@@ -21,12 +21,12 @@ public class ViperControls : Photon.PunBehaviour
     public GameObject gun2;
     public GameObject bullet;
     public float gunCoolDown;
-    public bool xwing;
     public bool playerControlled;
     public float afterBurner;
     private Vector3 holdPosValue;
     public int turnSpeed;
     public int rollSpeed;
+    public int rollMod; // for precision or high speed
     public int flySpeed;
     public int liftSpeed;
     public int strafeSpeed;
@@ -66,7 +66,7 @@ public class ViperControls : Photon.PunBehaviour
             if (m_PhotonView.isMine == true )
             {
 
-                if (xwing == true) { MouseFlightControls(); } else { KeyboardFlightControls(); }
+                KeyboardFlightControls(); 
 
             }
             else { hort = 0; vert = 0; }
@@ -78,43 +78,7 @@ public class ViperControls : Photon.PunBehaviour
         
     }
 
-   public void  MouseFlightControls()
-    {
-        if (Input.GetMouseButton(0))
-        {
-            if (gunCoolDown <= 0 && rb.velocity.magnitude < 250)
-            {
-                // gunAnimation.active = false;
-                //  gunAnimation.active = true;
-                RaycastShootGuns();
-                GetComponent<PhotonView>().RPC("ShootGuns", PhotonTargets.AllViaServer, GetComponent<Rigidbody>().velocity);
-                gunCoolDown = 0.1f;
-            }
-            gunCoolDown = gunCoolDown - Time.deltaTime;
-        }
-
-            if (Input.GetKeyUp(KeyCode.T) && flying == true)
-        {
-            GetComponent<Fighter>().Land();
-          
-        }
-        if (Input.GetKey(KeyCode.Space)) { lift = liftSpeed; } else if (Input.GetKey(KeyCode.LeftShift)) { lift = -liftSpeed; } else { lift = 0; }
-        hort = Input.GetAxis("Horizontal");
-        vert = Input.GetAxis("Vertical");
-        if (Input.GetKey(KeyCode.Q)) { roll = -rollSpeed; } else if (Input.GetKey(KeyCode.E)) { roll = rollSpeed; } else { roll = 0; }
-        if (Input.GetMouseButton(1))
-        { mouseX = 0; mouseY = 0; }
-        else
-        {
-            //To prevent issues with going off window
-            if (Input.mousePosition.x < 620 && Input.mousePosition.x > 0) { mouseX = (Input.mousePosition.x - 640) * 0.5f; } else if (Input.mousePosition.x > 665 && Input.mousePosition.x < 1280) { mouseX = (Input.mousePosition.x - 640) * 0.5f;  } else { mouseX = 0; }
-            if (Input.mousePosition.y < 385 && Input.mousePosition.y > 0) { mouseY = (Input.mousePosition.y - 400) * 0.5f;} else if (Input.mousePosition.y > 415 && Input.mousePosition.y < 800) { mouseY = (Input.mousePosition.y - 400) *0.5f;  } else { mouseY = 0; }
-            // GetComponent<PhotonView>().RPC("flightControls", PhotonTargets.AllViaServer, vert, hort, roll, (mouseX * 0.5f), (-mouseY * 0.5f), exit, lift);
-            Mathf.Clamp(mouseX, -50.0F, 50.0F);
-            Mathf.Clamp(mouseY, -50.0F, 50.0F);
-        }
-        flightControls(vert, hort, roll, mouseX, -mouseY, exit, lift);
-    }
+ 
     
     public void KeyboardFlightControls()
     {
@@ -136,11 +100,12 @@ public class ViperControls : Photon.PunBehaviour
 
         hort = Input.GetAxis("Horizontal");
         vert = Input.GetAxis("Vertical");
-        // if (Input.GetKey(KeyCode.KeypadPlus)) { vert += Time.deltaTime; }
-        //if (Input.GetKey(KeyCode.KeypadMinus)) { vert -= Time.deltaTime; }
-        if (Input.GetKey(KeyCode.Keypad7) || Input.GetKey(KeyCode.U)) { roll = -rollSpeed; } else if (Input.GetKey(KeyCode.Keypad9) || Input.GetKey(KeyCode.O)) { roll = rollSpeed; } else { roll = 0; }
-        if (Input.GetKey(KeyCode.Keypad4) || Input.GetKey(KeyCode.J)) { mouseX = -turnSpeed; } else if (Input.GetKey(KeyCode.Keypad6) || Input.GetKey(KeyCode.L)) { mouseX = turnSpeed; } else { mouseX = 0; }
-        if (Input.GetKey(KeyCode.Keypad2) || Input.GetKey(KeyCode.K)) { mouseY = -turnSpeed; } else if (Input.GetKey(KeyCode.Keypad8) || Input.GetKey(KeyCode.I)) { mouseY = turnSpeed; } else { mouseY = 0; }
+        if (Input.GetKeyDown(KeyCode.E)) { if (rollMod == -15) { rollMod = 0; } else { rollMod = -15; } }
+        if (Input.GetKeyDown(KeyCode.Q)) { if (rollMod == 15) { rollMod = 0; } else { rollMod = 15; } }
+
+        if (Input.GetKey(KeyCode.Keypad7) || Input.GetKey(KeyCode.U)) { roll = -(rollSpeed + rollMod); } else if (Input.GetKey(KeyCode.Keypad9) || Input.GetKey(KeyCode.O)) { roll = (rollSpeed + rollMod); } else { roll = 0; }
+        if (Input.GetKey(KeyCode.Keypad4) || Input.GetKey(KeyCode.J)) { mouseX = -(turnSpeed + rollMod); } else if (Input.GetKey(KeyCode.Keypad6) || Input.GetKey(KeyCode.L)) { mouseX = (turnSpeed + rollMod); } else { mouseX = 0; }
+        if (Input.GetKey(KeyCode.Keypad2) || Input.GetKey(KeyCode.K)) { mouseY = -(turnSpeed + rollMod); } else if (Input.GetKey(KeyCode.Keypad8) || Input.GetKey(KeyCode.I)) { mouseY = (turnSpeed + rollMod); } else { mouseY = 0; }
         if (Input.GetKey(KeyCode.Keypad5) || Input.GetKey(KeyCode.P)) { afterBurner = 8.0f;afterBurnerIndicator.active = true; }
         if (afterBurner > 1) { afterBurner -= 0.4f; } else { afterBurner = 1; }
 
@@ -174,8 +139,8 @@ public class ViperControls : Photon.PunBehaviour
                // hit.transform.gameObject.GetComponent<Fighter>().TakeDamage(1, playerNumber);
             }
             else if (hit.transform.gameObject.tag == "TargetableSystem") {
-                // hit.transform.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1, GetComponent<Fighter>().playerNumber);
-                hit.transform.gameObject.GetComponent<PartOfShip>().TakeDamage(1, GetComponent<Fighter>().playerNumber);
+                 hit.transform.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1, GetComponent<Fighter>().playerNumber);
+                //hit.transform.gameObject.GetComponent<PartOfShip>().TakeDamage(1, GetComponent<Fighter>().playerNumber);
             }
         }
 
@@ -196,24 +161,22 @@ public class ViperControls : Photon.PunBehaviour
             }
             else if (hit.transform.gameObject.tag == "TargetableSystem")
             {
-               // hit.transform.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1, GetComponent<Fighter>().playerNumber);
-                hit.transform.gameObject.GetComponent<PartOfShip>().TakeDamage(1, GetComponent<Fighter>().playerNumber);
+                hit.transform.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1, GetComponent<Fighter>().playerNumber);
+                //hit.transform.gameObject.GetComponent<PartOfShip>().TakeDamage(1, GetComponent<Fighter>().playerNumber);
             }
         }
     }
     [PunRPC]
     public void ShootGuns(Vector3 currentVelocity)
     {
-        Instantiate(bullet, gun2.transform.position, gun2.transform.rotation);
-        Instantiate(bullet, gun1.transform.position, gun1.transform.rotation);
 
 
-                //GameObject clone = Instantiate(bullet, gun2.transform.position, gun2.transform.rotation) as GameObject;
-       // clone.GetComponent<Rigidbody>().velocity += currentVelocity;
-       // clone.GetComponent<Bullet>().owner = GetComponent<PhotonView>().ownerId;
-       // GameObject clone2 =  Instantiate(bullet, gun1.transform.position, gun1.transform.rotation) as GameObject;
-      //  clone2.GetComponent<Rigidbody>().velocity += currentVelocity;
-       // clone2.GetComponent<Bullet>().owner = GetComponent<PhotonView>().ownerId;
+
+        GameObject clone = Instantiate(bullet, gun2.transform.position, gun2.transform.rotation) as GameObject;
+        clone.GetComponent<Rigidbody>().velocity += currentVelocity;
+        
+        GameObject clone2 = Instantiate(bullet, gun1.transform.position, gun1.transform.rotation) as GameObject;
+        clone2.GetComponent<Rigidbody>().velocity += currentVelocity;
     }
     [PunRPC]
     public void DeployLandingGear(bool GearOutOrIn)
@@ -241,10 +204,11 @@ public class ViperControls : Photon.PunBehaviour
             
             rb.AddForce(transform.right * (-hort * strafeSpeed) * Time.deltaTime, ForceMode.Impulse);
         }
-        if (roll != 0) { rb.AddTorque(transform.forward * roll * Time.deltaTime, ForceMode.Impulse); }
-        if (rollX != 0) { rb.AddTorque(transform.up * rollX * Time.deltaTime, ForceMode.Impulse); }
-        if (rollY != 0) { rb.AddTorque(transform.right * -rollY * Time.deltaTime, ForceMode.Impulse); }
-       // transform.Rotate(0.1f * -rollY, 0.1f * rollX, 0.1f * roll);
+
+            if (roll != 0) { rb.AddTorque(transform.forward * roll * Time.deltaTime, ForceMode.Impulse); }
+            if (rollX != 0) { rb.AddTorque(transform.up * rollX * Time.deltaTime, ForceMode.Impulse); }
+            if (rollY != 0) { rb.AddTorque(transform.right * -rollY * Time.deltaTime, ForceMode.Impulse); }
+        
 
         if (lift != 0) { rb.AddForce(transform.up * lift * 30 * Time.deltaTime); }
        

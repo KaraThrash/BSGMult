@@ -34,7 +34,7 @@ public class PlayerCharacter : Photon.PunBehaviour
     void Start()
     {
         m_PhotonView = GetComponent<PhotonView>();
-
+        ammo = 10;
     }
  
 
@@ -100,7 +100,7 @@ public class PlayerCharacter : Photon.PunBehaviour
         playerNumber = newPlayerNumber;
         localPlayer = myNewPlayer;
         controlled = true;
-        ammoHud.text = ammo.ToString();
+        ammoHud.text = GetComponent<HumanControls>().heldItem.GetComponent<HeldItem>().ammo.ToString();
         myNewPlayer.GetComponent<PlayerMain>().roundManager = jumpManager.GetComponent<JumpManager>().roundManager;
         myNewPlayer.GetComponent<PlayerMain>().roundManager.GetComponent<RoundManager>().localPlayer = myNewPlayer;
     }
@@ -108,20 +108,21 @@ public class PlayerCharacter : Photon.PunBehaviour
     {
         RaycastHit hit;
 
-        if (heldItem == 0 && ammo > 0)
+        if (heldItem == 0 && GetComponent<HumanControls>().heldItem.GetComponent<HeldItem>().ShootGun() == true)
         {
-            ammo--;
-            ammoHud.text = GetComponent<HumanControls>().heldItem.GetComponent<HeldItem>().ammo.ToString();
+            
+             ammoHud.text = GetComponent<HumanControls>().heldItem.GetComponent<HeldItem>().ammo.ToString();
             if (Physics.Raycast(myCamera.transform.position, myCamera.transform.forward, out hit, 30.0f) )
             {
                 //hit.transform.gameObject.SendMessage("Interact", this.gameObject);
                 
                 if (hit.transform.tag == "Player")
                 { hit.transform.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1, playerNumber); }
-                //else if (hit.transform.tag == "TargetableSystem") {
-                //    hit.transform.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1, playerNumber);
-                //    //hit.transform.gameObject.GetComponent<PartOfShip>().TakeDamage(1, GetComponent<Fighter>().playerNumber);
-                //}
+                else if (hit.transform.tag == "TargetableSystem")
+                {
+                    hit.transform.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1, playerNumber);
+                    //hit.transform.gameObject.GetComponent<PartOfShip>().TakeDamage(1, GetComponent<Fighter>().playerNumber);
+                }
             }
             
         }
@@ -130,7 +131,7 @@ public class PlayerCharacter : Photon.PunBehaviour
             {
                 //hit.transform.gameObject.SendMessage("Interact", this.gameObject);
 
-                if (hit.transform.tag == "Player")
+                if (hit.transform.tag == "Player" || hit.transform.tag == "TargetableSystem")
                 { hit.transform.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 3, playerNumber); }
                  else if (hit.transform.tag == "Interactable") {
                     if (leftOrRightClick == 0)
@@ -235,10 +236,10 @@ public class PlayerCharacter : Photon.PunBehaviour
 
     public void OnCollisionEnter(Collision col2)
     {
-        //if (col2.gameObject.tag == "Bullet")
-        //{
-        //    GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 99, 0);
-        //}
+        if (col2.gameObject.tag == "Bullet" && controlled == true)
+        {
+            GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 1, 0);
+        }
     }
 
     [PunRPC]

@@ -29,7 +29,10 @@ public class CrisisManager : Photon.PunBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (Input.GetKey(KeyCode.U))
+        {
+            AttackingBaseStar();
+        }
     }
     //[PunRPC]
     public void AttackingBaseStar()
